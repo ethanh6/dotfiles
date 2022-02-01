@@ -1,4 +1,3 @@
-
 let mapleader = " " 
 set nocompatible
 set encoding=utf-8
@@ -202,8 +201,8 @@ augroup end
 
 """""" Vim Plug """"""
 
-if empty(glob('~/.vim/autoload/plug.vim'))
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+if empty(glob('~/dotfiles/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/dotfiles/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
