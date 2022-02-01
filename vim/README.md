@@ -1,10 +1,10 @@
 # My .vimrc
 
-# To use:
+# To use: (deprecated)
 ```sh
 cd 
-git clone https://github.com/ethanh6/.vimrc.git ~/my_dotfile/vim
-ln -s ~/dotfile/vim/vimrc ~/.vimrc
+git clone https://github.com/ethanh6/.vimrc.git ~/dotfile/vim
+ln -s ~/dotfile/vim/.vimrc ~/.vimrc
 ```
 
 > Make the symlink (.vimrc) in home dir link to actual file `~/my_dotfile/vim/vimrc`, then git could be used.
