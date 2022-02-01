@@ -1,0 +1,15 @@
+[user]
+	name = EthanHuang
+	email = ethuang@ucsd.edu
+[core]
+	editor = vim
+	autocrlf = false
+	quotepath = false
+[help]
+	autocorrect = 30
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[credential]
+	helper = store
