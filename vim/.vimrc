@@ -199,12 +199,19 @@ augroup end
 
 """""" Vim Plug """"""
 
-if empty(glob('~/dotfiles/.vim/autoload/plug.vim'))
-    silent !curl -fLo ~/dotfiles/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" Install vim-plug if not found
+if empty(glob('~/dotfiles/vim/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/dotfiles/vim/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-call plug#begin('~/.vim/plugged')
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
+
+
+call plug#begin('~/dotfiles/vim/.vim/plugged')
 
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-surround'
@@ -231,13 +238,13 @@ let g:NERDTreeWinSize=60           " set nerdtree size"
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
 " nerdcommenter
-nnoremap <c-/> <space>ci
+"nnoremap <c-/> <space>ci
 
 " leetcode in vim plugin -> this is not working ??
-let g:leetcode_browser='chrome'
+"let g:leetcode_browser='chrome'
 
 " plugin: ultisnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
