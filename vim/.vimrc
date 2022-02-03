@@ -197,8 +197,6 @@ augroup filetype_vim
 augroup end
 
 
-
-
 """""" Vim Plug """"""
 
 if empty(glob('~/dotfiles/.vim/autoload/plug.vim'))
@@ -212,6 +210,11 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-surround'
 Plug 'chun-yang/auto-pairs'
 Plug 'preservim/nerdcommenter'
+Plug 'ianding1/leetcode.vim'
+Plug 'valloric/youcompleteme'
+Plug 'sirver/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
 
@@ -221,8 +224,9 @@ call plug#end()
 
 "" NERDTree """
 
-" Ctrl-T to toggle NERDTree
-nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-e> :NERDTreeToggle<CR> " Ctrl-e to toggle NERDTree
+let NERDTreeShowHidden=1           " show hidden files
+let g:NERDTreeWinSize=60           " set nerdtree size"
 
 " close NERDTree when NERDTree is the last window
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
@@ -230,4 +234,11 @@ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTr
 " nerdcommenter
 nnoremap <c-/> <space>ci
 
+" leetcode in vim plugin -> this is not working ??
+let g:leetcode_browser='chrome'
+
+" plugin: ultisnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
