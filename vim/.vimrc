@@ -8,7 +8,7 @@ syntax on
 set showcmd
 
 " open vertical terminal
-nnoremap <leader>vt :vertical terminal<enter>
+" nnoremap <leader>vt :vertical terminal<enter>
 
 " remap command history setting
 nnoremap <leader>ch q:
@@ -63,7 +63,7 @@ set cursorline cursorcolumn
 hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white
 
 " toggle cursorline
-nnoremap <leader>h :set cursorline! cursorcolumn!<CR>
+nnoremap <silent> <leader>h :set cursorline! cursorcolumn!<CR>
 
 " reset cursorline when in different window
 augroup CursorLine
@@ -92,7 +92,7 @@ set hlsearch           " high light search result
 highlight Search cterm=reverse ctermbg=none ctermfg=none
 set incsearch          " search while entering text
 " toggle highlighting result of hlsearch option
-nnoremap <esc><esc> :set hlsearch!<enter>
+nnoremap <silent> <esc><esc> :set hlsearch!<enter>
 
 
 set autoindent         " basic indent
@@ -103,7 +103,7 @@ set tabstop=4          " tab = 4 spaces
 set softtabstop=4    
 set shiftwidth=4
 set smarttab
-set scrolloff=3  " up or down till the number, the screen will move
+set scrolloff=3        " up or down till the number, the screen will move
 set backspace=indent,eol,start  " allow backspace to delete indent, and back to previous line
 
 set clipboard=unnamedplus
@@ -180,8 +180,8 @@ endfunction
 
 " Easy editing Vimrc file
 " nnoremap = Normal mode, NO REcursion, MAPping
-nnoremap <leader>ev :vsplit $MYVIMRC<ENTER>
-nnoremap <leader>sv :source $MYVIMRC<ENTER>
+nnoremap <silent> <leader>ev :vsplit $MYVIMRC<ENTER>
+nnoremap <silent> <leader>sv :source $MYVIMRC<ENTER>
 
 
 " enable auto completion after pressing TAB
@@ -211,7 +211,6 @@ Plug 'tpope/vim-surround'
 Plug 'chun-yang/auto-pairs'
 Plug 'preservim/nerdcommenter'
 Plug 'ianding1/leetcode.vim'
-Plug 'valloric/youcompleteme'
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'christoomey/vim-tmux-navigator'
