@@ -5,7 +5,7 @@
 ## stow -> gnu dotfile manager
 
 ```
-    $ git clone https://github.com/ethanh6/dotfiles.git .dotfiles
-    $ cd ~/.dotfiles
+    $ git clone https://github.com/ethanh6/dotfiles.git
+    $ cd ~/dotfiles
     $ stow --dir=~/dotfiles --target=~/
 ```
