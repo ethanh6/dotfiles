@@ -18,11 +18,12 @@
 
 ## Ingredients
 1. vim-plug
+2. gruvbox (colorscheme)
 2. telescope.nvim  --> more customizability can be done
 3. nvim-lspconfig  --> how to use it? 
 4. lualine.nvim    --> status line
 
 ## todo
-1. set up lua in each plugin 
-2. biult-in language server or Coc? 
+1. setup lua in each plugin 
+2. setup biult-in language server
 
