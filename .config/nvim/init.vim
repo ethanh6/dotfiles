@@ -34,14 +34,17 @@ set wildignore+=*/node_modules/*
 " Turn off paste mode when leaving insert
 autocmd InsertLeave * set nopaste
 
-set cursorline
+" Keep the cursor in place while joining lines
+nnoremap J mzJ`z
+
+" set cursorline
 nnoremap <silent> <esc><esc> :set hlsearch!<enter>
 set incsearch
 
 " Easy editing Vimrc file
 " nnoremap = Normal mode, NO REcursion, MAPping
 nnoremap <silent> <leader>ev :vsplit $MYVIMRC<ENTER>
-nnoremap <silent> <leader>sv :source $MYVIMRC<ENTER>
+nnoremap <leader>sv :source $MYVIMRC<ENTER>
 
 " Set cursor line color on visual mode
 highlight Visual cterm=NONE ctermbg=236 ctermfg=NONE guibg=Grey40
@@ -87,6 +90,7 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 
 lua << END
+
 local function hello()
   return [[ethan!]]
 end
@@ -97,7 +101,6 @@ require('lualine').setup {
     component_separators = '',
   },
 }
-
 END
 
 
