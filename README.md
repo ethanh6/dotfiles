@@ -28,3 +28,10 @@ or use `stow` (gnu dotfile manager)
     $ cd ~/dotfiles
     $ stow --dir=~/dotfiles --target=~/
 ```
+
+## To remove symlink
+
+```
+    $ unlink <path to link> 
+```
+note: do not include `/` at the end even if it's a dir since linux will assume it's a dir and `unlink` can't delete a dir.
