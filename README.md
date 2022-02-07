@@ -7,11 +7,11 @@
 4. bash
 
 ## symlink structure
-`~/.bashrc -> ~/dotfiles/bash/.bashrc`
-`~/.gitconfig -> ~/dotfiles/git/.gitconfig`
-`~/.config/nvim -> ~/dotfiles/.config/nvim` (symlink to directory)
-`~/.vim -> ~/dotfiles/vim/.vim` (symlink to directory)
-`~/.vimrc -> ~/dotfiles/vim/.vimrc`
+- `~/.bashrc -> ~/dotfiles/bash/.bashrc`
+- `~/.gitconfig -> ~/dotfiles/git/.gitconfig`
+- `~/.config/nvim -> ~/dotfiles/.config/nvim` (symlink to directory)
+- `~/.vim -> ~/dotfiles/vim/.vim` (symlink to directory)
+- `~/.vimrc -> ~/dotfiles/vim/.vimrc`
 
 ## To create symlink
 `ln` command with `-s` (symbolic)
@@ -35,3 +35,8 @@ or use `stow` (gnu dotfile manager)
     $ unlink <path to link> 
 ```
 note: do not include `/` at the end even if it's a dir since linux will assume it's a dir and `unlink` can't delete a dir.
+
+## Todo
+[ ] Create installation script
+[ ] Migrate to zsh / oh-my-zsh (?)
+[ ] Configure Tmux

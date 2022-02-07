@@ -25,26 +25,25 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
     - start/                 # plugins running when startup
     - opt/                   # lazy loading plugins
   - fonts/                   # fonts are downloaded here
-    - 
 
 # Plugins
 - Plugin Manger: Packer.nvim
-- telescope.nvim  --> more customizability can be done
-- nvim-lspconfig  --> how to use it? 
-- lualine.nvim    --> status line
+- telescope.nvim  
+- nvim-lspconfig  
 
 ## Colorscheme
 - Tokyonight
 - gruvbox
+- lualine.nvim    --> status line
 
 ## Completion & Snippet
-- nvim.cmp        -> the completin plugin (manage completion recommendations from different source)
-- LuaSnip         -> the engine
+- nvim.cmp        --> the completin plugin (manage completion recommendations from different source)
+- LuaSnip         --> the engine
 
 ## Nerd font (developer font, for the cool icons)
-- 
+- Hack
 
-# Lua: a scripting, lightweight language
+# Lua: a lightweight scripting language
 To run vimscript (as strings) inside lua
 ```
 vim.cmd [[set isKeyword+=-]]
