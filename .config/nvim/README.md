@@ -43,6 +43,9 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 ## Nerd font (developer font, for the cool icons)
 - Hack
 
+## Startup Page
+- alpha-nvim
+
 # Lua: a lightweight scripting language
 To run vimscript (as strings) inside lua
 ```
