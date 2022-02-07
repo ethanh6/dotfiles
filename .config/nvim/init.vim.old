@@ -53,55 +53,42 @@ highlight LineNr cterm=none ctermfg=240 guifg=#2b506e guibg=#000000
 
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
-Plug 'morhetz/gruvbox'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-fugitive'
-if has('nvim')
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-lua/popup.nvim'
-  Plug 'nvim-telescope/telescope.nvim'
-  Plug 'kyazdani42/nvim-web-devicons'
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'nvim-lualine/lualine.nvim'
-endif
+" Plug 'morhetz/gruvbox'
 
 call plug#end()
 
-colorscheme gruvbox
+" colorscheme gruvbox
 
-lua require('lspconfig').pyright.setup{}
 
 "" NERDTree """
-nnoremap <silent> <C-e> :NERDTreeToggle<CR> " Ctrl-e to toggle NERDTree
-let NERDTreeShowHidden=1           " show hidden files
-let g:NERDTreeWinSize=30           " set nerdtree size"
+" nnoremap <silent> <C-e> :NERDTreeToggle<CR> " Ctrl-e to toggle NERDTree
+" let NERDTreeShowHidden=1           " show hidden files
+" let g:NERDTreeWinSize=30           " set nerdtree size"
 
 " close NERDTree when NERDTree is the last window
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
 
 " Find files using Telescope command-line sugar.
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+" nnoremap <leader>ff <cmd>Telescope find_files<cr>
+" nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+" nnoremap <leader>fb <cmd>Telescope buffers<cr>
+" nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 
-lua << END
+" lua << END
 
-local function hello()
-  return [[ethan!]]
-end
-require('lualine').setup {
-  options = {
-    theme = 'gruvbox',
-    section_separators = '',
-    component_separators = '',
-  },
-}
-END
+" local function hello()
+  " return [[ethan!]]
+" end
+" require('lualine').setup {
+  " options = {
+    " theme = 'gruvbox',
+    " section_separators = '',
+    " component_separators = '',
+  " },
+" }
+" END
 
 
 

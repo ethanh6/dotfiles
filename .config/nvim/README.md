@@ -1,29 +1,52 @@
-# neovim configuration
+# Neovim configuration
 
-## the sym link
+# setup symlink
 ~/.config/nvim -> ~/dotfiles/.config/nvim
 
-``` $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim ```
+```
+$ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
+```
 
-## file structure
-- ~/.local/share/nvim/plugged/    # add plugins here
+# file structure
 - ~/.config/nvim/
-	- init.vim          # root config and plugins
-	- maps.vim          # keymaps
-	- after/            # post-init scripts
-	- plug.vim          # vimplug config (don't use it now, move content into init.vim) 
-		- plugin/         # plugin config
-	- colors/           # color theme
+	- init.lua
+  - lua/
+    - user/                # the word "user" is arbitrary, for namespace purpose
+      - options.lua        # options (e.g. set hlsearch) 
+      - keymaps.lua        # keymaps (e.g. nnoremap <C-e> :Lex 30<CR>)
+      - plugins.lua        # install plugins with packer.nvim
+      - colorscheme.lua    # color schemes with error handling (in case the color scheme breaks)
+      - cmp.lua            # auto completion config
+  - plugin/
+    - packer-compiled.lua  # compiled lua file to speed things up, don't touch it
 
+- ~/.local/share/
+  - nvim/site/pack/packer/
+    - start/                 # plugins running when startup
+    - opt/                   # lazy loading plugins
+  - fonts/                   # fonts are downloaded here
+    - 
 
-## Ingredients
-1. vim-plug
-2. gruvbox (colorscheme)
-2. telescope.nvim  --> more customizability can be done
-3. nvim-lspconfig  --> how to use it? 
-4. lualine.nvim    --> status line
+# Plugins
+- Plugin Manger: Packer.nvim
+- telescope.nvim  --> more customizability can be done
+- nvim-lspconfig  --> how to use it? 
+- lualine.nvim    --> status line
 
-## todo
-1. setup lua in each plugin 
-2. setup biult-in language server
+## Colorscheme
+- Tokyonight
+- gruvbox
+
+## Completion & Snippet
+- nvim.cmp        -> the completin plugin (manage completion recommendations from different source)
+- LuaSnip         -> the engine
+
+## Nerd font (developer font, for the cool icons)
+- 
+
+# Lua: a scripting, lightweight language
+To run vimscript (as strings) inside lua
+```
+vim.cmd [[set isKeyword+=-]]
+```
 
