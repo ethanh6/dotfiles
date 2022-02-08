@@ -73,11 +73,8 @@ return packer.startup(function(use)
   }
 
   -- MarkdownPreview
-  use {
-    'iamcco/markdown-preview.nvim',
-    run = function() vim.fn['mkdp#util#install']() end,
-    ft = {'markdown'}
-  }
+  -- cd app && ./install.sh
+  use {'iamcco/markdown-preview.nvim'}
 
 
   -- Automatically set up your configuration after cloning packer.nvim
