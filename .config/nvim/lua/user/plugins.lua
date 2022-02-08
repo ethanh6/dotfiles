@@ -76,6 +76,13 @@ return packer.startup(function(use)
   -- cd app && ./install.sh
   use {'iamcco/markdown-preview.nvim'}
 
+  -- comment
+  use {'terrortylor/nvim-comment',
+    config = function () require('nvim_comment').setup() end    
+  }
+  
+  -- Autopair
+
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

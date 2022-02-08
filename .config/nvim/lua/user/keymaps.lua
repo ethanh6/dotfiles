@@ -17,7 +17,12 @@ vim.g.maplocalleader = " "
 --   term_mode = "t",
 --   command_mode = "c",
 
+
 -- Normal Mode --
+
+-- toggole Comment
+keymap("n", "<C-c>", ":CommentToggle<CR>", opts)
+
 -- toggole search highlight
 keymap("n", "<esc><esc>", ":set hlsearch!<CR>", opts)
 
