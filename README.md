@@ -37,6 +37,6 @@ or use `stow` (gnu dotfile manager)
 note: do not include `/` at the end even if it's a dir since linux will assume it's a dir and `unlink` can't delete a dir.
 
 ## Todo
-[ ] Create installation script
-[ ] Migrate to zsh / oh-my-zsh (?)
-[ ] Configure Tmux
+- [ ] Create installation script
+- [ ] Migrate to zsh / oh-my-zsh (?)
+- [ ] Configure Tmux
