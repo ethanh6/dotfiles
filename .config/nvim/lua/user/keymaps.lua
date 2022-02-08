@@ -18,6 +18,9 @@ vim.g.maplocalleader = " "
 --   command_mode = "c",
 
 -- Normal Mode --
+-- toggole search highlight
+keymap("n", "<esc><esc>", ":set hlsearch!<CR>", opts)
+
 -- Better window navigation
 keymap("n", "<C-h>", "<C-w>h", opts)
 keymap("n", "<C-j>", "<C-w>j", opts)
