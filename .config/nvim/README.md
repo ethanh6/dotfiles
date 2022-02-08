@@ -46,6 +46,13 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 ## Startup Page
 - alpha-nvim
 
+## Additional steps to fix errors:
+### MarkdownPreview
+```
+$ cd ~/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim/app/
+$ ./install.sh
+```
+
 # Lua: a lightweight scripting language
 To run vimscript (as strings) inside lua
 ```
