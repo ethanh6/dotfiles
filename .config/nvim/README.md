@@ -35,7 +35,7 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 | Plugin Manager | Packer.nvim |
 | Fuzzy file search | telescope.nvim  | 
 | LSP | nvim-lspconfig |
-| Colorscheme | <ol><li>Tokyonight</li><li>gruvbox</li></ol> |
+| Colorscheme | Tokyonight, Gruvbox |
 | Status Line | lualine.nvim |
 | Completion | nvim.cmp: the completin plugin managing completion recommendations from sources |
 | Snippet | LuaSnip: the snippet engine |
