@@ -3,31 +3,33 @@
 
 # File structure
 ```
-~/.config/nvim/
-|   init.lua
-└───lua/user/                # the word "user" is arbitrary, for namespace purpose
-│       options.lua          # options (e.g. set hlsearch) 
-│       keymaps.lua          # keymaps (e.g. nnoremap <C-e> :Lex 30<CR>)
-│       plugins.lua          # install plugins with packer.nvim
-│       colorscheme.lua      # color schemes with error handling (in case the color scheme breaks)
-│       cmp.lua              # auto completion config
-└───────lsp/
-│       │   init.lua
-│       │   handlers.lua
-│       │   lsp-installer.lua
-|       └───settings/             # settings of differnet LSP
-|               jsonls.lua    
-|               pyright.lua
-|               sumneko_lua.lua
-└───plugin/
-        packer-compiled.lua       # compiled lua file to speed things up, don't touch it
+├── README.md
+├── init.lua
+├── init.vim.old
+├── lua
+│   └── user
+│       ├── cmp.lua
+│       ├── colorscheme.lua
+│       ├── keymaps.lua
+│       ├── lsp
+│       │   ├── handlers.lua
+│       │   ├── init.lua
+│       │   ├── lsp-installer.lua
+│       │   └── settings
+│       │       ├── jsonls.lua
+│       │       ├── pyright.lua
+│       │       └── sumneko_lua.lua
+│       ├── options.lua
+│       ├── plugins.lua
+│       └── telescope.lua
+└── plugin
+    └── packer_compiled.lua
 
 ~/.local/share/
 │     nvim/site/pack/packer/
 │     └───start/            # plugins running when startup
 │     └───opt/              # lazy loading plugins
 └───fonts/                  # fonts are downloaded here
-
 ```
 
 # Setup symlink
