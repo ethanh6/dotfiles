@@ -15,6 +15,7 @@
 │       ├── cmp.lua
 │       ├── colorscheme.lua
 │       ├── comment.lua
+│       ├── gitsigns.lua
 │       ├── keymaps.lua
 │       ├── lsp
 │       │   ├── handlers.lua
