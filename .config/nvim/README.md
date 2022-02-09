@@ -8,8 +8,10 @@
 ```
 ├── README.md
 ├── init.lua
+├── init.vim.old
 ├── lua
-│   └── user
+│   └── user                        # plugin configs go here
+│       ├── autopairs.lua
 │       ├── cmp.lua
 │       ├── colorscheme.lua
 │       ├── keymaps.lua
@@ -22,12 +24,11 @@
 │       │       ├── pyright.lua
 │       │       └── sumneko_lua.lua
 │       ├── options.lua
-│       ├── plugins.lua
+│       ├── plugins.lua             # plug things in here
 │       ├── telescope.lua
 │       └── treesitter.lua
-├── plugin
-│   └── packer_compiled.lua
-└── treesitter.lua
+└── plugin
+    └── packer_compiled.lua
 ```
 
 # Setup symlink
@@ -49,6 +50,11 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 | Snippet | LuaSnip: the snippet engine |
 | Nerd font | Hack |
 | Startup Page | alpha-nvim | 
+
+# Keymaps
+| Key | Functionality | Plugin |
+| --- | --- | --- | 
+| `<M-e>` | FastWrap | windwp/nvim-autopairs |
 
 # Additional steps to fix errors:
 - MarkdownPreview (plugin) 

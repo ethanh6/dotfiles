@@ -94,10 +94,11 @@ return packer.startup(function(use)
 
   -- comment
   use {'terrortylor/nvim-comment',
-    config = function () require('nvim_comment').setup() end    
+    config = function () require('nvim_comment').setup() end
   }
-  
+
   -- Autopair
+  use "windwp/nvim-autopairs"
 
 
   -- Automatically set up your configuration after cloning packer.nvim
