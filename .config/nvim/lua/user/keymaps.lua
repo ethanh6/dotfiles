@@ -33,7 +33,7 @@ keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
 
 -- Open Lexplorer (left explorer)
-keymap("n", "<C-e>", ":Lex 20<cr>", opts)
+keymap("n", "<leader>e", ":Lex 20<cr>", opts)
 
 -- Open command history
 keymap("n", "<leader>ch", "q:", opts)
@@ -46,8 +46,8 @@ keymap("n", "Y", "y$", opts)
 keymap("n", "<leader>v", "<C-v>", opts)
 
 -- Easy edit and source vimrc (for Neovim, it's ~/.config/nvim/init.lua)
-keymap("n", "<leader>ev", ":vsplit $MYVIMRC<CR>", opts)
-keymap("n", "<leader>sv", ":source $MYVIMRC<CR>", opts)
+-- keymap("n", "<leader>ev", ":vsplit $MYVIMRC<CR>", opts)
+-- keymap("n", "<leader>sv", ":source $MYVIMRC<CR>", opts)
 
 -- Resize with arrows (this might be little off due to different buffer position)
 keymap("n", "<C-Up>", ":resize +2<CR>", opts)
