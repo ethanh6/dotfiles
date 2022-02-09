@@ -3,6 +3,7 @@
 # TODO
 - [ ] update telescope keymaps
 - [ ] configure nerd fonts
+- [ ] add link to plugins repo
 
 # File structure
 ```
@@ -43,15 +44,19 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 # Plugins
 | Functionality | Plugins |
 | --- | --- |
-| Plugin Manager | Packer.nvim |
+| Plugin Manager | packer.nvim |
 | Fuzzy file search | telescope.nvim  | 
 | LSP | nvim-lspconfig |
-| Colorscheme | Tokyonight, Gruvbox |
+| Colorscheme | tokyonight, gruvbox |
 | Status Line | lualine.nvim |
 | Completion | nvim.cmp: the completin plugin managing completion recommendations from sources |
 | Snippet | LuaSnip: the snippet engine |
 | Nerd font | Hack |
 | Startup Page | alpha-nvim | 
+| Autopair bracket | autopairs | 
+| Comment | comment.nvim | 
+| Git integration | gitsigns.nvim | 
+| MarkdownPreview | markdown-preview.nvim | 
 
 # Keymaps
 | Key | Functionality | Plugin |
