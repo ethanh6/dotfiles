@@ -80,6 +80,7 @@ return packer.startup(function(use)
   use "nvim-telescope/telescope.nvim"
   use 'nvim-telescope/telescope-media-files.nvim'  -- preview image in telescope
 
+
   -- Treesitter
   use {
     "nvim-treesitter/nvim-treesitter",
@@ -87,15 +88,13 @@ return packer.startup(function(use)
   }
   use "p00f/nvim-ts-rainbow"  -- nice rainbow bracket
 
-
   -- MarkdownPreview
   -- cd app && ./install.sh
   use {'iamcco/markdown-preview.nvim'}
 
-  -- comment
-  use {'terrortylor/nvim-comment',
-    config = function () require('nvim_comment').setup() end
-  }
+  -- Comment
+  use "numToStr/Comment.nvim"
+  use 'JoosepAlviste/nvim-ts-context-commentstring'   -- ts stands for treesitter
 
   -- Autopair
   use "windwp/nvim-autopairs"

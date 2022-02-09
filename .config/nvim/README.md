@@ -14,6 +14,7 @@
 │       ├── autopairs.lua
 │       ├── cmp.lua
 │       ├── colorscheme.lua
+│       ├── comment.lua
 │       ├── keymaps.lua
 │       ├── lsp
 │       │   ├── handlers.lua
