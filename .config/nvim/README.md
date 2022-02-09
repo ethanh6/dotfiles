@@ -1,11 +1,13 @@
 # Neovim configuration
 
+# TODO
+- [ ] update telescope keymaps
+- [ ] configure nerd fonts
 
 # File structure
 ```
 ├── README.md
 ├── init.lua
-├── init.vim.old
 ├── lua
 │   └── user
 │       ├── cmp.lua
@@ -21,15 +23,11 @@
 │       │       └── sumneko_lua.lua
 │       ├── options.lua
 │       ├── plugins.lua
-│       └── telescope.lua
-└── plugin
-    └── packer_compiled.lua
-
-~/.local/share/
-│     nvim/site/pack/packer/
-│     └───start/            # plugins running when startup
-│     └───opt/              # lazy loading plugins
-└───fonts/                  # fonts are downloaded here
+│       ├── telescope.lua
+│       └── treesitter.lua
+├── plugin
+│   └── packer_compiled.lua
+└── treesitter.lua
 ```
 
 # Setup symlink
@@ -64,4 +62,5 @@ To run vimscript (as strings) inside lua
 ```
 vim.cmd [[set isKeyword+=-]]
 ```
+
 

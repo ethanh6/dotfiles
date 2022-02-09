@@ -80,6 +80,13 @@ return packer.startup(function(use)
   use "nvim-telescope/telescope.nvim"
   use 'nvim-telescope/telescope-media-files.nvim'  -- preview image in telescope
 
+  -- Treesitter
+  use {
+    "nvim-treesitter/nvim-treesitter",
+    run = ":TSUpdate",
+  }
+  use "p00f/nvim-ts-rainbow"  -- nice rainbow bracket
+
 
   -- MarkdownPreview
   -- cd app && ./install.sh
