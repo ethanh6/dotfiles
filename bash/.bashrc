@@ -139,3 +139,6 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+
+# add cmake path
+export PATH="/home/ethanhuang/tools/cmake/cmake-3.20.0/bin:$PATH"

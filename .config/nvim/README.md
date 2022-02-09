@@ -1,11 +1,5 @@
 # Neovim configuration
 
-# setup symlink
-~/.config/nvim -> ~/dotfiles/.config/nvim
-
-```
-$ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
-```
 
 # File structure
 ```
@@ -17,8 +11,16 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 │       plugins.lua          # install plugins with packer.nvim
 │       colorscheme.lua      # color schemes with error handling (in case the color scheme breaks)
 │       cmp.lua              # auto completion config
+└───────lsp/
+│       │   init.lua
+│       │   handlers.lua
+│       │   lsp-installer.lua
+|       └───settings/             # settings of differnet LSP
+|               jsonls.lua    
+|               pyright.lua
+|               sumneko_lua.lua
 └───plugin/
-        packer-compiled.lua  # compiled lua file to speed things up, don't touch it
+        packer-compiled.lua       # compiled lua file to speed things up, don't touch it
 
 ~/.local/share/
 │     nvim/site/pack/packer/
@@ -28,6 +30,12 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 
 ```
 
+# Setup symlink
+~/.config/nvim -> ~/dotfiles/.config/nvim
+
+```
+$ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
+```
 
 # Plugins
 | Functionality | Plugins |

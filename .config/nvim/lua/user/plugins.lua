@@ -30,7 +30,6 @@ if not status_ok then
   return
 end
 
-
 -- Have packer use a popup window
 packer.init {
   display = {
@@ -58,6 +57,7 @@ return packer.startup(function(use)
   use "hrsh7th/cmp-path"         -- path completions
   use "hrsh7th/cmp-cmdline"      -- cmdline completions
   use "saadparwaiz1/cmp_luasnip" -- snippet completions
+  use "hrsh7th/cmp-nvim-lsp"
 
   -- snippets
   use "L3MON4D3/LuaSnip"             --snippet engine
@@ -68,9 +68,14 @@ return packer.startup(function(use)
     'goolord/alpha-nvim',
     requires = { 'kyazdani42/nvim-web-devicons' },
     config = function ()
-        require'alpha'.setup(require'alpha.themes.dashboard'.config)
+        require'alpha'.setup(require'alpha.themes.startify'.config)
     end
   }
+
+  -- LSP
+  use "neovim/nvim-lspconfig" -- enable LSP
+  use "williamboman/nvim-lsp-installer" -- simple to use language server installer
+
 
   -- MarkdownPreview
   -- cd app && ./install.sh

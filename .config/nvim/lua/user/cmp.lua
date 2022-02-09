@@ -107,7 +107,6 @@ cmp.setup {
     }),
   },
 
-  
   -- format of the completion popup menu
   formatting = {
     fields = { "kind", "abbr", "menu" },
@@ -116,8 +115,10 @@ cmp.setup {
       vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
       -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
       vim_item.menu = ({
-        luasnip = "[LuaSnip]",
+        nvim_lsp = "[LSP]",
+        nvim_lua = "[Nvim_Lua]",
         buffer = "[Buffer]",
+        luasnip = "[LuaSnip]",
         path = "[Path]",
       })[entry.source.name]
       return vim_item
@@ -126,6 +127,8 @@ cmp.setup {
 
   -- sources of the completions -> the order matters!
   sources = {
+    { name = "nvim_lsp" },
+    { name = "nvim_lua" },
     { name = "luasnip" },
     { name = "buffer" },
     { name = "path" },
