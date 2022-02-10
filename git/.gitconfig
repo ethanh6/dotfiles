@@ -2,7 +2,7 @@
 	name = EthanHuang
 	email = ethanhuang0606@gmail.com
 [core]
-	editor = vim
+	editor = nvim
 	autocrlf = false
 	quotepath = false
 [help]
