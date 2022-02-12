@@ -32,8 +32,8 @@ keymap("n", "<C-j>", "<C-w>j", opts)
 keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
 
--- Open Lexplorer (left explorer)
-keymap("n", "<leader>e", ":Lex 20<cr>", opts)
+-- File Explorer Toggle
+keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
 
 -- Open command history
 keymap("n", "<leader>ch", "q:", opts)
