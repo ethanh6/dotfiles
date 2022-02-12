@@ -142,3 +142,5 @@ unset __conda_setup
 
 # add cmake path
 export PATH="/home/ethanhuang/tools/cmake/cmake-3.20.0/bin:$PATH"
+
+alias python=python3.9
