@@ -116,6 +116,9 @@ return packer.startup(function(use)
   -- solidity
   use "tomlion/vim-solidity"
 
+  -- toggle termimal
+  use "akinsho/toggleterm.nvim"
+
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
