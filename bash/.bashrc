@@ -144,3 +144,4 @@ unset __conda_setup
 export PATH="/home/ethanhuang/tools/cmake/cmake-3.20.0/bin:$PATH"
 
 alias python=python3.9
+. "$HOME/.cargo/env"
