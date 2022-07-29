@@ -45,10 +45,9 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 
 | Key / Commands | Functionality | 
 | --- | --- |
-| `Shift-j`, `Shift-l` | switch between tabs |
+| `Shift-j`, `Shift-l` | switch between tabs (plugin: bufferline) |
 | `Ctrl-h`, `Ctrl-j`, `Ctrl-k`, `Ctrl-l` | switch between windows |
 | `:checkhealth PackageName` | check healthiness of packages |
-| `<leader>e` | toggle files on the left (NvimTree) |
 | `<esc><esc>` | toggle highlight of search results |
 | `Y` | copy until the end of the line |
 | `<leader>v` / `<Ctrl-v>` | enter visual block mode |
@@ -82,6 +81,27 @@ return packer.startup(function(use)
   use "user_name/repo_name"
 end)
 ```
+
+
+## nvim-tree (file explorer)
+
+| Key / Commands | Functionality | 
+| --- | --- |
+| `<leader>tt` | toggle Nvim-tree on the left |
+| `<Ctrl-j>`, `<Ctrl-l>` | move between buffers |
+| `q` | (within Nvim-tree buffer) quit Nvim-tree |
+| `o`, `<enter>`| (within Nvim-tree buffer) open file / dir |
+| `a` | (within Nvim-tree buffer) add file / dir (recursively) |
+| `d` | (within Nvim-tree buffer) delete file / dir |
+| `r` | (within Nvim-tree buffer) rename file / dir |
+| `c` | (within Nvim-tree buffer) copy file / dir to clipblard |
+| `p` | (within Nvim-tree buffer) paste file / dir |
+| `x` | (within Nvim-tree buffer) cut file / dir  to clipblard |
+| `y` | (within Nvim-tree buffer) copy file / dir NAME to system clipblard |
+| `Y` | (within Nvim-tree buffer) copy relative path to system clipboard |
+| `gy` | (within Nvim-tree buffer) copy abslute path to system clipboard |
+| `R` | (within Nvim-tree buffer) refresh Nvim-tree buffer |
+
 
 ## telescope.nvim 
 
