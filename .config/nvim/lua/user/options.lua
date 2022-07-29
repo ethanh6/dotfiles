@@ -41,6 +41,10 @@ local options = {
 
 vim.opt.shortmess:append "c"               -- hide short messages 
 
+
+-- enable this to see indent guide
+vim.opt.list = true
+
 for k, v in pairs(options) do
   vim.opt[k] = v
 end

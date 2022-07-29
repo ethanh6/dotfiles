@@ -135,6 +135,11 @@ _G.packer_plugins = {
     path = "/Users/ethanhuang/.local/share/nvim/site/pack/packer/start/gruvbox",
     url = "https://github.com/morhetz/gruvbox"
   },
+  ["indent-blankline.nvim"] = {
+    loaded = true,
+    path = "/Users/ethanhuang/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
+    url = "https://github.com/lukas-reineke/indent-blankline.nvim"
+  },
   ["markdown-preview.nvim"] = {
     loaded = true,
     path = "/Users/ethanhuang/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim",

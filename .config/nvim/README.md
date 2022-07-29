@@ -2,7 +2,6 @@
 
 # File structure
 ```
-todo
 ```
 
 ## Setup symlink
@@ -22,7 +21,6 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 | [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)  | Fuzzy Finder |
 | [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) | Builtin LSP (Language Server Protocol) |
 | [tokyonight](https://github.com/folke/tokyonight.nvim), [gruvbox](https://github.com/morhetz/gruvbox) | Colorschemes | 
-| <del>lualine.nvim</del> | <del>Status Line</del> |
 | [nvim.cmp](https://github.com/hrsh7th/nvim-cmp) | Code Completion |
 | [LuaSnip](https://github.com/L3MON4D3/LuaSnip) | The Snippet Engine |
 | [Nerd Font](https://www.nerdfonts.com) | Font |
@@ -35,6 +33,8 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 | [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim) | Linting |
 | [bufferline](https://github.com/akinsho/bufferline.nvim) | Buffers (Tags) |
 | [treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Syntax Parser |
+| [indent-blankline](https://github.com/lukas-reineke/indent-blankline.nvim) | Indentation Visual Guide |
+| <del>lualine.nvim</del> | <del>Status Line</del> |
 
 # Keymaps and Commands
 

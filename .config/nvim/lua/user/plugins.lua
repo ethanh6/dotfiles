@@ -96,7 +96,11 @@ return packer.startup(function(use)
     run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
   }
 
-  use "p00f/nvim-ts-rainbow"  -- nice rainbow bracket
+  -- nice rainbow bracket
+  use "p00f/nvim-ts-rainbow" 
+
+  -- indent level visual guide
+  use "lukas-reineke/indent-blankline.nvim"
 
   -- MarkdownPreview
   -- cd app && ./install.sh
