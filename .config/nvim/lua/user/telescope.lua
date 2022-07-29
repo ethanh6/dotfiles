@@ -19,13 +19,14 @@ telescope.setup {
     mappings = {
       -- insert mode
       i = {
+        ["<C-c>"] = actions.close,
+        ["<esc><esc>"] = actions.close,
+
         ["<C-n>"] = actions.cycle_history_next,
         ["<C-p>"] = actions.cycle_history_prev,
 
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
-
-        ["<C-c>"] = actions.close,
 
         ["<Down>"] = actions.move_selection_next,
         ["<Up>"] = actions.move_selection_previous,
@@ -51,7 +52,8 @@ telescope.setup {
 
       -- normal mode
       n = {
-        ["<esc>"] = actions.close,
+        ["<esc><esc>"] = actions.close,
+
         ["<CR>"] = actions.select_default,
         ["<C-x>"] = actions.select_horizontal,
         ["<C-v>"] = actions.select_vertical,
@@ -59,6 +61,7 @@ telescope.setup {
 
         ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
         ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
+
         ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
         ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
 

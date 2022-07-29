@@ -84,13 +84,34 @@ local function lsp_keymaps(bufnr)
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 end
 
+--------------------------------------------------------------
+-- Main functionality:                                      --
+-- on-attach                                                --
+-- Use an on_attach function to only map the following keys --
+-- after the language server attaches to the current buffer --
+--------------------------------------------------------------
+
 M.on_attach = function(client, bufnr)
   if client.name == "tsserver" then
     client.resolved_capabilities.document_formatting = false
   end
+
+  -- handle mappings as a local function
   lsp_keymaps(bufnr)
+
+  -- handle hightlights as a local function
   lsp_highlight_document(client)
 end
+
+----------------------
+-- End of on-attach --
+----------------------
+
+
+
+----------------------------
+-- Handle capabilities -----
+----------------------------
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
@@ -101,4 +122,13 @@ end
 
 M.capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 
+-----------------------------------
+-- End of capabilities handlings --
+-----------------------------------
+
+
+-- return main module
 return M
+
+
+

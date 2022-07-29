@@ -1,6 +1,6 @@
 local fn = vim.fn
 
--- Automatically install packer
+-- Automatically install packer if not installed
 local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
   PACKER_BOOTSTRAP = fn.system {
@@ -23,15 +23,16 @@ vim.cmd [[
   augroup end
 ]]
 
--- Use a protected call so we don't error out on first use
+-- Use a protected call so it don't error out on first use
 local status_ok, packer = pcall(require, "packer")
 if not status_ok then
   vim.notify("packer did't work")
   return
 end
 
--- Have packer use a popup window
+-- manually setup initialization. pass a table to packer.init() 
 packer.init {
+  -- Have packer use a popup window by overwriting open_fn
   display = {
     open_fn = function()
       return require("packer.util").float { border = "rounded" }
@@ -80,15 +81,21 @@ return packer.startup(function(use)
   -- for python linting: pylink or pep8 
 
   -- Telescope
-  use "nvim-telescope/telescope.nvim"
+  use { "nvim-telescope/telescope.nvim",
+        tag='0.1.0',
+        requires = { {'nvim-lua/plenary.nvim'} }
+  }
   use 'nvim-telescope/telescope-media-files.nvim'  -- preview image in telescope
+  use "BurntSushi/ripgrep"  -- regex file search, suggested dependency by official
+  use "sharkdp/fd"  -- `find` alternative, suggested dependency by official
 
 
   -- Treesitter
   use {
     "nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate",
+    run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
   }
+
   use "p00f/nvim-ts-rainbow"  -- nice rainbow bracket
 
   -- MarkdownPreview
@@ -109,7 +116,7 @@ return packer.startup(function(use)
   use 'kyazdani42/nvim-web-devicons'
   use 'kyazdani42/nvim-tree.lua'
 
-  -- buffer line
+  -- bufferline
   use "akinsho/bufferline.nvim"
   use "moll/vim-bbye"
 

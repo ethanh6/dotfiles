@@ -1,87 +1,207 @@
 # Neovim configuration
 
-# TODO
-- [ ] update telescope keymaps
-- [ ] configure nerd fonts
-- [ ] add link to plugins repo
-
 # File structure
 ```
-├── README.md
-├── init.lua
-├── init.vim.old
-├── lua
-│   └── user
-│       ├── autopairs.lua
-│       ├── bufferline.lua
-│       ├── cmp.lua
-│       ├── colorscheme.lua
-│       ├── comment.lua
-│       ├── gitsigns.lua
-│       ├── keymaps.lua
-│       ├── lsp
-│       │   ├── handlers.lua
-│       │   ├── init.lua
-│       │   ├── lsp-installer.lua
-│       │   ├── null-ls.lua
-│       │   └── settings
-│       │       ├── jsonls.lua
-│       │       ├── pyright.lua
-│       │       ├── solang.lua
-│       │       └── sumneko_lua.lua
-│       ├── nvim-tree.lua
-│       ├── options.lua
-│       ├── plugins.lua
-│       ├── telescope.lua
-│       ├── toggleterm.lua
-│       └── treesitter.lua
-└── plugin
-    └── packer_compiled.lua
+todo
 ```
 
 ## Setup symlink
 ~/.config/nvim -> ~/dotfiles/.config/nvim
 
-```
+```bash
 $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
+
+# result: 
+# ~/.config/nvim -> ~/dotfiles/.config/nvim
 ```
 
-## Neovim Plugins
-| Functionality | Plugins |
+## List of Plugins
+| Plugin Name | Functionality |
 | --- | --- |
-| Plugin Manager | packer.nvim |
-| Fuzzy file search | telescope.nvim  | 
-| LSP | nvim-lspconfig |
-| Colorscheme | tokyonight, gruvbox |
-| Status Line | lualine.nvim |
-| Completion | nvim.cmp: the completin plugin managing completion recommendations from sources |
-| Snippet | LuaSnip: the snippet engine |
-| Nerd font | Hack |
-| Startup Page | alpha-nvim | 
-| Autopair bracket | autopairs | 
-| Comment | comment.nvim | 
-| Git integration | gitsigns.nvim | 
-| MarkdownPreview | markdown-preview.nvim | 
-| Toggle terminal | [Toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim/issues?q=is%3Aopen) |
-| Linting | [Null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim) |
+| [packer.nvim](https://github.com/wbthomason/packer.nvim) | Plugin Manager |
+| [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)  | Fuzzy Finder |
+| [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) | Builtin LSP (Language Server Protocol) |
+| [tokyonight](https://github.com/folke/tokyonight.nvim), [gruvbox](https://github.com/morhetz/gruvbox) | Colorschemes | 
+| <del>lualine.nvim</del> | <del>Status Line</del> |
+| [nvim.cmp](https://github.com/hrsh7th/nvim-cmp) | Code Completion |
+| [LuaSnip](https://github.com/L3MON4D3/LuaSnip) | The Snippet Engine |
+| [Nerd Font](https://www.nerdfonts.com) | Font |
+| [alpha-nvim](https://github.com/goolord/alpha-nvim) | Startup Page |
+| [autopairs](https://github.com/windwp/nvim-autopairs) | Autopair Bracket |
+| [comment.nvim](https://github.com/numToStr/Comment.nvim) | Smart Comment |
+| [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) | Git |
+| [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim) | MarkdownPreview |
+| [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) | Toggle Floating Terminal |
+| [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim) | Linting |
+| [bufferline](https://github.com/akinsho/bufferline.nvim) | Buffers (Tags) |
+| [treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Syntax Parser |
 
-## Keymaps
-| Key | Functionality | Plugin |
-| --- | --- | --- | 
-| `<M-e>` | FastWrap | windwp/nvim-autopairs |
-| `<C-\>` | toggle floating terminal | toggler term |
+# Keymaps and Commands
 
-## Additional steps to fix errors:
-- MarkdownPreview (plugin) 
+## General Keymaps
+> `<leader>` is `<Space>` in my setting.
+
+> config file: `lua/user/keymaps.lua`
+
+| Key / Commands | Functionality | 
+| --- | --- |
+| `Shift-j`, `Shift-l` | switch between tabs |
+| `Ctrl-h`, `Ctrl-j`, `Ctrl-k`, `Ctrl-l` | switch between windows |
+| `:checkhealth PackageName` | check healthiness of packages |
+| `<leader>e` | toggle files on the left (NvimTree) |
+| `<esc><esc>` | toggle highlight of search results |
+| `Y` | copy until the end of the line |
+| `<leader>v` / `<Ctrl-v>` | enter visual block mode |
+
+## packer.nvim 
+
+> config file: `lua/user/plugins.lua`
+
+| Key / Commands | Functionality | 
+| --- | --- |
+| `:w` | run PackerSync when writing to `plugins.lua` |
+
+##### Note: how to install plugins with packer.nvim
+```lua
+-- ~/.conf/nvim/lua/user/plugins.lua
+
+return packer.startup(function(use)
+  use "user_name/repo_name"
+end)
+```
+
+## telescope.nvim 
+
+> config file: `lua/user/telescope.lua`
+
+| Key / Commands | Functionality | 
+| --- | --- |
+| `:help telescope` | fire up the help menu |
+| `<leader>ff` | Find Files |
+| `<leader>fg` | Find Grep (search string live results) |
+| `<leader>fb` | Find Buffers (aks tabs) |
+| `<leader>fcmd` | Find available CoMmands |
+| `<leader>fch` | Find Commands Fistory |
+| `<leader>fsh` | Find Search History |
+| `<Tab>` / `<Shift-Tab>`| move selection in telescope window |
+| `<Ctrl-j>` / `<Ctrl-k>`| move selection in telescope window |
+| `<esc><esc>` | exit telescope window (both normal and insert mode) |
+| `<esc>` | exit insert mode (and enter normal mode) in telescope window |
+| `<Ctrl-d>` / `<Ctrl-u>`| preview scrolling in telescope window |
+
+
+## colorscheme
+
+> config file: `lua/user/colorscheme.lua`
+
+| Commands / Commands | Functionality | 
+| --- | --- |
+| `:colorscheme` | check/set the current color scheme (using tab)|
+
+
+## nvim.cmp
+
+> config file: `lua/user/cmp.lua`
+
+| Key / Commands | Functionality | 
+| --- | --- |
+| `<Ctrl-Space>` | show all available completion |
+| `<Tab>` / `<Shift-Tab>`| move selection in completion window |
+| `<Enter>` | confirm selection and exit completion mode |
+| `<Ctrl-e>` | exit completion mode |
+
+
+## autopairs 
+
+> config file: `lua/user/autopairs.lua`
+
+| Key | Functionality | 
+| --- | --- |
+| <del>`<M-e>`</del> | <del>FastWrap</del> (deprecated) |
+
+
+## comment.nvim
+
+> config file: `lua/user/comment.lua`
+
+| Key / Commands | Functionality | Style | Mode |
+| --- | --- | --- | --- |
+| `gcc` | toggle single line | Line-wise | Normal |
+| `gc` | toggle block | Line-wise | Visual |
+| `gb` | toggle block | Block-wise | Visual |
+
+
+## gitsigns.nvim
+
+> config file: `lua/user/gitsigns.lua`
+
+| Key / Commands | Functionality |
+| --- | --- |
+| `<leader>hb` | blame line |
+
+
+## toggleterm.nvim 
+
+> config file: `lua/user/toggleterm.lua`
+
+| Key / Commands | Functionality | 
+| --- | --- |
+| `Ctrl-\` | Toggle floating terminal |
+
+
+## markdown-preview.nvim
+
+| Key / Commands | Functionality | 
+| --- | --- |
+| `:MarkdownPreview` | preview markdown in browser (live update) |
+| `:MarkdownPreviewStop` | stop preview |
+| `:MarkdownPreviewToggle` | toggle preview |
+
+
+#### Extra steps to fix markdown-preview.nvim not initializing properly
 ```
 $ cd ~/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim/app/
 $ ./install.sh
 ```
 
-## Lua: a lightweight scripting language
-To run vimscript (as strings) inside lua
-```
-vim.cmd [[set isKeyword+=-]]
-```
+
+## bufferline.nvim (tabs)
+
+> config file: `lua/user/bufferline.lua`
+
+> buffers are just files loaded in memory
+
+| Key / Commands | Functionality | 
+| --- | --- |
+| `<Shift-j> / <Shift-l>` | Switch Tabs |
+| `<leader>fb` | Fuzzy Search Buffers (with telescope) |
+| `:BufferLineSortByExtension` | Sort Buffer (call with telescope, `<space>fcmd`) |
+| `:BufferLineSortByDirectory` | Sort Buffer (call with telescope, `<space>fcmd`) |
+| `:Bdelete` | Close a buffer | 
+
+##### Note: don't use `:bdelete` (with lowercase b)
+as it causes unexpected behaviors like kicking you out of neovim
+
+
+## treesitter.nvim
+
+> config file: `lua/user/treesitter.lua`
+
+| Key / Commands | Functionality | 
+| --- | --- |
+| `:TSInstallInfo` | Get list of all available languages and installation status |
+| `:TSUpdate` / `:TSUpdate all`| Update all parsers |
+| `:TSUninstall all` / `:TSUninstall NAME`  | Uninstall parsers |
+| `:TSInstall all` / `:TSInstall NAME`  | Install parsers |
+
+
+## nvim-lspconfig & null-ls - LSP (Language Server Protocol)
+
+> config files: `lua/user/lsp/*`
+
+
+
+## null-ls - LSP extension and injection (add extra sauce)
+
 
 

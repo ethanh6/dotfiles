@@ -46,6 +46,10 @@ local kind_icons = {
 -- find more here: https://www.nerdfonts.com/cheat-sheet
 
 cmp.setup {
+  window = {
+     documentation = cmp.config.window.bordered(),
+     completion = cmp.config.window.bordered(),
+  },
   snippet = {
     expand = function(args)
       -- use luasnip as snippet engine, for `luasnip` users.
@@ -137,9 +141,9 @@ cmp.setup {
     behavior = cmp.ConfirmBehavior.Replace,
     select = false,
   },
-  documentation = {
-    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-  },
+--   documentation = {
+--    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+--  },
   experimental = {
     ghost_text = true,
     native_menu = false,

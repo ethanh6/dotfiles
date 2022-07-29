@@ -9,6 +9,7 @@ local keymap = vim.api.nvim_set_keymap
 keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "   
+
 -- Modes
 --   normal_mode = "n",
 --   insert_mode = "i",
@@ -17,11 +18,12 @@ vim.g.maplocalleader = " "
 --   term_mode = "t",
 --   command_mode = "c",
 
-
+-----------------
 -- Normal Mode --
+-----------------
 
 -- toggole Comment
-keymap("n", "<C-c>", ":CommentToggle<CR>", opts)
+-- keymap("n", "<C-c>", ":CommentToggle<CR>", opts)
 
 -- toggole search highlight
 keymap("n", "<esc><esc>", ":set hlsearch!<CR>", opts)
@@ -33,7 +35,7 @@ keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
 
 -- File Explorer Toggle
-keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
+keymap("n", "<leader>tt", ":NvimTreeToggle<CR>", opts)
 
 -- Open command history
 keymap("n", "<leader>ch", "q:", opts)
@@ -54,11 +56,23 @@ keymap("n", "<C-Up>", ":resize +2<CR>", opts)
 keymap("n", "<C-Down>", ":resize -2<CR>", opts)
 keymap("n", "<C-Right>", ":vertical resize -2<CR>", opts)
 
--- Navigate between buffers
+-- Navigate between buffers (tabs)
 keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
 
+-- telescope setup, command line sugar
+keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", opts)
+keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", opts)
+keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", opts)
+keymap("n", "<leader>fcmd", "<cmd>Telescope commands<cr>", opts)
+keymap("n", "<leader>fch", "<cmd>Telescope command_history<cr>", opts)
+keymap("n", "<leader>fsh", "<cmd>Telescope search_history<cr>", opts)
+
+
+
+-----------------
 -- Insert Mode --
+-----------------
 
 -- Visual Mode --
 -- Stay in indent mode
