@@ -53,6 +53,19 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 | `Y` | copy until the end of the line |
 | `<leader>v` / `<Ctrl-v>` | enter visual block mode |
 
+#### **Copy / Paste with system clipboard (iterm2 and OSX)**
+
+| Key / Commands | Mode | Functionality | 
+| --- | --- | --- |
+| `<leader>y`  | Normal | yank |
+| `<leader>y`  | Visual | yank visual block |
+| `<leader>Y`  | Normal | yank until the end of the line |
+| `<leader>yy` | Normal | yank entire line |
+| `<leader>p`, `<leader>P` | Normal / Visual | paste |
+
+
+<br></br>
+
 ## packer.nvim 
 
 > config file: `lua/user/plugins.lua`

@@ -102,12 +102,49 @@ keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 keymap("t", "<leader>P", ":lua _PYTHON_TOGGLE()<CR> ", term_opts)
 
 
--- TODO
 -- Enter recording mode: type <leader>qq, and then the register (a~z)
 -- keymap("n", "<leader>qq", "q", opts)
 -- Exit recording mode (default: <C-O>q)
 -- keymap("n", "", "", opts)
 
 
+-----------------------------------------------------
+-- enable copy and paste within neovim / iterm2 / OSX
+-- Copy to clipboard
+-----------------------------------------------------
+
+-- yank visual block
+-- vnoremap  <leader>y  "+y
+keymap("v", "<leader>y", "\"+y", term_opts)
+
+-- yank the line (can append number at the end)
+-- nnoremap  <leader>y  "+y
+keymap("n", "<leader>y", "\"+y", term_opts)
+
+-- yank to the end of the line
+-- nnoremap  <leader>Y  "+yg_
+keymap("n", "<leader>Y", "\"+yg_", term_opts)
+
+-- yank the entire line
+-- nnoremap  <leader>yy  "+yy
+keymap("n", "<leader>yy", "\"+yy", term_opts)
+
+-- Paste from clipboard
+-- nnoremap <leader>p "+p
+keymap("n", "<leader>p", "\"+p", term_opts)
+
+-- nnoremap <leader>P "+P
+keymap("n", "<leader>P", "\"+p", term_opts)
+
+-- vnoremap <leader>p "+p
+keymap("v", "<leader>p", "\"+p", term_opts)
+
+-- vnoremap <leader>P "+P
+keymap("v", "<leader>P", "\"+p", term_opts)
+
+
+-----------------------------------------------------
+-- end of copy and paste configuration
+-----------------------------------------------------
 
 
