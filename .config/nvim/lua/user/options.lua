@@ -36,14 +36,18 @@ local options = {
   showcmd = true,
   confirm = true,
   termguicolors = true,
-  background= "dark",
+  background = "dark",
 }
 
 vim.opt.shortmess:append "c"               -- hide short messages 
 
 
 -- enable this to see indent guide
+-- Plugin: indent-blankline 
 vim.opt.list = true
+vim.opt.listchars:append "space:⋅"
+vim.opt.listchars:append "eol:↴"
+
 
 for k, v in pairs(options) do
   vim.opt[k] = v

@@ -100,7 +100,11 @@ return packer.startup(function(use)
   use "p00f/nvim-ts-rainbow" 
 
   -- indent level visual guide
-  use "lukas-reineke/indent-blankline.nvim"
+  use {"lukas-reineke/indent-blankline.nvim", 
+    show_current_context = true,
+    show_current_context_start = true,
+    show_end_of_line = true,
+  }
 
   -- MarkdownPreview
   -- cd app && ./install.sh
