@@ -36,7 +36,7 @@ local options = {
   showcmd = true,
   confirm = true,
   termguicolors = true,
-  background = "dark",
+  background = "light",
 }
 
 vim.opt.shortmess:append "c"               -- hide short messages 

@@ -129,7 +129,11 @@ end)
 
 | Commands / Commands | Functionality | 
 | --- | --- |
-| `:colorscheme` | check/set the current color scheme (using tab)|
+| `:colorscheme` | check the current color scheme |
+| `:colorscheme tokyonight` | set the color scheme (tab through different options)|
+| `:set background=light` | set background color (light / dark)|
+
+##### prefence: tokyonight (dark or light), gruvbox (dark)
 
 
 ## nvim.cmp
