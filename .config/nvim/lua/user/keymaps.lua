@@ -22,9 +22,6 @@ vim.g.maplocalleader = " "
 -- Normal Mode --
 -----------------
 
--- toggole Comment
--- keymap("n", "<C-c>", ":CommentToggle<CR>", opts)
-
 -- toggole search highlight
 keymap("n", "<esc><esc>", ":set hlsearch!<CR>", opts)
 
@@ -49,7 +46,7 @@ keymap("n", "<leader>v", "<C-v>", opts)
 
 -- Easy edit and source vimrc (for Neovim, it's ~/.config/nvim/init.lua)
 -- keymap("n", "<leader>ev", ":vsplit $MYVIMRC<CR>", opts)
--- keymap("n", "<leader>sv", ":source $MYVIMRC<CR>", opts)
+keymap("n", "<leader>sv", ":source $MYVIMRC<CR>", opts)
 
 -- Resize with arrows (this might be little off due to different buffer position)
 keymap("n", "<C-Up>", ":resize +2<CR>", opts)
