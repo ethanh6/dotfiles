@@ -51,6 +51,7 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 | `<esc><esc>` | toggle highlight of search results |
 | `Y` | copy until the end of the line |
 | `<leader>v` / `<Ctrl-v>` | enter visual block mode |
+| `:map` | list all available keymaps |
 
 #### **Copy / Paste with system clipboard (iterm2 and OSX)**
 
@@ -101,6 +102,7 @@ end)
 | `Y` | (within Nvim-tree buffer) copy relative path to system clipboard |
 | `gy` | (within Nvim-tree buffer) copy abslute path to system clipboard |
 | `R` | (within Nvim-tree buffer) refresh Nvim-tree buffer |
+| `k` | (within Nvim-tree buffer) check information on the file |
 
 
 ## telescope.nvim 
@@ -214,7 +216,7 @@ $ ./install.sh
 | `<leader>fb` | Fuzzy Search Buffers (with telescope) |
 | `:BufferLineSortByExtension` | Sort Buffer (call with telescope, `<space>fcmd`) |
 | `:BufferLineSortByDirectory` | Sort Buffer (call with telescope, `<space>fcmd`) |
-| `:Bdelete` | Close a buffer | 
+| `<leader>ww`  / `:Bdelete` | Close a buffer | 
 
 ##### Note: don't use `:bdelete` (with lowercase b)
 as it causes unexpected behaviors like kicking you out of neovim

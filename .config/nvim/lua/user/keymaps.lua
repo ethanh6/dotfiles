@@ -8,7 +8,7 @@ local keymap = vim.api.nvim_set_keymap
 -- Remap space as leader
 keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "   
+vim.g.maplocalleader = " "
 
 -- Modes
 --   normal_mode = "n",
@@ -70,10 +70,6 @@ keymap("n", "<leader>fsh", "<cmd>Telescope search_history<cr>", opts)
 
 
 
------------------
--- Insert Mode --
------------------
-
 -- Visual Mode --
 -- Stay in indent mode
 keymap("v", "<", "<gv", opts)
@@ -99,7 +95,7 @@ keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
 -- open python terminal
-keymap("t", "<leader>P", ":lua _PYTHON_TOGGLE()<CR> ", term_opts)
+-- keymap("t", "<leader>P", ":lua _PYTHON_TOGGLE()<CR> ", term_opts)
 
 
 -- Enter recording mode: type <leader>qq, and then the register (a~z)
@@ -147,4 +143,5 @@ keymap("v", "<leader>P", "\"+p", term_opts)
 -- end of copy and paste configuration
 -----------------------------------------------------
 
-
+-- close buffer 
+keymap("n", "<leader>ww", ":Bdelete<cr>", term_opts)
