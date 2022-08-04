@@ -34,6 +34,7 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 | [bufferline](https://github.com/akinsho/bufferline.nvim) | Buffers (Tags) |
 | [treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Syntax Parser |
 | [indent-blankline](https://github.com/lukas-reineke/indent-blankline.nvim) | Indentation Visual Guide |
+| [vimtex](https://github.com/lukas-reineke/indent-blankline.nvim) | Latex Support |
 | <del>lualine.nvim</del> | <del>Status Line</del> |
 
 # Keymaps and Commands
@@ -221,6 +222,15 @@ $ ./install.sh
 
 ##### Note: don't use `:bdelete` (with lowercase b)
 as it causes unexpected behaviors like kicking you out of neovim
+
+
+## VimTex
+
+| Key / Commands | Functionality | 
+| --- | --- |
+| `:help vimtex` | get vimtex documentation |
+| `:help vimtex-default-mappings` | get vimtex default mappings |
+| `:VimtexView` | compile and open the pdf file in skim |
 
 
 ## treesitter.nvim

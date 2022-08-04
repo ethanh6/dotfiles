@@ -135,7 +135,7 @@ return packer.startup(function(use)
   use "akinsho/toggleterm.nvim"
 
   -- latex
-  use "https://github.com/lervag/vimtex"
+  use "lervag/vimtex"
 
 
   -- Automatically set up your configuration after cloning packer.nvim
