@@ -102,6 +102,16 @@ lua_opts = vim.tbl_deep_extend("force", lua_opts, opts)
 lsp_config.sumneko_lua.setup { lua_opts }
 
 
+--------------------------
+------  Typescript  ------
+--------------------------
+local ts_opts = {
+  root_dir = lsp_config.util.root_pattern("yarn.lock", "lerna.json", ".git"),
+  settings = {documentFormatting = true}
+}
+ts_opts = vim.tbl_deep_extend("force", ts_opts, opts)
+lsp_config.tsserver.setup { ts_opts }
+
 
 
 
