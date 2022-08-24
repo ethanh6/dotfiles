@@ -14,61 +14,64 @@ end
 local tree_cb = nvim_tree_config.nvim_tree_callback
 
 nvim_tree.setup {
-
+  sort_by = "case_sensitive",
   renderer = {
-        add_trailing = false,
-        group_empty = false,
-        highlight_git = false,
-        full_name = false,
-        highlight_opened_files = "none",
-        root_folder_modifier = ":~",
-        indent_markers = {  -- closed
-          enable = false,
-          icons = { -- closed
-            corner = "└",
-            edge = "│",
-            item = "│",
-            none = " ",
-          }, -- icons
-        }, -- indent_markers
-        icons = {
-          webdev_colors = true,
-          git_placement = "before",
-          padding = " ",
-          symlink_arrow = " ➛ ",
-          show = {  -- closed
-            file = true,
-            folder = true,
-            folder_arrow = true,
-            git = true,
-          }, -- show 
-          glyphs = {
-            default = "",
-            symlink = "",
-            bookmark = "",
-            folder = { -- closed
-              arrow_closed = "",
-              arrow_open = "",
-              default = "",
-              open = "",
-              empty = "",
-              empty_open = "",
-              symlink = "",
-              symlink_open = "",
-              default = "",
-            }, --
-            git = { -- closed 
-              unstaged = "✗",
-              staged = "✓",
-              unmerged = "",
-              renamed = "➜",
-              untracked = "★",
-              deleted = "",
-              ignored = "◌",
-            } --
-          } -- glyphs
-        } -- icons
-    },
+    add_trailing = false,
+    group_empty = false,
+    highlight_git = false,
+    full_name = false,
+    highlight_opened_files = "all",
+    root_folder_modifier = ":~",
+    indent_markers = {  -- closed
+      enable = true,
+      icons = { -- closed
+        corner = "└",
+        edge = "│",
+        item = "│",
+        none = " ",
+      }, -- icons
+    }, -- indent_markers
+    icons = {
+      webdev_colors = true,
+      git_placement = "before",
+      padding = " ",
+      symlink_arrow = " ➛ ",
+      show = {  -- closed
+        file = true,
+        folder = true,
+        folder_arrow = true,
+        git = true,
+      }, -- show 
+      glyphs = {
+        default = "",
+        symlink = "",
+        bookmark = "",
+        folder = { -- closed
+          arrow_closed = "",
+          arrow_open = "",
+          default = "",
+          open = "",
+          empty = "",
+          empty_open = "",
+          symlink = "",
+          symlink_open = "",
+          default = "",
+        }, --
+        git = { -- closed 
+          unstaged = "✗",
+          staged = "✓",
+          unmerged = "",
+          renamed = "➜",
+          untracked = "★",
+          deleted = "",
+          ignored = "◌",
+        } --
+      } -- glyphs
+    } -- icons
+  },
+  filters = {
+    dotfiles = true,
+  },
 
   disable_netrw = true,
   hijack_netrw = true,
@@ -88,6 +91,7 @@ nvim_tree.setup {
 --  },
   diagnostics = {       -- reflect bad things happen in the files
     enable = true,
+    show_on_dirs = true,
     icons = {
       hint = "",
       info = "",
@@ -110,6 +114,7 @@ nvim_tree.setup {
     height = 30,
     hide_root_folder = false,
     side = "left",
+    adaptive_size = true,
     -- auto_resize = true,
     mappings = {
       custom_only = false,
@@ -121,6 +126,15 @@ nvim_tree.setup {
     },
     number = true,
     relativenumber = true,
+    float = {
+      enable = false,
+      open_win_config = {
+        width = 100,
+        height = 50,
+        row = 20,
+        col = 20,
+      }
+    }
   },
   -- quit_on_open = 0,
   -- git_hl = 1,

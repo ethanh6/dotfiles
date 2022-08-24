@@ -5,7 +5,12 @@ end
 
 bufferline.setup {
   options = {
-    numbers = "none", -- | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
+    -- | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
+    -- numbers = "none",
+    numbers = function(opts)
+      return string.format("%s.", opts.lower(opts.ordinal))
+    end,
+    
     close_command = "Bdelete! %d", -- can be a string | function, see "Mouse actions"
     right_mouse_command = nil, -- can be a string | function, see "Mouse actions"
     left_mouse_command = "buffer %d", -- can be a string | function, see "Mouse actions"
@@ -59,7 +64,14 @@ bufferline.setup {
     --     return true
     --   end
     -- end,
-    offsets = { { filetype = "NvimTree", text = "", padding = 1 } },
+    offsets = {
+      {
+        filetype = "NvimTree",
+        text = "File Explorer",
+        highlight = "Directory",
+        text_align = "center",
+      }
+    },
     show_buffer_icons = true,
     show_buffer_close_icons = false,
     show_close_icon = false,

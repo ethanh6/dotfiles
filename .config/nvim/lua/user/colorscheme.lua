@@ -2,8 +2,8 @@
 -- vim.cmd[[colorscheme gruvbox]]
 
 
-local colorscheme = "tokyonight"
--- local colorscheme = "gruvbox"
+-- local colorscheme = "tokyonight"
+local colorscheme = "gruvbox"
 
 -- protected call
 local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)

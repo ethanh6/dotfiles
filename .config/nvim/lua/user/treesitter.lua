@@ -7,10 +7,12 @@ end
 configs.setup {   -- mostly officlly suggested setting
   -- A list of parser names, or "all"
   -- ensure_installed = "all", 
-  ensure_installed = { "c", "cpp", "lua", "rust", "python", "markdown", "regex", "solidity", "typescript", "bash", "dockerfile", "go", "latex"},
+  ensure_installed = { "c", "cpp", "lua", "rust",
+                       "python", "markdown", "regex",
+                       "solidity", "typescript", "bash", "dockerfile", "go", "latex"},
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false, 
+  sync_install = false,
 
   -- Automatically install missing parsers when entering buffer
   auto_install = true,
@@ -32,7 +34,7 @@ configs.setup {   -- mostly officlly suggested setting
     -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
     -- the name of the parser)
     -- list of language that will be disabled
-    disable = { "" }, 
+    disable = { "" },
 
     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
