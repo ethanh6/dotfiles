@@ -71,6 +71,10 @@ keymap("n", "<leader>dof", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
 keymap("n", "<leader>dgn", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
 keymap("n", "<leader>dgp", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
 
+-- Gitsign
+keymap("n", "<leader>gnh", ":Gitsigns next_hunk <cr>", opts)
+keymap("n", "<leader>gph", ":Gitsigns prev_hunk <cr>", opts)
+
 
 -- Visual Mode --
 -- Stay in indent mode
