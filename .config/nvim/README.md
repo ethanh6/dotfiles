@@ -1,9 +1,5 @@
 # Neovim configuration
 
-# File structure
-```
-```
-
 ## Setup symlink
 ~/.config/nvim -> ~/dotfiles/.config/nvim
 
@@ -54,6 +50,15 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 | `<leader>v` / `<Ctrl-v>` | enter visual block mode |
 | `<leader>sv` | source neovim config file |
 | `:map` | list all available keymaps |
+
+#### **Diagnostic**
+| Key / Commands | Mode | Functionality | 
+| --- | --- | --- |
+| `<leader>dof`  | Normal | open float window of diagnostic |
+| `<leader>dgn`  | Normal | go to next diagnostic |
+| `<leader>dgp`  | Normal | go to previous diagnostic |
+
+
 
 #### **Copy / Paste with system clipboard (iterm2 and OSX)**
 
