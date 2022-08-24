@@ -74,6 +74,7 @@ keymap("n", "<leader>dgp", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
 -- Gitsign
 keymap("n", "<leader>gnh", ":Gitsigns next_hunk <cr>", opts)
 keymap("n", "<leader>gph", ":Gitsigns prev_hunk <cr>", opts)
+keymap("n", "<leader>gbl", ":Gitsigns blame_line <cr>", opts)
 
 
 -- Visual Mode --

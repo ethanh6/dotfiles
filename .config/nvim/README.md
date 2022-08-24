@@ -183,7 +183,9 @@ end)
 
 | Key / Commands | Functionality |
 | --- | --- |
-| `<leader>hb` | blame line |
+| `<leader>gbl` | blame line |
+| `<leader>gnh` | goto next hunk |
+| `<leader>gph` | goto prev hunk |
 
 
 ## toggleterm.nvim 
