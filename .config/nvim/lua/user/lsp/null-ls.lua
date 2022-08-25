@@ -4,8 +4,11 @@ if not null_ls_status_ok then
   return
 end
 
+-- checkout the repo and the path
 -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
 local formatting = null_ls.builtins.formatting
+
+-- checkout the repo and the path
 -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
 local diagnostics = null_ls.builtins.diagnostics
 
@@ -26,6 +29,6 @@ null_ls.setup {
     formatting.stylua,
 
     -- python diagnostics (linter)
-    -- diagnostics.flake8,
+    diagnostics.flake8,
   },
 }
