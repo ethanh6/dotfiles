@@ -7,9 +7,7 @@ end
 configs.setup {   -- mostly officlly suggested setting
   -- A list of parser names, or "all"
   -- ensure_installed = "all", 
-  ensure_installed = { "c", "cpp", "lua", "rust",
-                       "python", "markdown", "regex",
-                       "solidity", "typescript", "bash", "dockerfile", "go", "latex"},
+  ensure_installed = "all",
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
@@ -18,7 +16,7 @@ configs.setup {   -- mostly officlly suggested setting
   auto_install = true,
 
   -- List of parsers to ignore installing (for "all")
-  ignore_install = { "javascript" }, -- List of parsers to ignore installing
+  ignore_install = { "phpdoc" }, -- List of parsers to ignore installing
 
 
   autopairs = {
@@ -43,7 +41,12 @@ configs.setup {   -- mostly officlly suggested setting
     additional_vim_regex_highlighting = true,
 
   },
-  indent = { enable = true, disable = { "" } },
+
+  indent = {
+    enable = true,
+    disable = { "cpp", "python" }
+  },
+
   rainbow = {
     enable = true,
     -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for

@@ -97,13 +97,14 @@ return packer.startup(function(use)
   }
 
   -- nice rainbow bracket
-  use "p00f/nvim-ts-rainbow" 
+  use "p00f/nvim-ts-rainbow"
 
   -- indent level visual guide
-  use {"lukas-reineke/indent-blankline.nvim", 
+  use { "lukas-reineke/indent-blankline.nvim",
+    space_char_blankline = " ",
     show_current_context = true,
     show_current_context_start = true,
-    show_end_of_line = true,
+    show_end_of_line = false,
   }
 
   -- MarkdownPreview

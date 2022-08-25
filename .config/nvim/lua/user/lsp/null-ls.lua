@@ -26,6 +26,6 @@ null_ls.setup {
     formatting.stylua,
 
     -- python diagnostics (linter)
-    diagnostics.flake8,
+    -- diagnostics.flake8,
   },
 }

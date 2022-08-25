@@ -55,7 +55,6 @@ nvim_tree.setup {
           empty_open = "",
           symlink = "",
           symlink_open = "",
-          default = "",
         }, --
         git = { -- closed 
           unstaged = "✗",
