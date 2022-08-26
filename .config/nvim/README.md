@@ -54,7 +54,7 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 #### **Diagnostic**
 | Key / Commands | Mode | Functionality | 
 | --- | --- | --- |
-| `<leader>do`  | Normal | Diagnostic Open float window |
+| `<leader><space>`  | Normal | Diagnostic Open float window |
 | `<leader>dgn`  | Normal | Diagnostic Goto Next |
 | `<leader>dgp`  | Normal | Diagnostic Goto Previous |
 
