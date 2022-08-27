@@ -122,6 +122,7 @@ end)
 | `<leader>ff` | Find Files |
 | `<leader>fg` | Find Grep (search string live results) |
 | `<leader>fb` | Find Buffers (aks tabs) |
+| `<leader>fh` | Find help tabs (documentations) |
 | `<leader>fcmd` | Find available CoMmands |
 | `<leader>fch` | Find Commands Fistory |
 | `<leader>fsh` | Find Search History |
