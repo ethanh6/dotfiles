@@ -122,7 +122,7 @@ end)
 | `<leader>ff` | Find Files |
 | `<leader>fg` | Find Grep (search string live results) |
 | `<leader>fb` | Find Buffers (aks tabs) |
-| `<leader>fh` | Find help tabs (documentations) |
+| `<leader>fh` | Find Help tabs (documentations) |
 | `<leader>fcmd` | Find available CoMmands |
 | `<leader>fch` | Find Commands Fistory |
 | `<leader>fsh` | Find Search History |
@@ -261,5 +261,23 @@ as it causes unexpected behaviors like kicking you out of neovim
 
 ## null-ls - LSP extension and injection (add extra sauce)
 
+
+
+# Debug 
+
+Try updating neovim and plugins and see if that fix the problem.
+
+Usually the bug has appeared before and is already be fixed, so a update usually works.
+
+- For example, for parser errors, try:
+
+`:TSUpdate`
+
+- For plugin errors, try:
+
+`:PlugUpdate` (if using Packer)
+
+- For some functionality not working, such as `live_grep()` from telecope, check that 
+is the executable is is installed in the path?
 
 
