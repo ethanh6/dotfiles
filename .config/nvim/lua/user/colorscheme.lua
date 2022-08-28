@@ -3,7 +3,8 @@
 
 
 -- local colorscheme = "tokyonight"
-local colorscheme = "gruvbox"
+--[[ local colorscheme = "gruvbox" ]]
+local colorscheme = "nightfox"
 
 -- protected call
 local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)

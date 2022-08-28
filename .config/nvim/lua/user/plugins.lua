@@ -51,6 +51,7 @@ return packer.startup(function(use)
   -- colorschemes
   use 'morhetz/gruvbox'
   use 'folke/tokyonight.nvim'
+  use "EdenEast/nightfox.nvim"
 
   -- cmp plugins (completion) 
   use "hrsh7th/nvim-cmp"         -- The completion plugin
@@ -137,6 +138,18 @@ return packer.startup(function(use)
 
   -- latex
   use "lervag/vimtex"
+
+  -- pop-up prompt of keybindings
+  use {
+  "folke/which-key.nvim",
+  config = function()
+    require("which-key").setup {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    }
+  end
+}
 
 
   -- Automatically set up your configuration after cloning packer.nvim
