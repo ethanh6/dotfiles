@@ -31,6 +31,7 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 | [treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Syntax Parser |
 | [indent-blankline](https://github.com/lukas-reineke/indent-blankline.nvim) | Indentation Visual Guide |
 | [vimtex](https://github.com/lukas-reineke/indent-blankline.nvim) | Latex Support |
+| [numb.nvim](https://github.com/nacro90/numb.nvim) | Peek lines when typing `:<line number>` |
 | <del>lualine.nvim</del> | <del>Status Line</del> |
 
 # Keymaps and Commands

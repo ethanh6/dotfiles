@@ -155,6 +155,11 @@ _G.packer_plugins = {
     path = "/Users/ethanhuang/.local/share/nvim/site/pack/packer/start/null-ls.nvim",
     url = "https://github.com/jose-elias-alvarez/null-ls.nvim"
   },
+  ["numb.nvim"] = {
+    loaded = true,
+    path = "/Users/ethanhuang/.local/share/nvim/site/pack/packer/start/numb.nvim",
+    url = "https://github.com/nacro90/numb.nvim"
+  },
   ["nvim-autopairs"] = {
     loaded = true,
     path = "/Users/ethanhuang/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
@@ -199,6 +204,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/ethanhuang/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/kyazdani42/nvim-web-devicons"
+  },
+  ["onedark.nvim"] = {
+    loaded = true,
+    path = "/Users/ethanhuang/.local/share/nvim/site/pack/packer/start/onedark.nvim",
+    url = "https://github.com/navarasu/onedark.nvim"
   },
   ["packer.nvim"] = {
     loaded = true,

@@ -30,7 +30,7 @@ if not status_ok then
   return
 end
 
--- manually setup initialization. pass a table to packer.init() 
+-- manually setup initialization. pass a table to packer.init()
 packer.init {
   -- Have packer use a popup window by overwriting open_fn
   display = {
@@ -45,32 +45,33 @@ return packer.startup(function(use)
 
   -- plugins here
   use "wbthomason/packer.nvim" -- Have packer manage itself
-  use "nvim-lua/popup.nvim"    -- An implementation of the Popup API from vim in Neovim
-  use "nvim-lua/plenary.nvim"  -- Useful lua functions used ny lots of plugins
+  use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
+  use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
 
   -- colorschemes
   use 'morhetz/gruvbox'
   use 'folke/tokyonight.nvim'
   use "EdenEast/nightfox.nvim"
+  use 'navarasu/onedark.nvim'
 
-  -- cmp plugins (completion) 
-  use "hrsh7th/nvim-cmp"         -- The completion plugin
-  use "hrsh7th/cmp-buffer"       -- buffer completions
-  use "hrsh7th/cmp-path"         -- path completions
-  use "hrsh7th/cmp-cmdline"      -- cmdline completions
+  -- cmp plugins (completion)
+  use "hrsh7th/nvim-cmp" -- The completion plugin
+  use "hrsh7th/cmp-buffer" -- buffer completions
+  use "hrsh7th/cmp-path" -- path completions
+  use "hrsh7th/cmp-cmdline" -- cmdline completions
   use "saadparwaiz1/cmp_luasnip" -- snippet completions
   use "hrsh7th/cmp-nvim-lsp"
 
   -- snippets
-  use "L3MON4D3/LuaSnip"             --snippet engine
+  use "L3MON4D3/LuaSnip" --snippet engine
   use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
 
   -- start page
   use {
     'goolord/alpha-nvim',
     requires = { 'kyazdani42/nvim-web-devicons' },
-    config = function ()
-        require'alpha'.setup(require'alpha.themes.startify'.config)
+    config = function()
+      require 'alpha'.setup(require 'alpha.themes.startify'.config)
     end
   }
 
@@ -78,17 +79,17 @@ return packer.startup(function(use)
   use "neovim/nvim-lspconfig" -- enable LSP
   use "williamboman/nvim-lsp-installer" -- simple to use language server installer
   use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
-  
-  -- for python linting: pylink or pep8 
+
+  -- for python linting: pylink or pep8
 
   -- Telescope
   use { "nvim-telescope/telescope.nvim",
-        tag='0.1.0',
-        requires = { {'nvim-lua/plenary.nvim'} }
+    tag = '0.1.0',
+    requires = { { 'nvim-lua/plenary.nvim' } }
   }
-  use 'nvim-telescope/telescope-media-files.nvim'  -- preview image in telescope
-  use "BurntSushi/ripgrep"  -- regex file search, suggested dependency by official
-  use "sharkdp/fd"  -- `find` alternative, suggested dependency by official
+  use 'nvim-telescope/telescope-media-files.nvim' -- preview image in telescope
+  use "BurntSushi/ripgrep" -- regex file search, suggested dependency by official
+  use "sharkdp/fd" -- `find` alternative, suggested dependency by official
 
 
   -- Treesitter
@@ -110,11 +111,11 @@ return packer.startup(function(use)
 
   -- MarkdownPreview
   -- cd app && ./install.sh
-  use {'iamcco/markdown-preview.nvim'}
+  use { 'iamcco/markdown-preview.nvim' }
 
   -- Comment
   use "numToStr/Comment.nvim"
-  use 'JoosepAlviste/nvim-ts-context-commentstring'   -- ts stands for treesitter
+  use 'JoosepAlviste/nvim-ts-context-commentstring' -- ts stands for treesitter
 
   -- Autopair
   use "windwp/nvim-autopairs"
@@ -141,16 +142,18 @@ return packer.startup(function(use)
 
   -- pop-up prompt of keybindings
   use {
-  "folke/which-key.nvim",
-  config = function()
-    require("which-key").setup {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    }
-  end
-}
+    "folke/which-key.nvim",
+    config = function()
+      require("which-key").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+    end
+  }
 
+  -- peak line!!!
+  use 'nacro90/numb.nvim'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
@@ -158,5 +161,3 @@ return packer.startup(function(use)
     require("packer").sync()
   end
 end)
-
-
