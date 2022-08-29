@@ -32,6 +32,7 @@ $ ln -sf ~/dotfiles/.config/nvim/ ~/.config/nvim
 | [indent-blankline](https://github.com/lukas-reineke/indent-blankline.nvim) | Indentation Visual Guide |
 | [vimtex](https://github.com/lukas-reineke/indent-blankline.nvim) | Latex Support |
 | [numb.nvim](https://github.com/nacro90/numb.nvim) | Peek lines when typing `:<line number>` |
+| [goyo.vim](https://github.com/nacro90/numb.nvim) | Distraction free mode |
 | <del>lualine.nvim</del> | <del>Status Line</del> |
 
 # Keymaps and Commands
@@ -257,6 +258,10 @@ as it causes unexpected behaviors like kicking you out of neovim
 ## nvim-lspconfig & null-ls - LSP (Language Server Protocol)
 
 > config files: `lua/user/lsp/*`
+
+| Key / Commands | Functionality | 
+| --- | --- |
+| `:Foramt` | Format current buffer |
 
 
 

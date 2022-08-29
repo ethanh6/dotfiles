@@ -130,6 +130,11 @@ _G.packer_plugins = {
     path = "/Users/ethanhuang/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
   },
+  ["goyo.vim"] = {
+    loaded = true,
+    path = "/Users/ethanhuang/.local/share/nvim/site/pack/packer/start/goyo.vim",
+    url = "https://github.com/junegunn/goyo.vim"
+  },
   gruvbox = {
     loaded = true,
     path = "/Users/ethanhuang/.local/share/nvim/site/pack/packer/start/gruvbox",

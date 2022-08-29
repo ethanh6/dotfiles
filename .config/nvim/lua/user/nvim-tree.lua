@@ -124,7 +124,7 @@ nvim_tree.setup {
       },
     },
     number = true,
-    relativenumber = true,
+    relativenumber = false,
     float = {
       enable = false,
       open_win_config = {

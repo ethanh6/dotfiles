@@ -46,7 +46,7 @@ keymap("n", "<leader>v", "<C-v>", opts)
 
 -- Easy edit and source vimrc (for Neovim, it's ~/.config/nvim/init.lua)
 -- keymap("n", "<leader>ev", ":vsplit $MYVIMRC<CR>", opts)
-keymap("n", "<leader>sv", ":source $MYVIMRC<CR>", opts)
+-- keymap("n", "<leader>sv", ":source $MYVIMRC<CR>", opts)
 
 -- Resize with arrows (this might be little off due to different buffer position)
 keymap("n", "<C-Up>", ":resize +2<CR>", opts)
@@ -67,7 +67,7 @@ keymap("n", "<leader>fch", "<cmd>Telescope command_history<cr>", opts)
 keymap("n", "<leader>fsh", "<cmd>Telescope search_history<cr>", opts)
 
 
--- diagnostic 
+-- diagnostic
 keymap("n", "<leader><space>", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
 keymap("n", "<leader>dgn", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
 keymap("n", "<leader>dgp", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
@@ -76,6 +76,9 @@ keymap("n", "<leader>dgp", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
 keymap("n", "<leader>gnh", ":Gitsigns next_hunk <cr>", opts)
 keymap("n", "<leader>gph", ":Gitsigns prev_hunk <cr>", opts)
 keymap("n", "<leader>gbl", ":Gitsigns blame_line <cr>", opts)
+
+-- LSP: format
+keymap("n", ":format", ":lua vim.lsp.buf.formatting_sync() <cr>", opts)
 
 
 -- Visual Mode --
@@ -151,5 +154,5 @@ keymap("v", "<leader>P", "\"+p", term_opts)
 -- end of copy and paste configuration
 -----------------------------------------------------
 
--- close buffer 
+-- close buffer
 keymap("n", "<leader>ww", ":Bdelete<cr>", term_opts)
