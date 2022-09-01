@@ -131,10 +131,10 @@ cmp.setup {
 
   -- sources of the completions -> the order matters!
   sources = {
+    { name = "buffer" },
     { name = "nvim_lsp" },
     { name = "nvim_lua" },
     { name = "luasnip" },
-    { name = "buffer" },
     { name = "path" },
   },
   confirm_opts = {
