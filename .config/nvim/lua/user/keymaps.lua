@@ -80,6 +80,9 @@ keymap("n", "<leader>gbl", ":Gitsigns blame_line <cr>", opts)
 -- LSP: format
 keymap("n", ":format", ":lua vim.lsp.buf.formatting_sync() <cr>", opts)
 
+-- run python single file script
+keymap("n", "<leader>rr", ":exec '!python3' shellescape(@%, 1) <cr>", opts)
+
 
 -- Visual Mode --
 -- Stay in indent mode
