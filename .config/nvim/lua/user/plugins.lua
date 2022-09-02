@@ -150,9 +150,6 @@ return packer.startup(function(use)
     end,
   })
 
-  -- peak line!!!
-  --[[ use("nacro90/numb.nvim") ]]
-
   -- zen mode
   use({
     "folke/zen-mode.nvim",
@@ -167,6 +164,9 @@ return packer.startup(function(use)
       })
     end,
   })
+
+  -- code runner
+  use({ 'michaelb/sniprun' })
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

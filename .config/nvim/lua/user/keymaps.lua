@@ -80,8 +80,6 @@ keymap("n", "<leader>gbl", ":Gitsigns blame_line <cr>", opts)
 -- LSP: format
 keymap("n", ":format", ":lua vim.lsp.buf.formatting_sync() <cr>", opts)
 
--- run python single file script
-keymap("n", "<leader>rr", ":exec '!python3' shellescape(@%, 1) <cr>", opts)
 
 
 -- Visual Mode --
@@ -124,32 +122,21 @@ keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 -----------------------------------------------------
 
 -- yank visual block
--- vnoremap  <leader>y  "+y
 keymap("v", "<leader>y", "\"+y", term_opts)
 
 -- yank the line (can append number at the end)
--- nnoremap  <leader>y  "+y
 keymap("n", "<leader>y", "\"+y", term_opts)
 
 -- yank to the end of the line
--- nnoremap  <leader>Y  "+yg_
 keymap("n", "<leader>Y", "\"+yg_", term_opts)
 
 -- yank the entire line
--- nnoremap  <leader>yy  "+yy
 keymap("n", "<leader>yy", "\"+yy", term_opts)
 
 -- Paste from clipboard
--- nnoremap <leader>p "+p
 keymap("n", "<leader>p", "\"+p", term_opts)
-
--- nnoremap <leader>P "+P
 keymap("n", "<leader>P", "\"+p", term_opts)
-
--- vnoremap <leader>p "+p
 keymap("v", "<leader>p", "\"+p", term_opts)
-
--- vnoremap <leader>P "+P
 keymap("v", "<leader>P", "\"+p", term_opts)
 
 
