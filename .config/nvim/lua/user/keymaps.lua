@@ -146,3 +146,7 @@ keymap("v", "<leader>P", "\"+p", term_opts)
 
 -- close buffer
 keymap("n", "<leader>ww", ":Bdelete<cr>", term_opts)
+
+-- run python single file script
+keymap("n", "<leader>rrp", ":exec '!python3' shellescape(@%, 1) <cr>", opts)
+
