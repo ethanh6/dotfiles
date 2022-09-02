@@ -225,11 +225,6 @@ _G.packer_plugins = {
     path = "/Users/ethanhuang/.local/share/nvim/site/pack/packer/start/ripgrep",
     url = "https://github.com/BurntSushi/ripgrep"
   },
-  sniprun = {
-    loaded = true,
-    path = "/Users/ethanhuang/.local/share/nvim/site/pack/packer/start/sniprun",
-    url = "https://github.com/michaelb/sniprun"
-  },
   ["telescope-media-files.nvim"] = {
     loaded = true,
     path = "/Users/ethanhuang/.local/share/nvim/site/pack/packer/start/telescope-media-files.nvim",
