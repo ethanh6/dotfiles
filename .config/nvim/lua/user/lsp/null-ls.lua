@@ -17,7 +17,7 @@ null_ls.setup {
   sources = {
     -- javascript
     formatting.prettier.with { extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" } },
-    diagnostics.eslint,
+    --[[ diagnostics.eslint, ]]
 
     -- python
     formatting.black.with { extra_args = { "--fast" } },

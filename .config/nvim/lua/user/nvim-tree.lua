@@ -69,7 +69,7 @@ nvim_tree.setup {
     } -- icons
   },
   filters = {
-    dotfiles = true,
+    dotfiles = false,
   },
 
   disable_netrw = true,

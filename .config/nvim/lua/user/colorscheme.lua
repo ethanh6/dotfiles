@@ -6,6 +6,7 @@
 --[[ local colorscheme = "gruvbox" ]]
 --[[ local colorscheme = "nightfox" ]]
 local colorscheme = "dracula"
+--[[ local colorscheme = "catppuccin" ]]
 
 -- protected call
 local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
