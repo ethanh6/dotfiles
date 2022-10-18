@@ -19,9 +19,11 @@ end
 vim.cmd([[
   augroup packer_user_config
     autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+    autocmd BufWritePost plugins.lua source <afile>
   augroup end
 ]])
+
+-- autocmd BufWritePost plugins.lua source <afile> | PackerSync
 
 -- Use a protected call so it don't error out on first use
 local status_ok, packer = pcall(require, "packer")
@@ -35,7 +37,9 @@ packer.init({
 	-- Have packer use a popup window by overwriting open_fn
 	display = {
 		open_fn = function()
-			return require("packer.util").float({ border = "rounded" })
+			return require("packer.util").float({
+				border = "rounded",
+			})
 		end,
 	},
 })
@@ -64,7 +68,7 @@ return packer.startup(function(use)
 	use("hrsh7th/cmp-nvim-lsp")
 
 	-- snippets
-	use("L3MON4D3/LuaSnip") --snippet engine
+	use("L3MON4D3/LuaSnip") -- snippet engine
 	use("rafamadriz/friendly-snippets") -- a bunch of snippets to use
 
 	-- start page
@@ -77,14 +81,26 @@ return packer.startup(function(use)
 	})
 
 	-- LSP
-	use("neovim/nvim-lspconfig") -- enable LSP
-	use("williamboman/nvim-lsp-installer") -- simple to use language server installer
+	use({
+		"neovim/nvim-lspconfig",
+		requires = {
+			"williamboman/mason.nvim",
+			"williamboman/mason-lspconfig.nvim",
+			"WhoIsSethDaniel/mason-tool-installer.nvim",
+		},
+	})
+
 	use("jose-elias-alvarez/null-ls.nvim") -- for formatters and linters
+	use({ "b0o/schemastore.nvim" })
 
 	-- for python linting: pylink or pep8
 
 	-- Telescope
-	use({ "nvim-telescope/telescope.nvim", tag = "0.1.0", requires = { { "nvim-lua/plenary.nvim" } } })
+	use({
+		"nvim-telescope/telescope.nvim",
+		tag = "0.1.0",
+		requires = { { "nvim-lua/plenary.nvim" } },
+	})
 	use("nvim-telescope/telescope-media-files.nvim") -- preview image in telescope
 	use("BurntSushi/ripgrep") -- regex file search, suggested dependency by official
 	use("sharkdp/fd") -- `find` alternative, suggested dependency by official
@@ -93,7 +109,9 @@ return packer.startup(function(use)
 	use({
 		"nvim-treesitter/nvim-treesitter",
 		run = function()
-			require("nvim-treesitter.install").update({ with_sync = true })
+			require("nvim-treesitter.install").update({
+				with_sync = true,
+			})
 		end,
 	})
 
@@ -178,14 +196,11 @@ return packer.startup(function(use)
 			local saga = require("lspsaga")
 
 			saga.init_lsp_saga({
-        border_style = "double",
-        saga_winblend = 0,
+				border_style = "double",
+				saga_winblend = 0,
 			})
 		end,
 	})
-
-  -- Obsidian
-  use 'epwalsh/obsidian.nvim'
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
