@@ -50,6 +50,7 @@ vim.opt.listchars:append "space:⋅"
 vim.opt.listchars:append "space: "
 vim.opt.listchars:append "eol:↴"
 
+vim.diagnostic.config({ virtual_text = false})
 
 for k, v in pairs(options) do
   vim.opt[k] = v

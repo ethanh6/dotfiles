@@ -189,18 +189,18 @@ return packer.startup(function(use)
 	use("nvim-lualine/lualine.nvim")
 
 	-- pretty lsp info
-	use({
-		"glepnir/lspsaga.nvim",
-		branch = "main",
-		config = function()
-			local saga = require("lspsaga")
-
-			saga.init_lsp_saga({
-				border_style = "double",
-				saga_winblend = 0,
-			})
-		end,
-	})
+	--[[ use({ ]]
+	--[[ 	"glepnir/lspsaga.nvim", ]]
+	--[[ 	branch = "main", ]]
+	--[[ 	config = function() ]]
+	--[[ 		local saga = require("lspsaga") ]]
+	--[[]]
+	--[[ 		saga.init_lsp_saga({ ]]
+	--[[ 			border_style = "double", ]]
+	--[[ 			saga_winblend = 0, ]]
+	--[[ 		}) ]]
+	--[[ 	end, ]]
+	--[[ }) ]]
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

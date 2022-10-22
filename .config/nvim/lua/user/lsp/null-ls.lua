@@ -11,24 +11,29 @@ local formatting = null_ls.builtins.formatting
 -- checkout the repo and the path
 -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
 local diagnostics = null_ls.builtins.diagnostics
+local hover = null_ls.builtins.hover
+local completion = null_ls.builtins.completion
+local code_actions = null_ls.builtins.code_actions
 
-null_ls.setup {
-  debug = false,
-  sources = {
-    -- javascript
-    formatting.prettier.with { extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" } },
-    --[[ diagnostics.eslint, ]]
+local sources = {
+  -- javascript
+  formatting.prettier.with { extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" } },
+  --[[ diagnostics.eslint, ]]
 
-    -- python
-    formatting.black.with { extra_args = { "--fast" } },
-    diagnostics.flake8, -- diagnostics (linter)
+  -- python
+  formatting.black.with { extra_args = { "--fast" } },
+  diagnostics.flake8,
 
-    -- lua
-    formatting.stylua,
+  -- lua
+  formatting.stylua,
 
-    -- cpp
-    formatting.clang_format,
-    diagnostics.cppcheck,
-
-  },
+  -- cpp
+  formatting.clang_format,
+  diagnostics.cppcheck,
 }
+
+null_ls.setup({
+  debug = false,
+  sources = sources,
+})
+
