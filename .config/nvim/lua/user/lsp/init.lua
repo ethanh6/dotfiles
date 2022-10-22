@@ -19,3 +19,4 @@ require("mason-lspconfig").setup({
 })
 
 require("user.lsp.null-ls")
+require("user.lsp.handlers").setup()
