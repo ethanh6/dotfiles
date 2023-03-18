@@ -55,7 +55,7 @@ return packer.startup(function(use)
 	use("morhetz/gruvbox")
 	use("folke/tokyonight.nvim")
 	use("EdenEast/nightfox.nvim")
-	use("navarasu/onedark.nvim")
+	-- use("navarasu/onedark.nvim")
 	use("Mofiqul/dracula.nvim")
 	use("catppuccin/nvim")
 

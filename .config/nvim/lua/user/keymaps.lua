@@ -66,7 +66,6 @@ keymap("n", "<leader>fcmd", "<cmd>Telescope commands<cr>", opts)
 keymap("n", "<leader>fch", "<cmd>Telescope command_history<cr>", opts)
 keymap("n", "<leader>fsh", "<cmd>Telescope search_history<cr>", opts)
 
-
 -- diagnostic
 keymap("n", "<leader><space>", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
 keymap("n", "<leader>dgn", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
@@ -78,8 +77,13 @@ keymap("n", "<leader>gph", ":Gitsigns prev_hunk <cr>", opts)
 keymap("n", "<leader>gbl", ":Gitsigns blame_line <cr>", opts)
 
 -- LSP: format
-keymap("n", ":format", ":lua vim.lsp.buf.formatting_sync() <cr>", opts)
+keymap("n", ":format", ":lua vim.lsp.buf.format() <cr>", opts)
 
+-- build and run Leetcode solutions -> github.com/ethanh6/LeetCode
+--
+--[[ keymap("n", "<leader>make-asdf", ":make -C build<cr>", { noremap = true, silent = false }) ]]
+--[[ keymap("n", "<leader>rrc-asdf", ":execute '!./build/' . strpart(expand('%:t'), 0, 4)<cr>", { noremap = true, silent = false }) ]]
+keymap("n", "<leader>make", ":make -C build<cr>:execute '!./build/' . strpart(expand('%:t'), 0, 4)<enter>", { noremap = true, silent = false })
 
 
 -- Visual Mode --
@@ -109,12 +113,10 @@ keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 -- open python terminal
 -- keymap("t", "<leader>P", ":lua _PYTHON_TOGGLE()<CR> ", term_opts)
 
-
 -- Enter recording mode: type <leader>qq, and then the register (a~z)
 -- keymap("n", "<leader>qq", "q", opts)
 -- Exit recording mode (default: <C-O>q)
 -- keymap("n", "", "", opts)
-
 
 -----------------------------------------------------
 -- enable copy and paste within neovim / iterm2 / OSX
@@ -122,23 +124,22 @@ keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 -----------------------------------------------------
 
 -- yank visual block
-keymap("v", "<leader>y", "\"+y", term_opts)
+keymap("v", "<leader>y", '"+y', term_opts)
 
 -- yank the line (can append number at the end)
-keymap("n", "<leader>y", "\"+y", term_opts)
+keymap("n", "<leader>y", '"+y', term_opts)
 
 -- yank to the end of the line
-keymap("n", "<leader>Y", "\"+yg_", term_opts)
+keymap("n", "<leader>Y", '"+yg_', term_opts)
 
 -- yank the entire line
-keymap("n", "<leader>yy", "\"+yy", term_opts)
+keymap("n", "<leader>yy", '"+yy', term_opts)
 
 -- Paste from clipboard
-keymap("n", "<leader>p", "\"+p", term_opts)
-keymap("n", "<leader>P", "\"+p", term_opts)
-keymap("v", "<leader>p", "\"+p", term_opts)
-keymap("v", "<leader>P", "\"+p", term_opts)
-
+keymap("n", "<leader>p", '"+p', term_opts)
+keymap("n", "<leader>P", '"+p', term_opts)
+keymap("v", "<leader>p", '"+p', term_opts)
+keymap("v", "<leader>P", '"+p', term_opts)
 
 -----------------------------------------------------
 -- end of copy and paste configuration
@@ -149,4 +150,3 @@ keymap("n", "<leader>ww", ":Bdelete<cr>", term_opts)
 
 -- run python single file script
 keymap("n", "<leader>rrp", ":exec '!python3' shellescape(@%, 1) <cr>", opts)
-

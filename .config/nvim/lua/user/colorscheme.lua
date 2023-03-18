@@ -5,7 +5,7 @@
 -- local colorscheme = "tokyonight"
 local colorscheme = "gruvbox"
 -- local colorscheme = "nightfox"
--- local colorscheme = "dracula"
+--[[ local colorscheme = "dracula" ]]
 --[[ local colorscheme = "catppuccin" ]]
 
 -- protected call
