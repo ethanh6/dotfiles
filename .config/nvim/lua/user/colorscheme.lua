@@ -3,8 +3,8 @@
 
 
 -- local colorscheme = "tokyonight"
-local colorscheme = "gruvbox"
--- local colorscheme = "nightfox"
+--[[ local colorscheme = "gruvbox" ]]
+local colorscheme = "nightfox"
 --[[ local colorscheme = "dracula" ]]
 --[[ local colorscheme = "catppuccin" ]]
 

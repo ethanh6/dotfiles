@@ -77,13 +77,13 @@ keymap("n", "<leader>gph", ":Gitsigns prev_hunk <cr>", opts)
 keymap("n", "<leader>gbl", ":Gitsigns blame_line <cr>", opts)
 
 -- LSP: format
-keymap("n", ":format", ":lua vim.lsp.buf.format() <cr>", opts)
+keymap("n", "<leader>format", ":lua vim.lsp.buf.format() <cr>", opts)
 
 -- build and run Leetcode solutions -> github.com/ethanh6/LeetCode
 --
 --[[ keymap("n", "<leader>make-asdf", ":make -C build<cr>", { noremap = true, silent = false }) ]]
 --[[ keymap("n", "<leader>rrc-asdf", ":execute '!./build/' . strpart(expand('%:t'), 0, 4)<cr>", { noremap = true, silent = false }) ]]
-keymap("n", "<leader>make", ":make -C build<cr>:execute '!./build/' . strpart(expand('%:t'), 0, 4)<enter>", { noremap = true, silent = false })
+keymap("n", "<leader>mk", ":execute '!make -C build '.strpart(expand('%:t'), 0, 4)<cr>:execute '!./build/'.strpart(expand('%:t'), 0, 4)<enter>:make -C build clean<enter>", { noremap = true, silent = false })
 
 
 -- Visual Mode --
