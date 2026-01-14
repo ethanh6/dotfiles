@@ -22,3 +22,6 @@ LICENSE
 # OS files
 \.DS_Store
 Thumbs\.db
+
+# Local config files (machine-specific, not symlinked)
+.*\.local\..*
