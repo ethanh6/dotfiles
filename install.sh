@@ -161,8 +161,8 @@ stow_packages() {
 
     cd "$DOTFILES_DIR"
 
-    # Stow each package
-    local packages=(bash git nvim vim)
+    # Stow each package (all available)
+    local packages=(bash btop claude fish git htop nvim tmux vim zsh)
 
     for pkg in "${packages[@]}"; do
         if [[ -d "$DOTFILES_DIR/$pkg" ]]; then
@@ -203,12 +203,18 @@ print_summary() {
     echo ""
     echo "Installed packages and created symlinks for:"
     echo "  - bash (~/.bashrc)"
-    echo "  - git (~/.gitconfig)"
+    echo "  - btop (~/.config/btop)"
+    echo "  - claude (~/.claude)"
+    echo "  - fish (~/.config/fish)"
+    echo "  - git (~/.gitconfig, ~/.config/git)"
+    echo "  - htop (~/.config/htop)"
     echo "  - nvim (~/.config/nvim)"
+    echo "  - tmux (~/.tmux.conf, ~/.tmux)"
     echo "  - vim (~/.vimrc, ~/.vim)"
+    echo "  - zsh (~/.zshrc, ~/.zshenv, ~/.zprofile, ~/.p10k.zsh)"
     echo ""
     echo "Next steps:"
-    echo "  1. Restart your terminal or run: source ~/.bashrc"
+    echo "  1. Restart your terminal or run: source ~/.bashrc (or ~/.zshrc)"
     echo "  2. Open nvim and run :PackerSync if plugins didn't install"
     echo "  3. Run :Mason in nvim to install LSP servers"
     echo ""

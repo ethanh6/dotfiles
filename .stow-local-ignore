@@ -7,6 +7,8 @@ Brewfile
 README.*
 CLAUDE\.md
 LICENSE
+Dockerfile
+test\.sh
 
 # Version control
 \.git

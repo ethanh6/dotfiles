@@ -26,24 +26,37 @@ This will:
 
 ## Configs
 
-| Package | Description |
-|---------|-------------|
-| `nvim`  | Neovim - Lua-based config with Packer |
-| `bash`  | Bash shell configuration |
-| `git`   | Git configuration |
-| `vim`   | Legacy Vim config (deprecated) |
+| Package  | Description |
+|----------|-------------|
+| `bash`   | Bash shell configuration |
+| `btop`   | btop system monitor |
+| `claude` | Claude Code settings |
+| `fish`   | Fish shell configuration |
+| `git`    | Git configuration |
+| `htop`   | htop process viewer |
+| `nvim`   | Neovim - Lua-based config with Packer |
+| `tmux`   | Tmux terminal multiplexer |
+| `vim`    | Legacy Vim config (deprecated) |
+| `zsh`    | Zsh shell with Powerlevel10k |
 
 ## Directory Structure
 
 ```
 dotfiles/
-├── nvim/.config/nvim/   # → ~/.config/nvim
-├── bash/.bashrc         # → ~/.bashrc
-├── git/.gitconfig       # → ~/.gitconfig
-├── vim/.vimrc           # → ~/.vimrc
-├── vim/.vim/            # → ~/.vim
-├── install.sh           # Installation script
-└── Brewfile             # Homebrew dependencies
+├── bash/.bashrc            # → ~/.bashrc
+├── btop/.config/btop/      # → ~/.config/btop
+├── claude/.claude/         # → ~/.claude
+├── fish/.config/fish/      # → ~/.config/fish
+├── git/.gitconfig          # → ~/.gitconfig
+├── htop/.config/htop/      # → ~/.config/htop
+├── nvim/.config/nvim/      # → ~/.config/nvim
+├── tmux/.tmux.conf         # → ~/.tmux.conf
+├── vim/.vimrc              # → ~/.vimrc
+├── zsh/.zshrc              # → ~/.zshrc
+├── install.sh              # Installation script
+├── test.sh                 # Docker test script
+├── Dockerfile              # Docker test environment
+└── Brewfile                # Homebrew dependencies
 ```
 
 ## Manual Stow Usage
@@ -80,13 +93,24 @@ See `Brewfile` for full list. Key packages:
 
 Installed via apt: git, stow, fzf, ripgrep, fd-find, neovim, curl
 
+## Testing in Docker
+
+Test the installation in an isolated environment:
+
+```bash
+./test.sh              # Build and verify all symlinks
+./test.sh -i           # Interactive shell to explore
+```
+
+Or manually:
+
+```bash
+docker build -t dotfiles-test .
+docker run -it --rm dotfiles-test
+```
+
 ## Post-Install
 
-1. Restart terminal or `source ~/.bashrc`
+1. Restart terminal or `source ~/.bashrc` (or `~/.zshrc`)
 2. Open nvim and run `:PackerSync`
 3. Run `:Mason` to install LSP servers
-
-## Todo
-
-- [ ] Migrate to zsh / oh-my-zsh
-- [ ] Add tmux configuration

@@ -16,15 +16,41 @@ cd ~/dotfiles
 
 Options: `--packages-only` (install deps only), `--stow-only` (symlinks only)
 
+## Testing in Docker
+
+Test the installation script in an isolated environment:
+
+```bash
+./test.sh              # Build and verify symlinks
+./test.sh -i           # Interactive shell to explore
+```
+
+Or manually:
+
+```bash
+docker build -t dotfiles-test .
+docker run -it --rm dotfiles-test
+```
+
 ## Repository Structure
 
 ```
-nvim/.config/nvim/     # Neovim config (stow nvim → ~/.config/nvim)
-bash/.bashrc           # Bash config (stow bash → ~/.bashrc)
-git/.gitconfig         # Git config (stow git → ~/.gitconfig)
-vim/                   # Legacy Vim (deprecated)
-install.sh             # Installation script
-Brewfile               # Homebrew dependencies
+bash/.bashrc              # Bash config
+btop/.config/btop/        # btop config
+claude/.claude/           # Claude Code settings
+fish/.config/fish/        # Fish shell config
+git/.gitconfig            # Git config
+git/.config/git/          # Git ignore patterns
+htop/.config/htop/        # htop config
+nvim/.config/nvim/        # Neovim config
+tmux/.tmux.conf           # Tmux config
+vim/.vimrc                # Legacy Vim (deprecated)
+zsh/.zshrc                # Zsh config + p10k theme
+install.sh                # Installation script
+test.sh                   # Docker test script
+Dockerfile                # Docker test environment
+Brewfile                  # Homebrew dependencies
+.stow-local-ignore        # Files to exclude from stowing
 ```
 
 ## Stow Commands
