@@ -1,0 +1,24 @@
+# Stow ignore patterns (Perl regex)
+# These files will not be symlinked
+
+# Repository files
+install\.sh
+Brewfile
+README.*
+CLAUDE\.md
+LICENSE
+
+# Version control
+\.git
+\.gitignore
+\.gitmodules
+
+# Editor/IDE
+\.vscode
+\.idea
+.*\.swp
+.*\.swo
+
+# OS files
+\.DS_Store
+Thumbs\.db
