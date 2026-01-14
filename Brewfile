@@ -2,14 +2,21 @@
 # Install with: brew bundle
 
 # Taps
-tap "homebrew/bundle"
+# tap "homebrew/bundle"
 
 # Core tools
 brew "git"
 brew "stow"
 brew "neovim"
 
+# Shells
+brew "zsh"
+brew "fish"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
+
 # Shell enhancements
+brew "btop"
 brew "fzf"
 brew "ripgrep"
 brew "fd"
@@ -21,7 +28,9 @@ brew "jq"
 brew "tmux"
 brew "lazyssh"
 brew "gotop"
-brew "fish"
+
+# Claude Code
+brew "ccusage"
 
 # Development tools
 brew "node"
@@ -44,7 +53,7 @@ cask "rectangle"
 
 # Optional: Fonts (uncomment if desired)
 tap "homebrew/cask-fonts"
-cask "font-fira-code-nerd-font"
+# cask "font-fira-code-nerd-font"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-hack-nerd-font"
 

@@ -1,0 +1,14 @@
+{
+  "model": "opus",
+  "enabledPlugins": {
+    "lua-lsp@claude-plugins-official": true
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "printf '\\033[38;5;75m%s@%s:\\033[0m\\033[38;5;6m[%s]\\033[0m: ' \"$(whoami)\" \"$(hostname -s)\" \"$(pwd)\""
+  }
+}
