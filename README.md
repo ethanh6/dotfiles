@@ -1,42 +1,92 @@
 # dotfiles
 
+Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/).
+
+## Quick Install
+
+```bash
+git clone https://github.com/ethanh6/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+./install.sh
+```
+
+This will:
+- Install dependencies via Homebrew (macOS) or apt (Linux)
+- Backup any existing dotfiles
+- Create symlinks using GNU Stow
+- Bootstrap Neovim plugins
+
+### Install Options
+
+```bash
+./install.sh                 # Full installation
+./install.sh --packages-only # Only install packages
+./install.sh --stow-only     # Only create symlinks
+```
+
 ## Configs
-1. neovim (nvim) -> extensible vim alternative
-2. vim
-3. git
-4. bash
 
-## symlink structure
-- `~/.bashrc -> ~/dotfiles/bash/.bashrc`
-- `~/.gitconfig -> ~/dotfiles/git/.gitconfig`
-- `~/.config/nvim -> ~/dotfiles/.config/nvim` (symlink to directory)
-- `~/.vim -> ~/dotfiles/vim/.vim` (symlink to directory)
-- `~/.vimrc -> ~/dotfiles/vim/.vimrc`
+| Package | Description |
+|---------|-------------|
+| `nvim`  | Neovim - Lua-based config with Packer |
+| `bash`  | Bash shell configuration |
+| `git`   | Git configuration |
+| `vim`   | Legacy Vim config (deprecated) |
 
-## To create symlink
-`ln` command with `-s` (symbolic)
+## Directory Structure
 
 ```
-    $ ln -s <path to file/folder> <path to link>
+dotfiles/
+├── nvim/.config/nvim/   # → ~/.config/nvim
+├── bash/.bashrc         # → ~/.bashrc
+├── git/.gitconfig       # → ~/.gitconfig
+├── vim/.vimrc           # → ~/.vimrc
+├── vim/.vim/            # → ~/.vim
+├── install.sh           # Installation script
+└── Brewfile             # Homebrew dependencies
 ```
 
+## Manual Stow Usage
 
-or use `stow` (gnu dotfile manager)
+Stow individual packages:
 
-```
-    $ git clone https://github.com/ethanh6/dotfiles.git
-    $ cd ~/dotfiles
-    $ stow --dir=~/dotfiles --target=~/
+```bash
+cd ~/dotfiles
+stow nvim    # Symlinks ~/.config/nvim
+stow bash    # Symlinks ~/.bashrc
+stow git     # Symlinks ~/.gitconfig
 ```
 
-## To remove symlink
+Unstow (remove symlinks):
 
+```bash
+stow -D nvim
 ```
-    $ unlink <path to link> 
+
+Restow (re-create symlinks):
+
+```bash
+stow -R nvim
 ```
-note: do not include `/` at the end even if it's a dir since linux will assume it's a dir and `unlink` can't delete a dir.
+
+## Dependencies
+
+### macOS (via Homebrew)
+
+See `Brewfile` for full list. Key packages:
+- neovim, git, stow, fzf, ripgrep, fd, node, lazygit
+
+### Linux (Debian/Ubuntu)
+
+Installed via apt: git, stow, fzf, ripgrep, fd-find, neovim, curl
+
+## Post-Install
+
+1. Restart terminal or `source ~/.bashrc`
+2. Open nvim and run `:PackerSync`
+3. Run `:Mason` to install LSP servers
 
 ## Todo
-- [ ] Create installation script
-- [ ] Migrate to zsh / oh-my-zsh (?)
-- [ ] Configure Tmux
+
+- [ ] Migrate to zsh / oh-my-zsh
+- [ ] Add tmux configuration
