@@ -132,6 +132,9 @@ return {
     vim.keymap.set("n", "<leader>fsh", builtin.search_history, { desc = "[F]ind [S]earch [H]istory" })
     vim.keymap.set("n", "<leader>fgc", builtin.git_commits, { desc = "[F]ind [G]it [C]ommits" })
     vim.keymap.set("n", "<leader>fgt", builtin.git_status, { desc = "[F]ind [G]it S[t]atus" })
+    vim.keymap.set("n", "<leader>fth", function()
+      builtin.colorscheme({ enable_preview = true })
+    end, { desc = "[F]ind [T]heme (colorscheme)" })
 
     -- Slightly advanced example of overriding default behavior and theme
     vim.keymap.set("n", "<leader>/", function()
