@@ -78,6 +78,18 @@ return {
         live_grep = {
           additional_args = { "--no-ignore" },
         },
+        buffers = {
+          mappings = {
+            i = {
+              ["<C-k>"] = actions.delete_buffer,
+              ["<C-j>"] = actions.nop,
+            },
+            n = {
+              ["<C-k>"] = actions.delete_buffer,
+              ["<C-j>"] = actions.nop,
+            },
+          },
+        },
       },
       extensions = {
         ["ui-select"] = {
