@@ -109,9 +109,16 @@ return {
     vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "[F]ind [K]eymaps" })
     vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" })
     vim.keymap.set("n", "<leader>fs", builtin.builtin, { desc = "[F]ind [S]elect Telescope" })
-    vim.keymap.set("n", "<leader>fw", telescope.extensions.live_grep_args.live_grep_args, { desc = "[F]ind by [W]ord (with args)" })
+    vim.keymap.set(
+      "n",
+      "<leader>fw",
+      telescope.extensions.live_grep_args.live_grep_args,
+      { desc = "[F]ind by [W]ord (with args)" }
+    )
     vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]ind by [G]rep" })
-    vim.keymap.set("n", "<leader>fd", function() builtin.diagnostics({ bufnr = 0 }) end, { desc = "[F]ind [D]iagnostics (buffer)" })
+    vim.keymap.set("n", "<leader>fd", function()
+      builtin.diagnostics({ bufnr = 0 })
+    end, { desc = "[F]ind [D]iagnostics (buffer)" })
     vim.keymap.set("n", "<leader>fD", builtin.diagnostics, { desc = "[F]ind [D]iagnostics (all files)" })
     vim.keymap.set("n", "<leader>fl", builtin.resume, { desc = "[F]ind [L]ast (resume)" })
     vim.keymap.set("n", "<leader>fr", builtin.registers, { desc = "[F]ind [R]egisters" })
