@@ -14,6 +14,25 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagn
 vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "[C]ode [D]iagnostic (float)" })
 vim.keymap.set("n", "<leader>cq", vim.diagnostic.setloclist, { desc = "[C]ode diagnostics to [Q]uickfix" })
 
+-- Git keymaps
+vim.keymap.set("n", "<leader>gm", function()
+  local files = vim.fn.systemlist("git status --porcelain | cut -c4-")
+  if vim.v.shell_error ~= 0 then
+    vim.notify("Not a git repository or git error", vim.log.levels.ERROR)
+    return
+  end
+  -- Filter out empty strings
+  files = vim.tbl_filter(function(f)
+    return f ~= ""
+  end, files)
+  if #files == 0 then
+    vim.notify("No modified files", vim.log.levels.INFO)
+    return
+  end
+  vim.cmd("args " .. table.concat(vim.tbl_map(vim.fn.fnameescape, files), " "))
+  vim.notify("Loaded " .. #files .. " modified file(s)", vim.log.levels.INFO)
+end, { desc = "[G]it [M]odified files open" })
+
 -- Exit terminal mode in the builtin terminal with a shortcut
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
