@@ -44,23 +44,23 @@ vim.keymap.set("n", "<S-l>", "<cmd>bnext<CR>", { desc = "Next buffer" })
 vim.keymap.set("n", "<leader>ww", "<cmd>bd<CR>", { desc = "Close current buffer" })
 
 -- Close all buffers except current
-vim.keymap.set("n", "<leader>bd", function()
-  local current_buf = vim.api.nvim_get_current_buf()
-  local buffers = vim.api.nvim_list_bufs()
-
-  for _, buf in ipairs(buffers) do
-    -- Skip current buffer and special buffers
-    if buf ~= current_buf and vim.api.nvim_buf_is_valid(buf) then
-      local buf_type = vim.bo[buf].buftype
-
-      -- Don't close terminals, help buffers, or other special buffers
-      -- Also don't force-close unsaved buffers
-      if buf_type ~= "terminal" and buf_type ~= "nofile" and buf_type ~= "help" then
-        pcall(vim.api.nvim_buf_delete, buf, { force = false })
-      end
-    end
-  end
-end, { desc = "Close all buffers except current" })
+-- vim.keymap.set("n", "<leader>bd", function()
+--   local current_buf = vim.api.nvim_get_current_buf()
+--   local buffers = vim.api.nvim_list_bufs()
+--
+--   for _, buf in ipairs(buffers) do
+--     -- Skip current buffer and special buffers
+--     if buf ~= current_buf and vim.api.nvim_buf_is_valid(buf) then
+--       local buf_type = vim.bo[buf].buftype
+--
+--       -- Don't close terminals, help buffers, or other special buffers
+--       -- Also don't force-close unsaved buffers
+--       if buf_type ~= "terminal" and buf_type ~= "nofile" and buf_type ~= "help" then
+--         pcall(vim.api.nvim_buf_delete, buf, { force = false })
+--       end
+--     end
+--   end
+-- end, { desc = "Close all buffers except current" })
 
 -- Theme toggle
 vim.keymap.set("n", "<leader>aa", function()

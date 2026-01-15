@@ -52,6 +52,7 @@ return {
       { "<leader>t", group = "[T]oggle" },
       { "<leader>b", group = "[B]uffer" },
       { "<leader>n", group = "[N]oice" },
+      { "<leader>o", group = "[O]bsidian" },
     },
   },
 }
