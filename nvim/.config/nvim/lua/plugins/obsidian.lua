@@ -2,8 +2,8 @@
 return {
   "obsidian-nvim/obsidian.nvim",
   version = "*", -- use latest release, remove to use latest commit
-  lazy = true,
   ft = "markdown",
+  cmd = { "Obsidian" },
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope.nvim",
@@ -24,10 +24,9 @@ return {
     -- Update this to your vault path(s)
     workspaces = {
       {
-        name = "note",
-        path = "~/Documents/Notes/obsidian-vault/",
+        name = "notes",
+        path = "~/Documents/Notes/obsidian-vault",
       },
-
       -- Add more workspaces as needed:
       -- { name = "work", path = "~/work/notes" },
     },
@@ -63,24 +62,23 @@ return {
     -- Wiki links style
     wiki_link_func = "use_alias_only",
 
-    -- Disable legacy commands (use new API)
+    -- Disable legacy commands (ObsidianNew -> Obsidian new)
     legacy_commands = false,
-
-    -- Open URLs in browser
-    follow_url_func = function(url)
-      vim.fn.jobstart({ "open", url }) -- macOS
-      -- vim.fn.jobstart({ "xdg-open", url }) -- Linux
-    end,
 
     -- UI settings
     ui = {
       enable = true,
-      checkboxes = {
+    },
+
+    -- Checkbox configuration
+    checkbox = {
+      states = {
         [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
         ["x"] = { char = "", hl_group = "ObsidianDone" },
         [">"] = { char = "", hl_group = "ObsidianRightArrow" },
         ["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
       },
+      order = { " ", "x", ">", "~" },
     },
   },
 }

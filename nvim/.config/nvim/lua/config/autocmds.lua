@@ -18,3 +18,12 @@ vim.api.nvim_create_autocmd("VimResized", {
   command = "tabdo wincmd =",
   desc = "Auto-resize panes when resizing nvim window",
 })
+
+-- Markdown conceallevel for obsidian.nvim UI features
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.conceallevel = 2
+  end,
+  desc = "Set conceallevel for markdown (obsidian.nvim UI)",
+})
