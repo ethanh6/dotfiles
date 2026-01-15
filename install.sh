@@ -162,7 +162,7 @@ stow_packages() {
     cd "$DOTFILES_DIR"
 
     # Stow each package (all available)
-    local packages=(bash btop claude fish git htop nvim tmux vim zsh)
+    local packages=(bash btop ccusage claude fish git htop nvim tmux vim zsh)
 
     for pkg in "${packages[@]}"; do
         if [[ -d "$DOTFILES_DIR/$pkg" ]]; then
@@ -204,6 +204,7 @@ print_summary() {
     echo "Installed packages and created symlinks for:"
     echo "  - bash (~/.bashrc)"
     echo "  - btop (~/.config/btop)"
+    echo "  - ccusage (~/.config/ccusage)"
     echo "  - claude (~/.claude)"
     echo "  - fish (~/.config/fish)"
     echo "  - git (~/.gitconfig, ~/.config/git)"

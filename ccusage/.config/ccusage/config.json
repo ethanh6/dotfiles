@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ccusage.com/config-schema.json",
+  "defaults": {
+    "json": false,
+    "mode": "auto",
+    "offline": false,
+    "breakdown": true
+  },
+  "commands": {
+    "daily": {
+      "instances": true,
+      "order": "desc"
+    },
+    "monthly": {
+      "breakdown": true
+    },
+    "statusline": {
+      "offline": true
+    }
+  }
+}

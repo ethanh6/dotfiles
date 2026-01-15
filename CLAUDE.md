@@ -37,6 +37,7 @@ docker run -it --rm dotfiles-test
 ```
 bash/.bashrc              # Bash config
 btop/.config/btop/        # btop config
+ccusage/.config/ccusage/  # ccusage CLI config
 claude/.claude/           # Claude Code settings
 fish/.config/fish/        # Fish shell config
 git/.gitconfig            # Git config

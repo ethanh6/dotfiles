@@ -30,6 +30,7 @@ This will:
 |----------|-------------|
 | `bash`   | Bash shell configuration |
 | `btop`   | btop system monitor |
+| `ccusage`| ccusage CLI config |
 | `claude` | Claude Code settings |
 | `fish`   | Fish shell configuration |
 | `git`    | Git configuration |
@@ -45,6 +46,7 @@ This will:
 dotfiles/
 ├── bash/.bashrc            # → ~/.bashrc
 ├── btop/.config/btop/      # → ~/.config/btop
+├── ccusage/.config/ccusage/ # → ~/.config/ccusage
 ├── claude/.claude/         # → ~/.claude
 ├── fish/.config/fish/      # → ~/.config/fish
 ├── git/.gitconfig          # → ~/.gitconfig
