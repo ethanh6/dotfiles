@@ -178,11 +178,10 @@ stow_packages() {
 setup_neovim() {
     info "Setting up Neovim plugins..."
 
-    # Packer bootstrap - it auto-installs on first run
-    # Just run PackerSync headlessly
+    # lazy.nvim auto-installs plugins on first run
     if command -v nvim &> /dev/null; then
-        nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync' 2>/dev/null || true
-        info "Neovim plugins installed (run :PackerSync manually if issues occur)"
+        nvim --headless "+Lazy! sync" +qa 2>/dev/null || true
+        info "Neovim plugins installed (lazy.nvim auto-installs on first run)"
     fi
 }
 
@@ -216,7 +215,7 @@ print_summary() {
     echo ""
     echo "Next steps:"
     echo "  1. Restart your terminal or run: source ~/.bashrc (or ~/.zshrc)"
-    echo "  2. Open nvim and run :PackerSync if plugins didn't install"
+    echo "  2. Open nvim - lazy.nvim will auto-install plugins on first run"
     echo "  3. Run :Mason in nvim to install LSP servers"
     echo ""
 }

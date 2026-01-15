@@ -35,7 +35,7 @@ This will:
 | `fish`   | Fish shell configuration |
 | `git`    | Git configuration |
 | `htop`   | htop process viewer |
-| `nvim`   | Neovim - Lua-based config with Packer |
+| `nvim`   | Neovim - kickstart-based config with lazy.nvim |
 | `tmux`   | Tmux terminal multiplexer |
 | `vim`    | Legacy Vim config (deprecated) |
 | `zsh`    | Zsh shell with Powerlevel10k |
@@ -114,5 +114,5 @@ docker run -it --rm dotfiles-test
 ## Post-Install
 
 1. Restart terminal or `source ~/.bashrc` (or `~/.zshrc`)
-2. Open nvim and run `:PackerSync`
+2. Open nvim - lazy.nvim will auto-install plugins on first run
 3. Run `:Mason` to install LSP servers

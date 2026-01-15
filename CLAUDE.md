@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Personal dotfiles repository managed with GNU Stow, primarily focused on Neovim with a modular Lua-based setup using Packer as the plugin manager.
+Personal dotfiles repository managed with GNU Stow, primarily focused on Neovim with a modular Lua-based setup using lazy.nvim as the plugin manager.
 
 ## Installation
 
@@ -64,22 +64,21 @@ stow -R nvim           # Re-create symlink
 
 ## Neovim Architecture
 
-Entry point: `nvim/.config/nvim/init.lua` - requires all modules in sequence
+Entry point: `nvim/.config/nvim/init.lua` - bootstraps lazy.nvim and loads config
 
-Modules in `nvim/.config/nvim/lua/user/`:
-- `plugins.lua` - Packer plugin specifications (source of truth)
-- `options.lua` - Editor settings (2-space tabs, relative line numbers, clipboard)
-- `keymaps.lua` - Global key mappings (leader = Space)
-- `lsp/init.lua` - Mason LSP manager setup
-- `lsp/handlers.lua` - LSP keymaps and diagnostic styling
-- `lsp/null-ls.lua` - Formatters and linters
-- Individual plugin configs: `telescope.lua`, `cmp.lua`, `treesitter.lua`, etc.
+Structure in `nvim/.config/nvim/lua/`:
+- `config/options.lua` - Editor settings (relative numbers, scrolloff, etc.)
+- `config/keymaps.lua` - Core keymaps and buffer management
+- `config/autocmds.lua` - Autocommands (YAML folding, auto-resize)
+- `plugins/core/` - UI, editor, navigation, oil.nvim
+- `plugins/coding/` - LSP, completion (blink.cmp), formatting (conform.nvim), copilot
+- `plugins/tools/` - Git (lazygit, gitsigns)
+- `plugins/lang/` - Treesitter
 
 **Plugin Management:**
 ```vim
-:PackerSync      " Install/update/compile plugins
-:PackerCompile   " Regenerate packer_compiled.lua
-:TSUpdate        " Update treesitter parsers
+:Lazy            " Open lazy.nvim UI
+:Lazy sync       " Install/update plugins
 :Mason           " Manage LSP servers
 ```
 
@@ -90,28 +89,23 @@ Modules in `nvim/.config/nvim/lua/user/`:
 - **Buffer switch**: Shift-h/l
 - **File finder**: `<leader>ff`
 - **Live grep**: `<leader>fg`
-- **File tree**: `<leader>tt`
-- **Terminal**: Ctrl-\
-- **Format**: `<leader>format`
-
-## Custom Terminals (toggleterm)
-
-Functions defined in `toggleterm.lua`:
-- `_LAZYGIT_TOGGLE()`, `_PYTHON_TOGGLE()`, `_NODE_TOGGLE()`, `_HTOP_TOGGLE()`, `_NCDU_TOGGLE()`
+- **File explorer**: `<leader>-` (oil.nvim)
+- **LazyGit**: `<leader>gg`
+- **Format**: `<leader>fm`
+- **Theme toggle**: `<leader>aa`
 
 ## LSP Servers
 
-Managed via Mason. Configured in `lsp/init.lua`:
-- `sumneko_lua`, `rust_analyzer`
+Managed via Mason (17 servers configured):
+- Web: html, cssls, ts_ls, jsonls
+- Systems: clangd, gopls, pyright
+- Config: yamlls, jsonnet_ls, lua_ls, bashls
 
-Formatters/linters via null-ls: `prettier`, `black`, `stylua`, `clang_format`, `eslint`, `flake8`
-
-## Bash Integrations
-
-`bash/.bashrc` sources: FZF, NVM, Conda, Cargo
+Formatters via conform.nvim: `prettier`, `stylua`, `clang-format`, `shfmt`
 
 ## Notes
 
-- `packer_compiled.lua` is auto-generated
-- Colorscheme set in `colorscheme.lua` (currently nightfox)
+- Neovim >= 0.10.0 required
+- Colorscheme: Catppuccin (dark) / Everforest (light)
 - "Undefined global vim" warnings in Lua files are expected (vim is a Neovim runtime global)
+- See `nvim/.config/nvim/CLAUDE.md` for detailed nvim documentation

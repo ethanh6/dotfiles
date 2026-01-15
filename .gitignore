@@ -1,1 +1,15 @@
-.config/nvim/plugin/packer_compiled.lua
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor backup files
+*.swp
+*.swo
+*~
+
+# Local config files (machine-specific)
+*.local.*
+
+# Neovim generated files
+**/plugin/packer_compiled.lua
+**/.luarc.json
