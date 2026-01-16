@@ -19,6 +19,8 @@ return {
     { "<leader>ol", "<cmd>Obsidian links<CR>", desc = "[O]bsidian [L]inks" },
     { "<leader>ow", "<cmd>Obsidian workspace<CR>", desc = "[O]bsidian [W]orkspace" },
     { "<leader>or", "<cmd>Obsidian rename<CR>", desc = "[O]bsidian [R]ename" },
+    { "<leader>oi", "<cmd>Obsidian template<CR>", desc = "[O]bsidian [I]nsert template" },
+    { "<leader>oN", "<cmd>Obsidian new_from_template<CR>", desc = "[O]bsidian [N]ew from template" },
   },
   opts = {
     -- Update this to your vault path(s)
@@ -35,7 +37,22 @@ return {
     daily_notes = {
       folder = "daily",
       date_format = "%Y-%m-%d",
-      template = nil, -- Set to a template file path if desired
+      template = "daily",
+    },
+
+    -- Templates configuration
+    templates = {
+      folder = "templates",
+      date_format = "%Y-%m-%d",
+      time_format = "%H:%M",
+      substitutions = {
+        yesterday = function()
+          return os.date("%Y-%m-%d", os.time() - 86400)
+        end,
+        tomorrow = function()
+          return os.date("%Y-%m-%d", os.time() + 86400)
+        end,
+      },
     },
 
     -- Use telescope for picking

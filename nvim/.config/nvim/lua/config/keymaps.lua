@@ -65,11 +65,14 @@ vim.keymap.set("n", "<leader>ww", "<cmd>bd<CR>", { desc = "Close current buffer"
 -- Theme toggle
 vim.keymap.set("n", "<leader>aa", function()
   local current_theme = vim.g.colors_name
+  local new_theme
   if current_theme == "catppuccin" or current_theme == "catppuccin-mocha" then
-    vim.cmd("colorscheme everforest")
+    new_theme = "catppuccin-latte"
   else
-    vim.cmd("colorscheme catppuccin")
+    new_theme = "catppuccin"
   end
+  vim.cmd("colorscheme " .. new_theme)
+  vim.notify("Theme: " .. new_theme, vim.log.levels.INFO)
 end, { desc = "Toggle between light/dark theme" })
 
 -- Better indenting

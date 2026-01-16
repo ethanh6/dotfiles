@@ -1,14 +1,27 @@
 {
-  "model": "opus",
-  "enabledPlugins": {
-    "lua-lsp@claude-plugins-official": true
-  },
   "attribution": {
     "commit": "",
     "pr": ""
   },
+  "model": "sonnet",
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh"
+  },
+  "enabledPlugins": {
+    "lua-lsp@claude-plugins-official": true
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Glass.aiff"
+          }
+        ]
+      }
+    ]
   }
 }
