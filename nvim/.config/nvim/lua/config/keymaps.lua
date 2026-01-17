@@ -16,7 +16,8 @@ vim.keymap.set("n", "<leader>cq", vim.diagnostic.setloclist, { desc = "[C]ode di
 
 -- Git keymaps
 vim.keymap.set("n", "<leader>gm", function()
-  local files = vim.fn.systemlist("git status --porcelain | cut -c4-")
+  -- Exclude deleted files (D in first or second column of git status --porcelain)
+  local files = vim.fn.systemlist("git status --porcelain | grep -v '^.D\\|^D' | cut -c4-")
   if vim.v.shell_error ~= 0 then
     vim.notify("Not a git repository or git error", vim.log.levels.ERROR)
     return
