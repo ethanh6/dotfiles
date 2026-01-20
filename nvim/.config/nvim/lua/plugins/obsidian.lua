@@ -82,20 +82,7 @@ return {
     -- Disable legacy commands (ObsidianNew -> Obsidian new)
     legacy_commands = false,
 
-    -- UI settings
-    ui = {
-      enable = true,
-    },
-
-    -- Checkbox configuration
-    checkbox = {
-      states = {
-        [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
-        ["x"] = { char = "", hl_group = "ObsidianDone" },
-        [">"] = { char = "", hl_group = "ObsidianRightArrow" },
-        ["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
-      },
-      order = { " ", "x", ">", "~" },
-    },
+    -- UI disabled - using render-markdown.nvim for visual rendering
+    ui = { enable = false },
   },
 }

@@ -5,7 +5,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "nvim-tree/nvim-web-devicons",
   },
-  ft = "markdown",
+  file_types = { "markdown", "mdx" },
   keys = {
     { "<leader>md", "<cmd>RenderMarkdown toggle<cr>", desc = "Toggle markdown rendering" },
   },
