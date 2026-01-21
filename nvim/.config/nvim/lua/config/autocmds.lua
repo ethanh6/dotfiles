@@ -19,11 +19,18 @@ vim.api.nvim_create_autocmd("VimResized", {
   desc = "Auto-resize panes when resizing nvim window",
 })
 
--- Markdown conceallevel for obsidian.nvim UI features
+-- MDX filetype detection
+vim.filetype.add({
+  extension = {
+    mdx = "mdx",
+  },
+})
+
+-- Markdown/MDX conceallevel for render-markdown.nvim
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "markdown",
+  pattern = { "markdown", "mdx" },
   callback = function()
     vim.opt_local.conceallevel = 2
   end,
-  desc = "Set conceallevel for markdown (obsidian.nvim UI)",
+  desc = "Set conceallevel for markdown/mdx (render-markdown.nvim)",
 })
