@@ -10,11 +10,9 @@ return {
       sources = {
         projects = {
           dev = {
-            "~/Documents/Notes",
-            "~/projects",
-            "~/myProject/",
-            "~/myDev/",
-            "~/myExercise/",
+            "~/Notes",
+            "~/Project/",
+            "~/Sandbox/",
             "~/dotfiles",
             "~/.config/nvim",
           }, -- Directories to scan for projects
