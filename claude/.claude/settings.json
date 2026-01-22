@@ -33,6 +33,7 @@
   },
   "enabledPlugins": {
     "lua-lsp@claude-plugins-official": true,
-    "clangd-lsp@claude-plugins-official": true
+    "clangd-lsp@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true
   }
 }
