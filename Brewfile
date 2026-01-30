@@ -50,6 +50,7 @@ cask "iterm2"
 # cask "alacritty"
 # cask "kitty"
 cask "rectangle"
+cask "tailscale"
 
 # Optional: Fonts (uncomment if desired)
 tap "homebrew/cask-fonts"
