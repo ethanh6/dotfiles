@@ -1,8 +1,9 @@
-# Brewfile - Homebrew dependencies for dotfiles
 # Install with: brew bundle
+# Brewfile - Homebrew dependencies for dotfiles
 
 # Taps
 # tap "homebrew/bundle"
+tap "siderolabs/tap"
 
 # Core tools
 brew "git"
@@ -37,9 +38,12 @@ brew "node"
 brew "python@3"
 brew "rustup"
 brew "lazygit"
+brew "opentofu"
+brew "gh"
 brew "htop"
 brew "ncdu"
 brew "k9s"
+brew "siderolabs/tap/talosctl"
 
 # Neovim dependencies
 brew "tree-sitter"

@@ -62,6 +62,15 @@ stow -D nvim           # Remove symlink
 stow -R nvim           # Re-create symlink
 ```
 
+## Homebrew (Brewfile)
+
+```bash
+brew bundle            # Install all dependencies from Brewfile
+brew bundle cleanup    # Remove packages not in Brewfile
+brew bundle list       # List all packages in Brewfile
+brew bundle check      # Check if all dependencies are installed
+```
+
 ## Neovim Architecture
 
 Entry point: `nvim/.config/nvim/init.lua` - bootstraps lazy.nvim and loads config
