@@ -43,6 +43,7 @@ brew "gh"
 brew "htop"
 brew "ncdu"
 brew "k9s"
+brew "helm"
 brew "siderolabs/tap/talosctl"
 
 # Neovim dependencies
