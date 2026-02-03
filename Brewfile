@@ -44,6 +44,7 @@ brew "htop"
 brew "ncdu"
 brew "k9s"
 brew "helm"
+brew "cloudflared"
 brew "siderolabs/tap/talosctl"
 
 # Neovim dependencies
