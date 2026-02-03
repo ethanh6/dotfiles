@@ -23,15 +23,42 @@ detect_os() {
     info "Detected OS: $OS"
 }
 
-# Install Homebrew (macOS)
+# Install Homebrew (macOS and Linux)
 install_homebrew() {
+    # Add brew to PATH if it exists but isn't in PATH
+    if ! command -v brew &> /dev/null; then
+        if [[ -f "/opt/homebrew/bin/brew" ]]; then
+            # macOS Apple Silicon
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+        elif [[ -f "/usr/local/bin/brew" ]]; then
+            # macOS Intel
+            eval "$(/usr/local/bin/brew shellenv)"
+        elif [[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ]]; then
+            # Linux
+            eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+        fi
+    fi
+
+    # Install Homebrew if still not found
     if ! command -v brew &> /dev/null; then
         info "Installing Homebrew..."
+
+        # Install build dependencies on Linux
+        if [[ "$OS" == "linux" ]]; then
+            info "Installing Homebrew dependencies..."
+            sudo apt-get update
+            sudo apt-get install -y build-essential procps curl file git
+        fi
+
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-        # Add to PATH for Apple Silicon
+        # Add to PATH after installation
         if [[ -f "/opt/homebrew/bin/brew" ]]; then
             eval "$(/opt/homebrew/bin/brew shellenv)"
+        elif [[ -f "/usr/local/bin/brew" ]]; then
+            eval "$(/usr/local/bin/brew shellenv)"
+        elif [[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ]]; then
+            eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
         fi
     else
         info "Homebrew already installed"
@@ -50,51 +77,23 @@ install_macos_packages() {
     fi
 }
 
-# Install packages via apt (Debian/Ubuntu)
+# Install packages via Homebrew (Linux)
 install_linux_packages() {
-    info "Installing packages via apt..."
+    info "Installing packages via Homebrew..."
 
-    sudo apt update
-    sudo apt install -y \
-        git \
-        stow \
-        fzf \
-        ripgrep \
-        fd-find \
-        curl \
-        build-essential
-
-    # Neovim - install latest stable from PPA or AppImage
-    if ! command -v nvim &> /dev/null; then
-        info "Installing Neovim..."
-        # Try PPA first (Ubuntu)
-        if command -v add-apt-repository &> /dev/null; then
-            sudo add-apt-repository -y ppa:neovim-ppa/stable
-            sudo apt update
-            sudo apt install -y neovim
-        else
-            # Fallback to AppImage
-            curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-            chmod u+x nvim.appimage
-            sudo mv nvim.appimage /usr/local/bin/nvim
-        fi
-    fi
-
-    # Node.js via nvm
-    if ! command -v node &> /dev/null; then
-        info "Installing Node.js via nvm..."
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-        export NVM_DIR="$HOME/.nvm"
-        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-        nvm install --lts
+    if [[ -f "$DOTFILES_DIR/Brewfile" ]]; then
+        brew bundle --file="$DOTFILES_DIR/Brewfile"
+    else
+        # Fallback if no Brewfile
+        brew install git neovim stow fzf ripgrep fd node
     fi
 }
 
 # Install packages based on OS
 install_packages() {
+    install_homebrew
     case "$OS" in
         macos)
-            install_homebrew
             install_macos_packages
             ;;
         linux)
@@ -187,7 +186,7 @@ setup_neovim() {
 
 # Setup FZF keybindings
 setup_fzf() {
-    if [[ "$OS" == "macos" ]] && [[ -f "$(brew --prefix)/opt/fzf/install" ]]; then
+    if command -v brew &> /dev/null && [[ -f "$(brew --prefix)/opt/fzf/install" ]]; then
         info "Setting up FZF..."
         "$(brew --prefix)/opt/fzf/install" --key-bindings --completion --no-update-rc --no-bash --no-zsh
     fi
