@@ -45,7 +45,9 @@ brew "ncdu"
 brew "k9s"
 brew "helm"
 brew "cloudflared"
+brew "bazelisk"
 brew "siderolabs/tap/talosctl"
+cask "google-cloud-sdk"
 
 # Neovim dependencies
 brew "tree-sitter"
