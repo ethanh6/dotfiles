@@ -10,7 +10,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "command -v afplay > /dev/null && afplay /System/Library/Sounds/Glass.aiff"
+            "command": "command -v afplay > /dev/null && afplay /System/Library/Sounds/Glass.aiff || true"
           }
         ]
       }
@@ -21,7 +21,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "command -v afplay > /dev/null && afplay /System/Library/Sounds/Bottle.aiff"
+            "command": "command -v afplay > /dev/null && afplay /System/Library/Sounds/Bottle.aiff || true"
           }
         ]
       }
