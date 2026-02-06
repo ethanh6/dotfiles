@@ -10,7 +10,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay /System/Library/Sounds/Glass.aiff"
+            "command": "command -v afplay > /dev/null && afplay /System/Library/Sounds/Glass.aiff"
           }
         ]
       }
@@ -21,7 +21,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay /System/Library/Sounds/Bottle.aiff"
+            "command": "command -v afplay > /dev/null && afplay /System/Library/Sounds/Bottle.aiff"
           }
         ]
       }
@@ -34,6 +34,7 @@
   "enabledPlugins": {
     "lua-lsp@claude-plugins-official": true,
     "clangd-lsp@claude-plugins-official": true,
-    "pyright-lsp@claude-plugins-official": true
+    "pyright-lsp@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true
   }
 }
