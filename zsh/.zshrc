@@ -282,3 +282,14 @@ export PATH=/Users/ethanhuang/.opencode/bin:$PATH
 
 # local scripts stowed from dotfiles/scripts (e.g. sync-tmux-sessions)
 export PATH="$HOME/.local/bin:$PATH"
+
+# Aliases
+# macawake/macsleep skip the sudo password prompt thanks to a sudoers drop-in.
+# To set it up on a new machine, run (once):
+#   echo 'ethanhuang ALL=(ALL) NOPASSWD: /usr/bin/pmset -a disablesleep 0, /usr/bin/pmset -a disablesleep 1' \
+#     | sudo tee /etc/sudoers.d/pmset-disablesleep > /dev/null \
+#     && sudo chmod 440 /etc/sudoers.d/pmset-disablesleep \
+#     && sudo visudo -cf /etc/sudoers.d/pmset-disablesleep
+# To undo: sudo rm /etc/sudoers.d/pmset-disablesleep
+alias macawake="sudo pmset -a disablesleep 1 && echo 'Lid sleep disabled. Mac will stay awake.'"
+alias macsleep="sudo pmset -a disablesleep 0 && echo 'Lid sleep enabled. Mac will sleep when closed.'"
