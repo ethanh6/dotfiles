@@ -13,3 +13,9 @@ Thumbs.db
 # Neovim generated files
 **/plugin/packer_compiled.lua
 **/.luarc.json
+
+# Machine-generated state (not config)
+fish/.config/fish/fish_variables
+
+# tpm-managed plugin clones under the stowed ~/.tmux
+tmux/.tmux/plugins/
