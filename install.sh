@@ -114,6 +114,11 @@ backup_existing() {
         "$HOME/.config/nvim"
         "$HOME/.vim"
         "$HOME/.vimrc"
+        "$HOME/.zshrc"
+        "$HOME/.zprofile"
+        "$HOME/.zshenv"
+        "$HOME/.p10k.zsh"
+        "$HOME/.tmux.conf"
     )
 
     for file in "${files_to_check[@]}"; do
@@ -145,6 +150,11 @@ clean_symlinks() {
         "$HOME/.config/nvim"
         "$HOME/.vim"
         "$HOME/.vimrc"
+        "$HOME/.zshrc"
+        "$HOME/.zprofile"
+        "$HOME/.zshenv"
+        "$HOME/.p10k.zsh"
+        "$HOME/.tmux.conf"
     )
 
     for link in "${symlinks[@]}"; do
