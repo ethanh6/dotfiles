@@ -161,7 +161,11 @@ stow_packages() {
     cd "$DOTFILES_DIR"
 
     # Stow each package (all available)
-    local packages=(bash btop ccusage claude fish git htop nvim tmux vim zsh)
+    local packages=(bash btop ccusage claude fish git htop nvim scripts tmux vim zsh)
+
+    # Pre-create so stow symlinks individual scripts instead of folding
+    # ~/.local/bin into a symlink to the repo.
+    mkdir -p "$HOME/.local/bin"
 
     for pkg in "${packages[@]}"; do
         if [[ -d "$DOTFILES_DIR/$pkg" ]]; then
@@ -208,6 +212,7 @@ print_summary() {
     echo "  - git (~/.gitconfig, ~/.config/git)"
     echo "  - htop (~/.config/htop)"
     echo "  - nvim (~/.config/nvim)"
+    echo "  - scripts (~/.local/bin)"
     echo "  - tmux (~/.tmux.conf, ~/.tmux)"
     echo "  - vim (~/.vimrc, ~/.vim)"
     echo "  - zsh (~/.zshrc, ~/.zshenv, ~/.zprofile, ~/.p10k.zsh)"

@@ -279,3 +279,6 @@ cd() {
 
 # opencode
 export PATH=/Users/ethanhuang/.opencode/bin:$PATH
+
+# local scripts stowed from dotfiles/scripts (e.g. sync-tmux-sessions)
+export PATH="$HOME/.local/bin:$PATH"

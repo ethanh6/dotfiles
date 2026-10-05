@@ -1,0 +1,92 @@
+#!/bin/bash
+# Mirror ~/replit clones and PR worktrees (created by sync-worktrees.sh) into
+# tmux sessions:
+#   - one persistent session per main clone, named after the repo
+#     (e.g. "repl-it-web", cwd = ~/replit/repl-it-web)
+#   - one session per open-PR worktree, named "<repo>#<pr>" (e.g.
+#     "repl-it-web#12345", cwd = the worktree); its first window starts nvim
+#     with the PR's changed files (vs origin/<default>) as open buffers
+#   - sessions whose worktree was pruned (PR merged/closed) are killed; only
+#     sessions named <repo>#<number> whose cwd was under $WORKTREES are
+#     touched, so manually created sessions are never killed
+# Safe to re-run: existing sessions are left alone. Called at the end of
+# ~/replit/scripts/sync-worktrees.sh; can also be run by hand.
+set -uo pipefail
+
+# launchd/cron runs with a minimal PATH — gh/tmux live in homebrew
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+
+CLONES="${CLONES:-$HOME/replit}"
+WORKTREES="${WORKTREES:-$CLONES/worktrees}"
+AUTHOR="${AUTHOR:-ethanhyi}"
+ORG="${ORG:-replit}"
+
+command -v tmux >/dev/null || { echo "tmux not found in PATH" >&2; exit 1; }
+command -v gh >/dev/null || { echo "gh not found in PATH" >&2; exit 1; }
+
+# =name forces an exact match; a bare -t does prefix matching.
+has_session() { tmux has-session -t "=$1" 2>/dev/null; }
+
+# --- Persistent session per main clone, named after the repo ---
+for gitdir in "$CLONES"/*/.git; do
+	[ -e "$gitdir" ] || continue
+	repo=$(basename "$(dirname "$gitdir")")
+	if ! has_session "$repo"; then
+		tmux new-session -d -s "$repo" -c "$CLONES/$repo" &&
+			echo "created session: $repo"
+	fi
+done
+
+# --- Session per PR worktree, named <repo>#<pr-number> ---
+for wtroot in "$WORKTREES"/*/; do
+	[ -d "$wtroot" ] || continue
+	repo=$(basename "$wtroot")
+
+	# branch -> PR number for my open PRs in this repo
+	prs=$(GH_PAGER=cat gh pr list --repo "$ORG/$repo" --author "$AUTHOR" \
+		--state open --limit 100 --json number,headRefName \
+		--jq '.[] | "\(.number)\t\(.headRefName)"') || {
+		echo "GH PR LIST FAILED: $repo" >&2
+		continue
+	}
+
+	for dir in "$wtroot"*/; do
+		[ -d "$dir" ] || continue
+		branch=$(git -C "$dir" rev-parse --abbrev-ref HEAD 2>/dev/null) || continue
+		[ "$branch" = "HEAD" ] && continue # detached; don't guess
+		num=$(awk -F'\t' -v b="$branch" '$2 == b {print $1; exit}' <<<"$prs")
+		[ -z "$num" ] && continue # no matching open PR of mine
+		name="$repo#$num"
+		has_session "$name" && continue
+
+		# Target the new window by pane id: "#" in the session name confuses
+		# tmux's -t target parser ("can't find pane").
+		pane=$(tmux new-session -d -P -F '#{pane_id}' -s "$name" -c "$dir") ||
+			continue
+
+		# First window: nvim with the PR's diff files as buffers. The file
+		# list is expanded by the shell at run time, not typed out: big PRs
+		# overflow the tty's ~4k input buffer and the command never runs.
+		# xargs -o reattaches nvim to the tty; -0 handles spaces in names.
+		default=$(git -C "$dir" symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null)
+		default=${default#origin/}
+		default=${default:-main}
+		cmd="git diff -z --name-only 'origin/$default...HEAD' | xargs -0 -o nvim"
+		tmux send-keys -t "$pane" "$cmd" Enter
+		echo "created session: $name ($branch)"
+	done
+done
+
+# --- Kill sessions whose PR worktree was pruned (merged/closed PR) ---
+# Kill by session id ($N): "#" in session names confuses -t target parsing.
+while IFS='|' read -r s path sid; do
+	# only sessions that look like <repo>#<number>
+	[[ $s =~ ^[[:alnum:]._-]+#[0-9]+$ ]] || continue
+	# only sessions this script created (cwd under the worktrees root)
+	case $path in "$WORKTREES"/*) ;; *) continue ;; esac
+	if [ ! -d "$path" ]; then
+		tmux kill-session -t "$sid" &&
+			echo "killed session: $s (worktree pruned)"
+	fi
+done < <(tmux list-sessions \
+	-F '#{session_name}|#{session_path}|#{session_id}' 2>/dev/null)
