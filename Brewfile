@@ -62,6 +62,7 @@ cask "iterm2"
 # cask "kitty"
 cask "rectangle"
 cask "tailscale"
+cask "alfred"  # launcher; synced via alfred/alfred-sync.sh
 
 # Fonts (homebrew/cask-fonts was deprecated in 2024; fonts now live in homebrew/cask)
 # cask "font-fira-code-nerd-font"

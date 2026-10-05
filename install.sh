@@ -171,7 +171,7 @@ stow_packages() {
     cd "$DOTFILES_DIR"
 
     # Stow each package (all available)
-    local packages=(bash btop ccusage claude fish git htop nvim scripts tmux vim zsh)
+    local packages=(alfred bash btop ccusage claude fish git htop nvim scripts tmux vim zsh)
 
     # Pre-create so stow symlinks individual scripts instead of folding
     # ~/.local/bin into a symlink to the repo.
@@ -214,6 +214,7 @@ print_summary() {
     echo -e "${GREEN}========================================${NC}"
     echo ""
     echo "Installed packages and created symlinks for:"
+    echo "  - alfred (~/alfred-sync.sh)"
     echo "  - bash (~/.bashrc)"
     echo "  - btop (~/.config/btop)"
     echo "  - ccusage (~/.config/ccusage)"
@@ -231,6 +232,7 @@ print_summary() {
     echo "  1. Restart your terminal or run: source ~/.bashrc (or ~/.zshrc)"
     echo "  2. Open nvim - lazy.nvim will auto-install plugins on first run"
     echo "  3. Run :Mason in nvim to install LSP servers"
+    echo "  4. (macOS) Run ~/alfred-sync.sh install to start the Alfred prefs sync"
     echo ""
 }
 
