@@ -1,6 +1,7 @@
 -- Obsidian.nvim - Note taking with Obsidian vault integration
 return {
   "obsidian-nvim/obsidian.nvim",
+  enabled = false,
   version = "*", -- use latest release, remove to use latest commit
   ft = "markdown",
   cmd = { "Obsidian" },
