@@ -1,0 +1,11 @@
+#!/bin/bash
+# Debounced tmux-resurrect save, run by tmux hooks on every session/window/
+# pane change (see tmux.conf). The sleep coalesces bursts — e.g.
+# sync-tmux-sessions creating dozens of sessions fires one save, not dozens.
+LOCK=${TMPDIR:-/tmp}/tmux-save-state.lock
+SAVE="$HOME/.tmux/plugins/tmux-resurrect/scripts/save.sh"
+[ -x "$SAVE" ] || exit 0
+mkdir "$LOCK" 2>/dev/null || exit 0 # a save is already pending
+trap 'rmdir "$LOCK"' EXIT
+sleep 5
+"$SAVE" quiet
