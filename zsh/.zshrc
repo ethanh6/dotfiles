@@ -225,5 +225,57 @@ worktree() {
   echo "Worktree and tmux session created."
 }
 
+# `cd <repo>` always goes to the main clone ~/replit/<repo>, from anywhere —
+# even when a relative dir of the same name exists. `cd <branch>` jumps to
+# the matching PR worktree (created by sync-worktrees.sh) under
+# ~/replit/worktrees/<repo>/<branch> when the normal cd fails. Slashes in
+# branch names are also tried flattened to dashes, since that's how
+# sync-worktrees.sh names worktree dirs. Ambiguous names (same branch in
+# several repos) list the candidates; disambiguate with `cd <repo>/<branch>`.
+cd() {
+  # `cd replit` from anywhere goes to ~/replit itself, same as the repo
+  # shortcuts below.
+  if (( $# == 1 )) && [[ "$1" == replit ]]; then
+    builtin cd "$HOME/replit" && echo "$HOME/replit"
+    return
+  fi
+
+  # Exact repo name (a dir under ~/replit with .git) wins over everything,
+  # so `cd repl-it-web` lands on the main clone regardless of cwd.
+  if (( $# == 1 )) && [[ "$1" != */* && -e "$HOME/replit/$1/.git" ]]; then
+    builtin cd "$HOME/replit/$1" && echo "$HOME/replit/$1"
+    return
+  fi
+
+  builtin cd "$@" 2>/dev/null && return
+
+  # Fall back only for a single non-option argument; anything else re-runs
+  # the builtin to surface its original error.
+  if (( $# != 1 )) || [[ "$1" == -* ]]; then
+    builtin cd "$@"
+    return
+  fi
+
+  local root="$HOME/replit/worktrees"
+  local -aU matches
+  matches=(
+    "$root"/*/"$1"(N/)          # branch under any repo
+    "$root"/*/"${1//\//-}"(N/)  # branch with slashes flattened to dashes
+    "$root"/"$1"(N/)            # explicit repo/branch
+    "$root"/"${1//\//-}"(N/)
+  )
+
+  if (( ${#matches} == 1 )); then
+    builtin cd "${matches[1]}" && echo "${matches[1]}"
+  elif (( ${#matches} > 1 )); then
+    print -u2 "cd: '$1' matches multiple worktrees:"
+    printf '  %s\n' "${matches[@]#$root/}" >&2
+    print -u2 "disambiguate with: cd <repo>/<branch>"
+    return 1
+  else
+    builtin cd "$@"
+  fi
+}
+
 # opencode
 export PATH=/Users/ethanhuang/.opencode/bin:$PATH
