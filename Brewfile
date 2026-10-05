@@ -38,6 +38,8 @@ brew "ccusage"
 brew "node"
 brew "python@3"
 brew "rustup"
+brew "go"
+brew "shellcheck"
 brew "lazygit"
 brew "opentofu"
 brew "gh"
@@ -61,8 +63,7 @@ cask "iterm2"
 cask "rectangle"
 cask "tailscale"
 
-# Optional: Fonts (uncomment if desired)
-tap "homebrew/cask-fonts"
+# Fonts (homebrew/cask-fonts was deprecated in 2024; fonts now live in homebrew/cask)
 # cask "font-fira-code-nerd-font"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-hack-nerd-font"
