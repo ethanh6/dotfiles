@@ -46,7 +46,7 @@ git/.config/git/          # Git ignore patterns
 htop/.config/htop/        # htop config
 launchd/                  # launchd agents, copied (not stowed) to ~/Library/LaunchAgents by install.sh
 nvim/.config/nvim/        # Neovim config
-scripts/.local/bin/       # sync-worktrees, sync-tmux-sessions, tmux-fzf-session/-window, tmux-save-state
+scripts/.local/bin/       # sync-worktrees, sync-tmux-sessions, tmux-fzf-session, tmux-save-state
 tmux/.tmux.conf           # Tmux config
 vim/.vimrc                # Legacy Vim (deprecated)
 zsh/.zshrc                # Zsh config + p10k theme
