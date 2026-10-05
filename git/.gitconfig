@@ -12,7 +12,10 @@
 	status = auto
 	branch = auto
 [credential]
-	helper = store
+	helper =
+	helper = /usr/local/share/gcm-core/git-credential-manager
+[credential "https://dev.azure.com"]
+	useHttpPath = true
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
