@@ -12,7 +12,7 @@ return {
 
     return {
       options = {
-        theme = "catppuccin",
+        theme = "catppuccin-nvim",
         globalstatus = true,
         disabled_filetypes = {
           statusline = { "dashboard", "alpha", "starter" },
