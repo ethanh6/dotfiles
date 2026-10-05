@@ -15,6 +15,7 @@ brew "zsh"
 brew "fish"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
+brew "powerlevel10k"
 
 # Shell enhancements
 brew "btop"

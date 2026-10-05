@@ -17,7 +17,8 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
 # ZSH_THEME="agnoster"
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# p10k is sourced directly from Homebrew below, not via OMZ's theme loader
+ZSH_THEME=""
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -124,7 +125,13 @@ POWERLEVEL9K_MODE='nerdfont-complete'
 
 
 
-source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
+if [ -n "${HOMEBREW_PREFIX:-}" ] && [ -f "${HOMEBREW_PREFIX}/share/powerlevel10k/powerlevel10k.zsh-theme" ]; then
+  source "${HOMEBREW_PREFIX}/share/powerlevel10k/powerlevel10k.zsh-theme"
+elif [ -f /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme ]; then
+  source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+elif [ -f /usr/local/share/powerlevel10k/powerlevel10k.zsh-theme ]; then
+  source /usr/local/share/powerlevel10k/powerlevel10k.zsh-theme
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
