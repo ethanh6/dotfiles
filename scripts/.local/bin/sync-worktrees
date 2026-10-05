@@ -1,0 +1,167 @@
+#!/bin/bash
+set -uo pipefail
+
+# launchd/cron runs with PATH=/usr/bin:/bin:/usr/sbin:/sbin — gh lives in homebrew
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+
+# Clones root defaults to ~/replit; override with CLONES/WORKTREES env vars
+# if the layout ever changes.
+CLONES="${CLONES:-$HOME/replit}"
+WORKTREES="${WORKTREES:-$CLONES/worktrees}"
+AUTHOR=ethanhyi
+ORG=replit
+LOCKDIR=${TMPDIR:-/tmp}/sync-worktrees.lock
+
+command -v gh >/dev/null || {
+	echo "gh not found in PATH" >&2
+	exit 1
+}
+
+# Prevent overlapping runs (macOS has no flock; mkdir is atomic)
+if ! mkdir "$LOCKDIR" 2>/dev/null; then
+	echo "another run holds $LOCKDIR, exiting" >&2
+	exit 0
+fi
+trap 'rmdir "$LOCKDIR"' EXIT
+
+mkdir -p "$WORKTREES"
+
+is_clean() { git -C "$1" diff --quiet && git -C "$1" diff --cached --quiet; }
+
+repos=""
+for d in "$CLONES"/*/.git; do
+	[ -e "$d" ] || continue
+	repos=$(printf '%s\n%s' "$repos" "$(basename "$(dirname "$d")")")
+done
+repos=$(sort -u <<<"$repos")
+
+for repo in $repos; do
+	[ -z "$repo" ] && continue
+	clone="$CLONES/$repo"
+	[ -d "$clone/.git" ] || continue
+
+	echo "=== $repo ==="
+	cd "$clone" || continue
+
+	# A clone made via `git init` + `remote add` has no fetch refspec; without
+	# it, fetching an explicit branch would not update refs/remotes/origin/*.
+	git config --get-all remote.origin.fetch >/dev/null ||
+		git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+
+	branches=$(GH_PAGER=cat gh pr list --repo "$ORG/$repo" --author "$AUTHOR" \
+		--state open --limit 100 --json headRefName --jq '.[].headRefName') ||
+		{
+			echo "GH PR LIST FAILED: $repo" >&2
+			continue
+		}
+
+	# Default branch (main vs master)
+	default=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null) ||
+		{ git remote set-head origin --auto >/dev/null 2>&1 &&
+			default=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null); }
+	default=${default#origin/}
+	default=${default:-main}
+
+	# Branches that actually exist on the remote (names only, exact case)
+	remote_heads=$(git ls-remote --heads origin 2>/dev/null |
+		sed 's|.*refs/heads/||' | sort) || {
+		echo "LS-REMOTE FAILED: $repo" >&2
+		continue
+	}
+
+	# Prune remote-tracking refs for branches deleted on the remote. Done
+	# one ref at a time instead of `fetch --prune` so two refs differing
+	# only in case never race for the same lock on this case-insensitive FS.
+	while IFS= read -r stale; do
+		[ -z "$stale" ] && continue
+		git update-ref -d "refs/remotes/origin/$stale" &&
+			echo "pruned origin/$stale"
+	done < <(comm -23 \
+		<(git for-each-ref refs/remotes/origin --format='%(refname)' |
+			sed 's|^refs/remotes/origin/||' | grep -vx HEAD | sort) \
+		<(printf '%s\n' "$remote_heads"))
+
+	# Fetch ONLY the default branch and my open-PR branches — never other
+	# people's branches.
+	fetch_args=("$default")
+	while IFS= read -r b; do
+		[ -z "$b" ] && continue
+		[ "$b" = "$default" ] && continue
+		grep -qxF "$b" <<<"$remote_heads" || continue
+		fetch_args+=("$b")
+	done <<<"$branches"
+	if ! err=$(git fetch --quiet origin "${fetch_args[@]}" 2>&1); then
+		echo "FETCH FAILED: $repo: $err" >&2
+		continue
+	fi
+
+	# Unborn HEAD (fresh init, nothing checked out): put the clone on default
+	if ! git rev-parse --verify -q HEAD >/dev/null; then
+		git checkout --quiet "$default" 2>/dev/null || {
+			echo "unborn HEAD and cannot checkout $default: $repo" >&2
+			continue
+		}
+	fi
+
+	# --- Keep the clone's main up to date (only when it's on main and clean) ---
+	if [ "$(git rev-parse --abbrev-ref HEAD)" = "$default" ]; then
+		if is_clean "$clone"; then
+			git merge --ff-only --quiet "origin/$default" 2>/dev/null ||
+				echo "main update failed (diverged?): $repo" >&2
+		else
+			echo "clone dirty, skipping main update: $repo" >&2
+		fi
+	else
+		echo "clone not on $default, skipping main update: $repo" >&2
+	fi
+
+	wtroot="$WORKTREES/$repo"
+	mkdir -p "$wtroot"
+
+	# --- Worktrees for non-main PR branches ---
+	while IFS= read -r branch; do
+		[ -z "$branch" ] && continue
+		[ "$branch" = "$default" ] && continue
+		dir="$wtroot/${branch//\//-}"
+		if [ -d "$dir" ]; then
+			if is_clean "$dir"; then
+				git -C "$dir" merge --ff-only --quiet "origin/$branch" 2>/dev/null ||
+					echo "update failed (diverged?): $repo/$branch" >&2
+			fi
+		else
+			err=$(git worktree add --quiet "$dir" "$branch" 2>&1) ||
+				err=$(git worktree add --quiet --track -b "$branch" "$dir" "origin/$branch" 2>&1) ||
+				echo "worktree add failed: $repo/$branch: $err" >&2
+			[ -d "$dir" ] && echo "created worktree: $repo/$branch"
+		fi
+	done <<<"$branches"
+
+	# --- Remove worktrees for closed/merged PRs ---
+	for dir in "$wtroot"/*/; do
+		[ -d "$dir" ] || continue
+		wt_branch=$(git -C "$dir" rev-parse --abbrev-ref HEAD 2>/dev/null) || continue
+		[ "$wt_branch" = "HEAD" ] && continue # detached; don't guess
+		if ! grep -qxF "$wt_branch" <<<"$branches"; then
+			if is_clean "$dir"; then
+				git worktree remove "$dir" && echo "removed worktree: $repo/$wt_branch"
+			else
+				echo "skipping dirty worktree: $repo/$wt_branch" >&2
+			fi
+		fi
+	done
+	git worktree prune
+	rmdir "$wtroot" 2>/dev/null # drop empty repo dirs (no open PRs)
+
+	# --- Delete local branches whose upstream is gone (closed/merged PRs) ---
+	while IFS= read -r lb; do
+		[ "$lb" = "$default" ] && continue
+		grep -qxF "$lb" <<<"$branches" && continue
+		git branch -D "$lb" 2>/dev/null && echo "deleted local branch: $repo/$lb"
+	done < <(git for-each-ref refs/heads \
+		--format='%(refname:short) %(upstream:track)' |
+		awk '$2 == "[gone]" {print $1}')
+done
+
+# Mirror clones/worktrees into tmux sessions (script stowed from dotfiles)
+[ -x "$HOME/.local/bin/sync-tmux-sessions" ] &&
+	"$HOME/.local/bin/sync-tmux-sessions" || true

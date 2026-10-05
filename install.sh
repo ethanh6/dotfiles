@@ -187,6 +187,23 @@ stow_packages() {
     done
 }
 
+# Install launchd agents from launchd/ (macOS only; copied, not stowed —
+# launchd is unreliable with symlinked plists)
+setup_launchd() {
+    [[ "${OS:-}" == "macos" ]] || return 0
+    local src dst
+    mkdir -p "$HOME/Library/LaunchAgents"
+    for src in "$DOTFILES_DIR"/launchd/*.plist; do
+        [[ -f "$src" ]] || continue
+        dst="$HOME/Library/LaunchAgents/$(basename "$src")"
+        info "Installing launchd agent $(basename "$src")..."
+        cp "$src" "$dst"
+        launchctl bootout "gui/$(id -u)" "$dst" 2>/dev/null || true
+        launchctl bootstrap "gui/$(id -u)" "$dst" 2>/dev/null \
+            || launchctl load -w "$dst" 2>/dev/null || true
+    done
+}
+
 # Setup Neovim plugins
 setup_neovim() {
     info "Setting up Neovim plugins..."
@@ -249,6 +266,7 @@ main() {
     backup_existing
     clean_symlinks
     stow_packages
+    setup_launchd
     setup_neovim
     setup_fzf
     print_summary
