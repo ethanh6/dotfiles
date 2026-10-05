@@ -35,6 +35,7 @@ docker run -it --rm dotfiles-test
 ## Repository Structure
 
 ```
+alfred/alfred-sync.sh     # Alfred prefs <-> ~/AlfredSync two-way sync (stowed to ~/alfred-sync.sh)
 bash/.bashrc              # Bash config
 btop/.config/btop/        # btop config
 ccusage/.config/ccusage/  # ccusage CLI config
@@ -44,6 +45,7 @@ git/.gitconfig            # Git config
 git/.config/git/          # Git ignore patterns
 htop/.config/htop/        # htop config
 nvim/.config/nvim/        # Neovim config
+scripts/.local/bin/       # sync-tmux-sessions, tmux-fzf-session/-window, tmux-save-state
 tmux/.tmux.conf           # Tmux config
 vim/.vimrc                # Legacy Vim (deprecated)
 zsh/.zshrc                # Zsh config + p10k theme
