@@ -3,30 +3,8 @@
     "commit": "",
     "pr": ""
   },
-  "hooks": {
-    "Notification": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "command -v afplay > /dev/null && afplay /System/Library/Sounds/Glass.aiff || true"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "command -v afplay > /dev/null && afplay /System/Library/Sounds/Bottle.aiff || true"
-          }
-        ]
-      }
-    ]
-  },
+  "model": "claude-fable-5[1m]",
+  "hooks": {},
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh"
@@ -36,5 +14,13 @@
     "clangd-lsp@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
     "superpowers@claude-plugins-official": true
-  }
+  },
+  "permissions": {
+    "allow": [
+      "Read(//Users/ethanhuang/dotfiles/**)"
+    ]
+  },
+  "effortLevel": "high",
+  "skipAutoPermissionPrompt": true,
+  "skipWorkflowUsageWarning": true
 }
