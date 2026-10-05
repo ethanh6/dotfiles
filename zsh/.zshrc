@@ -293,3 +293,8 @@ export PATH="$HOME/.local/bin:$PATH"
 # To undo: sudo rm /etc/sudoers.d/pmset-disablesleep
 alias macawake="sudo pmset -a disablesleep 1 && echo 'Lid sleep disabled. Mac will stay awake.'"
 alias macsleep="sudo pmset -a disablesleep 0 && echo 'Lid sleep enabled. Mac will sleep when closed.'"
+
+# direnv (needed for Nix flake devshells, e.g. repl-it-web)
+if command -v direnv >/dev/null 2>&1; then
+  eval "$(direnv hook zsh)"
+fi
