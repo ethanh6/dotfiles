@@ -1,0 +1,12 @@
+#!/bin/bash
+# fzf window switcher across ALL sessions, bound to <prefix>w (see
+# tmux.conf). Switches by window id, which tmux resolves to the owning
+# session + window regardless of "#" in session names.
+set -uo pipefail
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+
+sel=$(tmux list-windows -a \
+	-F '#{window_id}|#{session_name}:#{window_index}|#{window_name}|#{pane_current_command}' |
+	column -t -s'|' |
+	fzf --reverse --prompt='window> ') || exit 0
+tmux switch-client -t "${sel%% *}"

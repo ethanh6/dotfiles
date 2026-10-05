@@ -1,0 +1,12 @@
+#!/bin/bash
+# fzf session switcher, bound to <prefix>s (see tmux.conf). Lists all
+# sessions, switches by session id so names with "#" (PR sessions like
+# repl-it-web#12345) resolve unambiguously.
+set -uo pipefail
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+
+sel=$(tmux list-sessions \
+	-F '#{session_id}|#{session_name}|#{session_windows} win|#{?session_attached,attached,}' |
+	column -t -s'|' |
+	fzf --reverse --prompt='session> ') || exit 0
+tmux switch-client -t "${sel%% *}"
