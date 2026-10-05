@@ -9,7 +9,7 @@
   <array>
     <string>/bin/bash</string>
     <string>-lc</string>
-    <string>~/.local/bin/sync-worktrees</string>
+    <string>~/.local/bin/synx</string>
   </array>
   <key>StartCalendarInterval</key>
   <array><!-- hourly, 9am through 3pm -->

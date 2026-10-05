@@ -227,10 +227,10 @@ worktree() {
 
 # `cd <repo>` always goes to the main clone ~/replit/<repo>, from anywhere —
 # even when a relative dir of the same name exists. `cd <branch>` jumps to
-# the matching PR worktree (created by sync-worktrees.sh) under
+# the matching PR worktree (created by synx) under
 # ~/replit/worktrees/<repo>/<branch> when the normal cd fails. Slashes in
 # branch names are also tried flattened to dashes, since that's how
-# sync-worktrees.sh names worktree dirs. Ambiguous names (same branch in
+# synx names worktree dirs. Ambiguous names (same branch in
 # several repos) list the candidates; disambiguate with `cd <repo>/<branch>`.
 cd() {
   # `cd replit` from anywhere goes to ~/replit itself, same as the repo

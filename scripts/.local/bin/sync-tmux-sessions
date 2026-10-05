@@ -1,5 +1,5 @@
 #!/bin/bash
-# Mirror ~/replit clones and PR worktrees (created by sync-worktrees.sh) into
+# Mirror ~/replit clones and PR worktrees (created by synx) into
 # tmux sessions:
 #   - one persistent session per main clone, named after the repo
 #     (e.g. "repl-it-web", cwd = ~/replit/repl-it-web)
@@ -10,7 +10,7 @@
 #     sessions named <repo>#<number> whose cwd was under $WORKTREES are
 #     touched, so manually created sessions are never killed
 # Safe to re-run: existing sessions are left alone. Called at the end of
-# sync-worktrees (same directory); can also be run by hand.
+# synx (same directory); can also be run by hand.
 set -uo pipefail
 
 # launchd/cron runs with a minimal PATH — gh/tmux live in homebrew
