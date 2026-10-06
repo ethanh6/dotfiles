@@ -211,6 +211,10 @@ setup_apps() {
         info "Building PRTab.app (prtab:// URL handler)..."
         "$HOME/.local/bin/build-prtab-handler" || warn "PRTab.app build failed"
     fi
+    if [[ -x "$HOME/.local/bin/build-pr-clipboard-watcher" ]]; then
+        info "Building pr-clipboard-watcher (Maccy ticket-reference daemon)..."
+        "$HOME/.local/bin/build-pr-clipboard-watcher" || warn "pr-clipboard-watcher build failed"
+    fi
 }
 
 # Setup Neovim: plugins, LSP servers, formatters, treesitter parsers.
@@ -275,8 +279,8 @@ main() {
     backup_existing
     clean_symlinks
     stow_packages
-    setup_launchd
     setup_apps
+    setup_launchd
     setup_neovim
     setup_fzf
     print_summary

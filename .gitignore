@@ -22,3 +22,6 @@ tmux/.tmux/plugins/
 
 # Python bytecode
 __pycache__/
+
+# Swift Package Manager build artifacts
+apps/*/.build/

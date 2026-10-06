@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Build the pr-clipboard-watcher daemon (apps/pr-clipboard-watcher) and install
+# it to ~/.local/bin. Requires the Command Line Tools Swift toolchain.
+# The launchd agent (launchd/com.ethanhuang.pr-clipboard-watcher.plist) runs it.
+set -euo pipefail
+
+SRC_DIR="$HOME/dotfiles/apps/pr-clipboard-watcher"
+DEST="$HOME/.local/bin/pr-clipboard-watcher"
+
+command -v swift >/dev/null || { echo "swift not found (xcode-select --install)"; exit 1; }
+
+cd "$SRC_DIR"
+swift run pr-clipboard-watcher --selftest >/dev/null
+swift build -c release
+mkdir -p "$(dirname "$DEST")"
+cp .build/release/pr-clipboard-watcher "$DEST"
+echo "Installed $DEST"
