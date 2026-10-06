@@ -203,10 +203,9 @@ return {
       jsonnet_ls = {},
       starpls = {}, -- Starlark LSP for Bazel (bzl.io is down, using starpls instead)
 
-      -- Infrastructure (top filetypes in the replit repos)
+      -- Infrastructure / API (top filetypes in the replit repos)
       terraformls = {}, -- .tf (#7 by file count)
-      -- .graphql (#10) uses treesitter + prettier only; the graphql LSP is an
-      -- npm package and npm is currently broken (EACCES) on this machine.
+      graphql = {}, -- .graphql (#10)
 
       -- Go
       gopls = {

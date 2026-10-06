@@ -65,6 +65,17 @@ install_homebrew() {
     fi
 }
 
+# Some Homebrew node bottles ship npm/npx-cli.js without the execute bit, so
+# `npm` fails with EACCES and every npm-based tool (Mason LSPs, etc.) can't
+# install. Restore the bit if needed. Idempotent; safe to run every time.
+fix_npm_permissions() {
+    command -v brew &> /dev/null || return 0
+    local nm="$(brew --prefix 2>/dev/null)/lib/node_modules/npm/bin"
+    for f in "$nm/npm-cli.js" "$nm/npx-cli.js"; do
+        [[ -f "$f" && ! -x "$f" ]] && { chmod +x "$f" && info "Fixed exec bit on $(basename "$f")"; }
+    done
+}
+
 # Install packages via Homebrew (macOS)
 install_macos_packages() {
     info "Installing packages via Homebrew..."
@@ -75,6 +86,7 @@ install_macos_packages() {
         # Fallback if no Brewfile
         brew install git neovim stow fzf ripgrep fd node
     fi
+    fix_npm_permissions
 }
 
 # Install packages via Homebrew (Linux)
