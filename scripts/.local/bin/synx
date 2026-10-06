@@ -4,12 +4,18 @@ set -uo pipefail
 # launchd/cron runs with PATH=/usr/bin:/bin:/usr/sbin:/sbin — gh lives in homebrew
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 
-# Clones root defaults to ~/replit; override with CLONES/WORKTREES env vars
-# if the layout ever changes.
-CLONES="${CLONES:-$HOME/replit}"
-WORKTREES="${WORKTREES:-$CLONES/worktrees}"
-AUTHOR=ethanhyi
-ORG=replit
+# Workspaces to sync, each "root|org|author" (worktrees live in <root>/worktrees).
+# Defined in ~/.config/devsync/contexts.sh (+ an untracked contexts.local.sh for
+# personal contexts). Falls back to the Replit default if no config is present;
+# CLONES/ORG/AUTHOR env vars still force a single ad-hoc context.
+DEVSYNC_CONTEXTS=()
+for _c in "$HOME/.config/devsync/contexts.sh" "$HOME/.config/devsync/contexts.local.sh"; do
+	[ -f "$_c" ] && . "$_c"
+done
+[ ${#DEVSYNC_CONTEXTS[@]} -eq 0 ] && DEVSYNC_CONTEXTS=("$HOME/replit|replit|ethanhyi")
+[ -n "${CLONES:-}${ORG:-}${AUTHOR:-}" ] &&
+	DEVSYNC_CONTEXTS=("${CLONES:-$HOME/replit}|${ORG:-replit}|${AUTHOR:-ethanhyi}")
+
 LOCKDIR=${TMPDIR:-/tmp}/sync-worktrees.lock
 
 # Summary of the previous run, shown as the first line of this one.
@@ -55,9 +61,14 @@ on_exit() {
 }
 trap on_exit EXIT
 
-mkdir -p "$WORKTREES"
-
 is_clean() { git -C "$1" diff --quiet && git -C "$1" diff --cached --quiet; }
+
+for _ctx in "${DEVSYNC_CONTEXTS[@]}"; do
+IFS='|' read -r CLONES ORG AUTHOR <<<"$_ctx"
+WORKTREES="$CLONES/worktrees"
+[ -d "$CLONES" ] || { echo "skipping missing clones root: $CLONES" >&2; continue; }
+mkdir -p "$WORKTREES"
+echo "### context: $CLONES (org: $ORG, author: $AUTHOR)"
 
 repos=""
 for d in "$CLONES"/*/.git; do
@@ -199,6 +210,7 @@ for repo in $repos; do
 		--format='%(refname:short) %(upstream:track)' |
 		awk '$2 == "[gone]" {print $1}')
 done
+done # context loop
 COMPLETED=1 # core sync finished; downstream steps below are best-effort
 
 # Mirror clones/worktrees into tmux sessions (script stowed from dotfiles)
