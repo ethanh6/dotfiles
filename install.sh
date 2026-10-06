@@ -171,7 +171,7 @@ stow_packages() {
     cd "$DOTFILES_DIR"
 
     # Stow each package (all available)
-    local packages=(alfred bash btop ccusage claude fish git htop nvim scripts tmux vim zsh)
+    local packages=(alfred bash btop ccusage claude fish git htop nvim scripts shellcheck tmux vim zsh)
 
     # Pre-create so stow symlinks individual scripts instead of folding
     # ~/.local/bin into a symlink to the repo.

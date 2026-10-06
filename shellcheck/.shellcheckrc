@@ -1,0 +1,5 @@
+# ShellCheck defaults (read by the CLI and by bash-language-server in nvim).
+# Silence constant false-positive noise:
+#   SC1090/SC1091 — can't follow a dynamic `source` / sourced file not found
+#   SC2209       — bare literal assignment (e.g. status=ok) mistaken for a command
+disable=SC1090,SC1091,SC2209

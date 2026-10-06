@@ -174,7 +174,7 @@ return {
       clangd = {},
 
       -- Scripting
-      bashls = {},
+      bashls = {}, -- ShellCheck noise is tuned via ~/.shellcheckrc (stowed)
       pyright = {},
 
       -- Configuration languages
