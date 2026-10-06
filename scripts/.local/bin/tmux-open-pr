@@ -1,0 +1,16 @@
+#!/bin/bash
+# Open the GitHub PR for the current tmux session in the browser, bound to
+# <prefix>g (see tmux.conf). PR sessions created by sync-tmux-sessions are
+# named <repo>#<number>; anything else just shows a status message.
+set -uo pipefail
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+
+name=$(tmux display-message -p '#{session_name}')
+repo=${name%%#*}
+num=${name##*#}
+if [[ $name != *'#'* || ! $num =~ ^[0-9]+$ ]]; then
+	tmux display-message "not a PR session: $name"
+	exit 0
+fi
+gh pr view "$num" --repo "replit/$repo" --web >/dev/null 2>&1 ||
+	tmux display-message "couldn't open replit/$repo#$num"
