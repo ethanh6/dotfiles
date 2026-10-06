@@ -73,14 +73,17 @@ for wtroot in "$WORKTREES"/*/; do
 		read -r sid pane < <(tmux new-session -d -P \
 			-F '#{session_id} #{pane_id}' -s "$name" -c "$dir") || continue
 
-		# First window: nvim with the PR's diff files as buffers. The file
+		# First window: nvim focused on the octo PR view, with the PR's diff
+		# files loaded as background buffers (Shift-H/L to cycle). The file
 		# list is expanded by the shell at run time, not typed out: big PRs
 		# overflow the tty's ~4k input buffer and the command never runs.
 		# xargs -o reattaches nvim to the tty; -0 handles spaces in names.
+		# `Octo pr edit` runs after the files load and ends focused; if gh is
+		# unauthenticated/offline it just errors, leaving the diff buffers.
 		default=$(git -C "$dir" symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null)
 		default=${default#origin/}
 		default=${default:-main}
-		cmd="git diff -z --name-only 'origin/$default...HEAD' | xargs -0 -o nvim"
+		cmd="git diff -z --name-only 'origin/$default...HEAD' | xargs -0 -o nvim -c 'Octo pr edit $num'"
 		tmux send-keys -t "$pane" "$cmd" Enter
 
 		# Second window: a plain shell already in the worktree. -d keeps the
