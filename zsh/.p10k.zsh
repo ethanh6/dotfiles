@@ -1661,45 +1661,92 @@
     p10k segment -b 1 -f 3 -i '⭐' -t 'hello, %n'
   }
 
-  # Number of my PRs merged today (since local midnight), via `gh search prs`,
-  # scoped by location: inside a git repo under ~/replit it counts that repo
-  # only (GitHub repo inferred from the toplevel dir name); elsewhere under
-  # ~/replit it counts the whole org. Hidden outside ~/replit and in linked
-  # git worktrees. Requires gh auth and network; cached for 60s per scope.
+  # Number of my PRs merged today (since local midnight), counted from local
+  # git only: commits authored by POWERLEVEL9K_REPLIT_PRS_TODAY_AUTHOR on
+  # origin/<default> (one squash-merged PR = one commit). Those refs are kept
+  # fresh by `synx`, so the prompt never touches the network or gh.
+  # Scoped by location: inside a git repo under ~/replit it counts that repo
+  # only; elsewhere under ~/replit it sums every clone in ~/replit/*/.git.
+  # Hidden outside ~/replit and in linked git worktrees.
+  #
+  # The git query runs in the background so the prompt never blocks on it
+  # (~30-200ms per repo, ~600ms for the whole org). The segment shows the last
+  # known count for the current scope and redraws itself when a fresh result
+  # arrives. Results are refreshed at most once per 60s per scope.
+  typeset -gA _replit_prs_count _replit_prs_ts
+  typeset -g  _replit_prs_fd=0 _replit_prs_fd_scope=
+  # Print my commit count on origin/<default> of repo $1 since $2 (local time).
+  function _replit_prs_repo_count() {
+    local repo=$1 since=$2 def author
+    def=$(command git -C $repo symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null)
+    def=${def#origin/}; def=${def:-main}
+    author=${POWERLEVEL9K_REPLIT_PRS_TODAY_AUTHOR:-$(command git -C $repo config user.email)}
+    command git -C $repo rev-list --count --since=$since --author=$author \
+        origin/$def 2>/dev/null
+  }
+  function _replit_prs_on_done() {
+    eval "$__p9k_intro"
+    local fd=$1 count scope=$_replit_prs_fd_scope
+    zle -F $fd
+    { read -r -u $fd count } 2>/dev/null
+    exec {fd}<&-
+    _replit_prs_fd=0 _replit_prs_fd_scope=
+    if [[ $count == <-> ]]; then
+      _replit_prs_count[$scope]=$count
+    else
+      # Query failed (no origin/<default> ref, ...): don't show a stale count.
+      unset "_replit_prs_count[$scope]"
+    fi
+    # Rebuild the prompt with the new value, then redraw. This mirrors what
+    # p10k's own gitstatus callback (_p9k_vcs_resume) does; `p10k display -r`
+    # on its own only redisplays the already-rendered prompt text.
+    if (( $+functions[_p9k_set_prompt] )); then
+      _p9k__refresh_reason=replit_prs
+      _p9k_set_prompt
+      _p9k__refresh_reason=''
+    fi
+    p10k display -r
+  }
   function prompt_replit_prs_today() {
-    (( $+commands[gh] )) || return
     local base=$HOME/replit
     [[ $PWD == $base || $PWD == $base/* ]] || return
     local scope=org
-    local gitdir=$(command git rev-parse --git-dir 2>/dev/null)
-    if [[ -n $gitdir ]]; then
+    local -a rp
+    rp=(${(f)"$(command git rev-parse --git-dir --git-common-dir --show-toplevel 2>/dev/null)"})
+    if (( $#rp )); then
       # In a linked worktree --git-dir points inside <main>/.git/worktrees/.
-      [[ $(command git rev-parse --git-common-dir 2>/dev/null) != $gitdir ]] && return
-      scope=replit/${$(command git rev-parse --show-toplevel 2>/dev/null):t}
+      [[ $rp[1] != $rp[2] ]] && return
+      scope=$rp[3]  # the clone's toplevel path
     fi
     (( ${+EPOCHSECONDS} )) || zmodload zsh/datetime
-    if [[ $scope != ${_p9k_replit_prs_scope:-} ]] ||
-        (( EPOCHSECONDS - ${_p9k_replit_prs_ts:-0} >= 60 )); then
-      typeset -g _p9k_replit_prs_ts=$EPOCHSECONDS
-      typeset -g _p9k_replit_prs_scope=$scope
-      local tzoff=${(%):-%D{%z}}            # e.g. -0700
-      local day=${(%):-%D{%Y-%m-%d}}        # unquoted: %D{...} breaks inside ""
-      local midnight="${day}T00:00:00${tzoff[1,3]}:${tzoff[4,5]}"
-      local -a scope_args
-      [[ $scope == org ]] && scope_args=(--owner replit) || scope_args=(--repo $scope)
-      local count=$(command gh search prs $scope_args --author @me --merged \
-          --merged-at ">=${midnight}" --limit 1000 --json url --jq 'length' 2>/dev/null)
-      if [[ -n $count ]]; then
-        typeset -g _p9k_replit_prs_count=$count
-      else
-        # Don't show a stale count that may belong to a different scope.
-        unset _p9k_replit_prs_count
-      fi
+    if (( ! _replit_prs_fd )) &&
+        (( EPOCHSECONDS - ${_replit_prs_ts[$scope]:-0} >= 60 )); then
+      _replit_prs_ts[$scope]=$EPOCHSECONDS
+      _replit_prs_fd_scope=$scope
+      local day=${(%):-%D{%Y-%m-%d}}      # unquoted: %D{...} breaks inside ""
+      local since="${day}T00:00:00"        # git reads this as local time
+      exec {_replit_prs_fd}< <(
+        if [[ $scope == org ]]; then
+          local repo; local -i total=0
+          for repo in $base/*(N/); do
+            [[ -e $repo/.git ]] || continue
+            (( total += ${$(_replit_prs_repo_count $repo $since):-0} ))
+          done
+          print -r -- $total
+        else
+          _replit_prs_repo_count $scope $since
+        fi
+        print   # guarantee a line terminator for `read`
+      )
+      zle -F $_replit_prs_fd _replit_prs_on_done
     fi
-    [[ -n $_p9k_replit_prs_count ]] || return
-    p10k segment -f 2 -t "${_p9k_replit_prs_count} 🌱"
+    local count=$_replit_prs_count[$scope]
+    [[ -n $count ]] || return
+    p10k segment -f 2 -t "${count} 🌱"
   }
   typeset -g POWERLEVEL9K_REPLIT_PRS_TODAY_FOREGROUND=76
+  # Git author email to count (your work identity; global git config is personal).
+  typeset -g POWERLEVEL9K_REPLIT_PRS_TODAY_AUTHOR='ethan.huang@repl.it'
 
   # User-defined prompt segments may optionally provide an instant_prompt_* function. Its job
   # is to generate the prompt segment for display in instant prompt. See
