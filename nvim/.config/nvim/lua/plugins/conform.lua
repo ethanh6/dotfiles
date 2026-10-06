@@ -46,6 +46,12 @@ return {
       -- Shell scripts
       sh = { "shfmt" },
       bash = { "shfmt" },
+      -- Python (ruff: fast formatter, falls back to no-op if absent)
+      python = { "ruff_format" },
+      -- Infra / API filetypes common in the replit repos
+      terraform = { "terraform_fmt" },
+      hcl = { "terraform_fmt" },
+      graphql = { "prettierd", "prettier", stop_after_first = true },
     },
   },
 }

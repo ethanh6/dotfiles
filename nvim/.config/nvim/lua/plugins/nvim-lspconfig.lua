@@ -203,6 +203,11 @@ return {
       jsonnet_ls = {},
       starpls = {}, -- Starlark LSP for Bazel (bzl.io is down, using starpls instead)
 
+      -- Infrastructure (top filetypes in the replit repos)
+      terraformls = {}, -- .tf (#7 by file count)
+      -- .graphql (#10) uses treesitter + prettier only; the graphql LSP is an
+      -- npm package and npm is currently broken (EACCES) on this machine.
+
       -- Go
       gopls = {
         settings = {
@@ -255,6 +260,7 @@ return {
       "prettierd", -- Faster prettier daemon
       "clang-format", -- C/C++ formatter
       "shfmt", -- Shell script formatter
+      "ruff", -- Python linter + formatter
     })
     -- run_on_start = false: don't let every nvim launch run a Mason
     -- install-check. sync-tmux-sessions opens ~40 instances at once and a
