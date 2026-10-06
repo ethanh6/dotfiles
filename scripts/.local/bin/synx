@@ -12,6 +12,19 @@ AUTHOR=ethanhyi
 ORG=replit
 LOCKDIR=${TMPDIR:-/tmp}/sync-worktrees.lock
 
+# Summary of the previous run, shown as the first line of this one.
+STATE_DIR="$HOME/.local/state/synx"
+LAST="$STATE_DIR/last.txt"
+mkdir -p "$STATE_DIR"
+if [ -f "$LAST" ]; then
+	echo "↻ previous run — $(cat "$LAST")"
+else
+	echo "↻ previous run — none recorded yet"
+fi
+
+# Tally for this run's summary (written on exit).
+REPOS=0 WT_CREATED=0 WT_REMOVED=0 COMPLETED=0
+
 command -v gh >/dev/null || {
 	echo "gh not found in PATH" >&2
 	exit 1
@@ -22,7 +35,25 @@ if ! mkdir "$LOCKDIR" 2>/dev/null; then
 	echo "another run holds $LOCKDIR, exiting" >&2
 	exit 0
 fi
-trap 'rmdir "$LOCKDIR"' EXIT
+
+# Record this run's result and release the lock on exit. SECONDS is bash's
+# elapsed-time counter since the script started.
+on_exit() {
+	local rc=$?
+	local status
+	if [ "$COMPLETED" = 1 ]; then
+		status=ok
+	elif [ "$rc" = 141 ]; then
+		status="stopped (output closed)" # SIGPIPE, e.g. piped to `head`
+	else
+		status="FAILED (exit $rc)"
+	fi
+	printf '%s (%ds) · %s · %d repos, worktrees +%d -%d\n' \
+		"$(date '+%Y-%m-%d %H:%M:%S %Z')" "$SECONDS" "$status" \
+		"$REPOS" "$WT_CREATED" "$WT_REMOVED" >"$LAST"
+	rmdir "$LOCKDIR" 2>/dev/null
+}
+trap on_exit EXIT
 
 mkdir -p "$WORKTREES"
 
@@ -42,6 +73,7 @@ for repo in $repos; do
 
 	echo "=== $repo ==="
 	cd "$clone" || continue
+	REPOS=$((REPOS + 1))
 
 	# A clone made via `git init` + `remote add` has no fetch refspec; without
 	# it, fetching an explicit branch would not update refs/remotes/origin/*.
@@ -132,7 +164,10 @@ for repo in $repos; do
 			err=$(git worktree add --quiet "$dir" "$branch" 2>&1) ||
 				err=$(git worktree add --quiet --track -b "$branch" "$dir" "origin/$branch" 2>&1) ||
 				echo "worktree add failed: $repo/$branch: $err" >&2
-			[ -d "$dir" ] && echo "created worktree: $repo/$branch"
+			[ -d "$dir" ] && {
+				echo "created worktree: $repo/$branch"
+				WT_CREATED=$((WT_CREATED + 1))
+			}
 		fi
 	done <<<"$branches"
 
@@ -143,7 +178,10 @@ for repo in $repos; do
 		[ "$wt_branch" = "HEAD" ] && continue # detached; don't guess
 		if ! grep -qxF "$wt_branch" <<<"$branches"; then
 			if is_clean "$dir"; then
-				git worktree remove "$dir" && echo "removed worktree: $repo/$wt_branch"
+				if git worktree remove "$dir"; then
+					echo "removed worktree: $repo/$wt_branch"
+					WT_REMOVED=$((WT_REMOVED + 1))
+				fi
 			else
 				echo "skipping dirty worktree: $repo/$wt_branch" >&2
 			fi
@@ -161,6 +199,7 @@ for repo in $repos; do
 		--format='%(refname:short) %(upstream:track)' |
 		awk '$2 == "[gone]" {print $1}')
 done
+COMPLETED=1 # core sync finished; downstream steps below are best-effort
 
 # Mirror clones/worktrees into tmux sessions (script stowed from dotfiles)
 [ -x "$HOME/.local/bin/sync-tmux-sessions" ] &&
