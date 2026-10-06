@@ -1,14 +1,14 @@
 #!/bin/bash
-# Mirror ~/replit clones and PR worktrees (created by synx) into
-# tmux sessions:
+# Mirror each configured context's clones and PR worktrees (created by synx)
+# into tmux sessions. Contexts come from ~/.config/devsync/contexts.sh:
 #   - one persistent session per main clone, named after the repo
-#     (e.g. "repl-it-web", cwd = ~/replit/repl-it-web)
+#     (e.g. "repl-it-web", cwd = <root>/repl-it-web)
 #   - one session per open-PR worktree, named "<repo>#<pr>" (e.g.
 #     "repl-it-web#12345", cwd = the worktree); its first window starts nvim
 #     with the PR's changed files (vs origin/<default>) as open buffers
 #   - sessions whose worktree was pruned (PR merged/closed) are killed; only
-#     sessions named <repo>#<number> whose cwd was under $WORKTREES are
-#     touched, so manually created sessions are never killed
+#     sessions named <repo>#<number> whose cwd was under some context's
+#     worktrees root are touched, so manually created sessions are never killed
 # Safe to re-run: existing sessions are left alone. Called at the end of
 # synx (same directory); can also be run by hand.
 set -uo pipefail
@@ -16,16 +16,25 @@ set -uo pipefail
 # launchd/cron runs with a minimal PATH — gh/tmux live in homebrew
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 
-CLONES="${CLONES:-$HOME/replit}"
-WORKTREES="${WORKTREES:-$CLONES/worktrees}"
-AUTHOR="${AUTHOR:-ethanhyi}"
-ORG="${ORG:-replit}"
+# Workspaces to mirror, each "root|org|author" (see synx / contexts.sh). Falls
+# back to the Replit default; CLONES/ORG/AUTHOR env vars force one ad-hoc context.
+DEVSYNC_CONTEXTS=()
+for _c in "$HOME/.config/devsync/contexts.sh" "$HOME/.config/devsync/contexts.local.sh"; do
+	[ -f "$_c" ] && . "$_c"
+done
+[ ${#DEVSYNC_CONTEXTS[@]} -eq 0 ] && DEVSYNC_CONTEXTS=("$HOME/replit|replit|ethanhyi")
+[ -n "${CLONES:-}${ORG:-}${AUTHOR:-}" ] &&
+	DEVSYNC_CONTEXTS=("${CLONES:-$HOME/replit}|${ORG:-replit}|${AUTHOR:-ethanhyi}")
 
 command -v tmux >/dev/null || { echo "tmux not found in PATH" >&2; exit 1; }
 command -v gh >/dev/null || { echo "gh not found in PATH" >&2; exit 1; }
 
 # =name forces an exact match; a bare -t does prefix matching.
 has_session() { tmux has-session -t "=$1" 2>/dev/null; }
+
+for _ctx in "${DEVSYNC_CONTEXTS[@]}"; do
+IFS='|' read -r CLONES ORG AUTHOR <<<"$_ctx"
+WORKTREES="$CLONES/worktrees"
 
 # --- Persistent session per main clone, named after the repo ---
 for gitdir in "$CLONES"/*/.git; do
@@ -80,14 +89,25 @@ for wtroot in "$WORKTREES"/*/; do
 		echo "created session: $name ($branch)"
 	done
 done
+done # context loop
 
 # --- Kill sessions whose PR worktree was pruned (merged/closed PR) ---
+# Recognize sessions we created by cwd under any context's worktrees root.
+WT_ROOTS=()
+for _ctx in "${DEVSYNC_CONTEXTS[@]}"; do
+	IFS='|' read -r _root _ _ <<<"$_ctx"
+	WT_ROOTS+=("$_root/worktrees")
+done
 # Kill by session id ($N): "#" in session names confuses -t target parsing.
 while IFS='|' read -r s path sid; do
 	# only sessions that look like <repo>#<number>
 	[[ $s =~ ^[[:alnum:]._-]+#[0-9]+$ ]] || continue
-	# only sessions this script created (cwd under the worktrees root)
-	case $path in "$WORKTREES"/*) ;; *) continue ;; esac
+	# only sessions this script created (cwd under some context's worktrees root)
+	under=0
+	for _wr in "${WT_ROOTS[@]}"; do
+		case $path in "$_wr"/*) under=1 ;; esac
+	done
+	[ "$under" = 1 ] || continue
 	if [ ! -d "$path" ]; then
 		tmux kill-session -t "$sid" &&
 			echo "killed session: $s (worktree pruned)"
