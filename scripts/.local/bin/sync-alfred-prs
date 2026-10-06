@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Generate Alfred web searches for my open PRs: `pr <number>` -> the PR page.
+"""Generate Alfred web searches for my open Replit PRs: `pr <number>` -> the PR
+page. (Alfred shortcuts are intentionally Replit-only; see devsync contexts for
+the multi-context tmux/worktree pipeline.)
 
 Runs at the end of synx (and standalone). Follows ~/AlfredSync/HANDOFF.md:
 edits the AlfredSync mirror only (never Alfred's live bundle), backs the

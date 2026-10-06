@@ -47,6 +47,7 @@ git/.config/git/          # Git ignore patterns
 htop/.config/htop/        # htop config
 launchd/                  # launchd agents, copied (not stowed) to ~/Library/LaunchAgents by install.sh
 nvim/.config/nvim/        # Neovim config
+scripts/.config/devsync/  # contexts.sh — (root|org|author) workspaces synx/sync-tmux-sessions/cd() iterate (+ untracked contexts.local.sh)
 scripts/.local/bin/       # synx, sync-tmux-sessions, sync-alfred-prs, nvim-bootstrap, tmux-fzf-session, tmux-open-pr, chrome-focus-tab, tmux-save-state
 tmux/.tmux.conf           # Tmux config
 vim/.vimrc                # Legacy Vim (deprecated)
