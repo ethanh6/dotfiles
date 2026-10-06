@@ -1,0 +1,38 @@
+-- Treesitter parsers to pre-install (nvim-bootstrap installs these; highlighting
+-- is enabled per-filetype only for installed parsers). Add a language here, then
+-- run `nvim-bootstrap` (or `:TSInstall <lang>` for a one-off).
+return {
+  "vim",
+  "vimdoc",
+  "lua",
+  "html",
+  "css",
+  "javascript",
+  "typescript",
+  "tsx",
+  "c",
+  "markdown",
+  "markdown_inline",
+  "jsonnet",
+  "starlark",
+  "go",
+  "gomod",
+  "gosum",
+  "yaml",
+  "json",
+  "jsonc",
+  "bash",
+  "python",
+  -- Infra/PR-review filetypes common in the replit repos
+  "terraform",
+  "hcl",
+  "toml",
+  "sql",
+  "proto",
+  "dockerfile",
+  "diff",
+  "gitignore",
+  "gitcommit",
+  "git_config",
+  "git_rebase",
+}

@@ -1,74 +1,55 @@
--- Treesitter for syntax highlighting and code understanding
+-- Treesitter — main branch. The master branch is end-of-life (frozen 2026-03)
+-- and crashes on nvim 0.12 (vim.treesitter get_range: "attempt to call method
+-- 'range' (a nil value)"). The main branch drops the old setup({ensure_installed,
+-- highlight, indent}) module API: parsers are installed explicitly (pre-installed
+-- by nvim-bootstrap, not on the fly — sync-tmux-sessions opens ~40 instances at
+-- once and on-the-fly installs race), and highlighting is native nvim, started
+-- per-filetype only when the parser is present.
 return {
   "nvim-treesitter/nvim-treesitter",
-  branch = "master",
+  branch = "main",
   build = ":TSUpdate",
   event = { "BufReadPost", "BufNewFile" },
-  cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
-  opts = {
-    ensure_installed = {
-      "vim",
-      "vimdoc",
-      "lua",
-      "html",
-      "css",
-      "javascript",
-      "typescript",
-      "tsx",
-      "c",
-      "markdown",
-      "markdown_inline",
-      "jsonnet",
-      "starlark",
-      "go",
-      "gomod",
-      "gosum",
-      "yaml",
-      "json",
-      "jsonc",
-      "bash",
-      "python",
-      -- Infra/PR-review filetypes common in the replit repos
-      "terraform",
-      "hcl",
-      "toml",
-      "sql",
-      "proto",
-      "dockerfile",
-      "diff",
-      "gitignore",
-      "gitcommit",
-      "git_config",
-      "git_rebase",
-    },
-    -- Keep auto_install OFF: sync-tmux-sessions launches ~40 nvim instances at
-    -- once, and runtime auto-install makes them all race on the same parser
-    -- build dir ("mkdir: tree-sitter-<lang>-tmp: File exists"). Everything we
-    -- hit is pre-installed via ensure_installed instead; add new langs there.
-    auto_install = false,
-    highlight = {
-      enable = true,
-      -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-      -- If you are experiencing weird indenting issues, add the language to
-      -- the list of additional_vim_regex_highlighting and disabled languages for indent.
-      additional_vim_regex_highlighting = { "ruby" },
-    },
-    indent = { enable = true, disable = { "ruby" } },
-  },
-  config = function(_, opts)
-    -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+  cmd = { "TSInstall", "TSUpdate", "TSUninstall", "TSLog" },
+  config = function()
+    require("nvim-treesitter").setup()
 
-    -- Register mdx filetype to use markdown parser
+    -- mdx uses the markdown parser
     vim.treesitter.language.register("markdown", "mdx")
 
-    ---@diagnostic disable-next-line: missing-fields
-    require("nvim-treesitter.configs").setup(opts)
+    -- Installed parsers (cached at load; re-open nvim after installing new ones).
+    local installed = {}
+    for _, lang in ipairs(require("nvim-treesitter").get_installed()) do
+      installed[lang] = true
+    end
 
-    -- There are additional nvim-treesitter modules that you can use to interact
-    -- with nvim-treesitter. You should go explore a few and see what interests you:
-    --
-    --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-    --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-    --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+    -- Enable native treesitter highlighting + indentation for a buffer, but only
+    -- when its parser is installed — avoids the errors a missing parser throws.
+    local function ts_enable(buf)
+      if not vim.api.nvim_buf_is_valid(buf) then
+        return
+      end
+      local lang = vim.treesitter.language.get_lang(vim.bo[buf].filetype)
+      if not lang or not installed[lang] then
+        return
+      end
+      pcall(vim.treesitter.start, buf, lang)
+      vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end
+
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("ts-enable", { clear = true }),
+      callback = function(args)
+        ts_enable(args.buf)
+      end,
+    })
+
+    -- Buffers already open before this plugin lazy-loaded (e.g. the file that
+    -- triggered BufReadPost) won't get a fresh FileType event — enable them now.
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+      if vim.api.nvim_buf_is_loaded(buf) then
+        ts_enable(buf)
+      end
+    end
   end,
 }

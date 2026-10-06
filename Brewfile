@@ -54,6 +54,7 @@ cask "google-cloud-sdk"
 
 # Neovim dependencies
 brew "tree-sitter"
+brew "tree-sitter-cli" # CLI nvim-treesitter (main branch) uses to compile parsers
 brew "luarocks"
 
 # Optional: Terminal emulators (uncomment if desired)

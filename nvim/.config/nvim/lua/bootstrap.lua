@@ -29,12 +29,12 @@ if not vim.wait(20 * 60 * 1000, function() return mason_done end, 500) then
   log("WARNING: Mason install timed out; run :MasonToolsInstall in nvim")
 end
 
--- Treesitter: synchronous install of the configured ensure_installed list.
-local ok, install = pcall(require, "nvim-treesitter.install")
+-- Treesitter (main branch): synchronous install of the parser list.
+local ok, nts = pcall(require, "nvim-treesitter")
 if ok then
-  local parsers = require("nvim-treesitter.configs").get_ensure_installed_parsers()
+  local parsers = require("treesitter-parsers")
   log("installing " .. #parsers .. " treesitter parsers…")
-  install.ensure_installed_sync(parsers)
+  nts.install(parsers):wait(20 * 60 * 1000)
   log("treesitter parsers ready")
 else
   log("WARNING: nvim-treesitter not available")
