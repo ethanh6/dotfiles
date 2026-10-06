@@ -1,0 +1,16 @@
+#!/bin/bash
+# Pre-install everything nvim needs — plugins, LSP servers, formatters, and
+# treesitter parsers — so the ~40 nvim instances sync-tmux-sessions launches
+# never install on the fly (which races on shared install dirs). Idempotent;
+# run from install.sh and any time you add a tool/parser/plugin to the config.
+set -uo pipefail
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+command -v nvim >/dev/null || { echo "nvim not found in PATH" >&2; exit 1; }
+
+echo "==> Syncing lazy.nvim plugins (installs/updates + build steps)"
+nvim --headless "+Lazy! sync" +qa
+
+echo "==> Pre-installing Mason tools and treesitter parsers"
+nvim --headless -c "luafile $HOME/.config/nvim/lua/bootstrap.lua"
+
+echo "==> nvim bootstrap complete"

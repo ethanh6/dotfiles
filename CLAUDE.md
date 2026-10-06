@@ -47,7 +47,7 @@ git/.config/git/          # Git ignore patterns
 htop/.config/htop/        # htop config
 launchd/                  # launchd agents, copied (not stowed) to ~/Library/LaunchAgents by install.sh
 nvim/.config/nvim/        # Neovim config
-scripts/.local/bin/       # synx (worktree sync), sync-tmux-sessions, sync-alfred-prs, tmux-fzf-session, tmux-open-pr, chrome-focus-tab, tmux-save-state
+scripts/.local/bin/       # synx, sync-tmux-sessions, sync-alfred-prs, nvim-bootstrap, tmux-fzf-session, tmux-open-pr, chrome-focus-tab, tmux-save-state
 tmux/.tmux.conf           # Tmux config
 vim/.vimrc                # Legacy Vim (deprecated)
 zsh/.zshrc                # Zsh config + p10k theme

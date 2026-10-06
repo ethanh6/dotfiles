@@ -213,14 +213,14 @@ setup_apps() {
     fi
 }
 
-# Setup Neovim plugins
+# Setup Neovim: plugins, LSP servers, formatters, treesitter parsers.
+# Pre-installs everything up front (idempotent) so editor launches never
+# install on the fly — see scripts/.local/bin/nvim-bootstrap.
 setup_neovim() {
-    info "Setting up Neovim plugins..."
-
-    # lazy.nvim auto-installs plugins on first run
+    info "Setting up Neovim (plugins, LSP servers, formatters, parsers)..."
     if command -v nvim &> /dev/null; then
-        nvim --headless "+Lazy! sync" +qa 2>/dev/null || true
-        info "Neovim plugins installed (lazy.nvim auto-installs on first run)"
+        "$HOME/.local/bin/nvim-bootstrap" || warn "nvim bootstrap had issues; run nvim-bootstrap manually"
+        info "Neovim tooling pre-installed"
     fi
 }
 

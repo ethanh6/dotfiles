@@ -256,7 +256,16 @@ return {
       "clang-format", -- C/C++ formatter
       "shfmt", -- Shell script formatter
     })
-    require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+    -- run_on_start = false: don't let every nvim launch run a Mason
+    -- install-check. sync-tmux-sessions opens ~40 instances at once and a
+    -- missing tool would make them all race on Mason's install dir (same
+    -- failure mode as treesitter auto_install). Pre-install instead via
+    -- `nvim-bootstrap` (run by install.sh); :MasonToolsInstall still works
+    -- on demand.
+    require("mason-tool-installer").setup({
+      ensure_installed = ensure_installed,
+      run_on_start = false,
+    })
 
     require("mason-lspconfig").setup({
       handlers = {
