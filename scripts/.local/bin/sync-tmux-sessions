@@ -59,10 +59,10 @@ for wtroot in "$WORKTREES"/*/; do
 		name="$repo#$num"
 		has_session "$name" && continue
 
-		# Target the new window by pane id: "#" in the session name confuses
-		# tmux's -t target parser ("can't find pane").
-		pane=$(tmux new-session -d -P -F '#{pane_id}' -s "$name" -c "$dir") ||
-			continue
+		# Target windows/panes by id, not by name: "#" in the session name
+		# confuses tmux's -t target parser ("can't find pane").
+		read -r sid pane < <(tmux new-session -d -P \
+			-F '#{session_id} #{pane_id}' -s "$name" -c "$dir") || continue
 
 		# First window: nvim with the PR's diff files as buffers. The file
 		# list is expanded by the shell at run time, not typed out: big PRs
@@ -73,6 +73,10 @@ for wtroot in "$WORKTREES"/*/; do
 		default=${default:-main}
 		cmd="git diff -z --name-only 'origin/$default...HEAD' | xargs -0 -o nvim"
 		tmux send-keys -t "$pane" "$cmd" Enter
+
+		# Second window: a plain shell already in the worktree. -d keeps the
+		# nvim window focused.
+		tmux new-window -d -t "$sid:" -c "$dir"
 		echo "created session: $name ($branch)"
 	done
 done
