@@ -225,26 +225,47 @@ worktree() {
   echo "Worktree and tmux session created."
 }
 
-# `cd <repo>` always goes to the main clone ~/replit/<repo>, from anywhere —
-# even when a relative dir of the same name exists. `cd <branch>` jumps to
-# the matching PR worktree (created by synx) under
-# ~/replit/worktrees/<repo>/<branch> when the normal cd fails. Slashes in
-# branch names are also tried flattened to dashes, since that's how
-# synx names worktree dirs. Ambiguous names (same branch in
-# several repos) list the candidates; disambiguate with `cd <repo>/<branch>`.
+# Context roots for the cd() shortcuts below, from ~/.config/devsync/contexts.sh
+# (+ an untracked contexts.local.sh for personal roots). Falls back to ~/replit.
+# Loaded once per shell; edit contexts and start a new shell to pick up changes.
+typeset -ga _DEVSYNC_ROOTS
+() {
+  local -a DEVSYNC_CONTEXTS=()
+  local _c _entry
+  for _c in "$HOME/.config/devsync/contexts.sh" "$HOME/.config/devsync/contexts.local.sh"; do
+    [[ -f $_c ]] && source "$_c"
+  done
+  (( ${#DEVSYNC_CONTEXTS} )) || DEVSYNC_CONTEXTS=("$HOME/replit|replit|ethanhyi")
+  for _entry in "${DEVSYNC_CONTEXTS[@]}"; do _DEVSYNC_ROOTS+=("${_entry%%|*}"); done
+}
+
+# `cd <root>` (e.g. `cd replit`) jumps to that context root. `cd <repo>` goes to
+# the main clone <root>/<repo> from anywhere — even when a relative dir of the
+# same name exists — searching every context root. `cd <branch>` jumps to the
+# matching PR worktree under <root>/worktrees/<repo>/<branch> when the normal cd
+# fails; slashes are also tried flattened to dashes (how synx names worktree
+# dirs). Ambiguous names list the candidates; disambiguate with `cd <repo>/<branch>`.
 cd() {
-  # `cd replit` from anywhere goes to ~/replit itself, same as the repo
-  # shortcuts below.
-  if (( $# == 1 )) && [[ "$1" == replit ]]; then
-    builtin cd "$HOME/replit" && echo "$HOME/replit"
-    return
+  local r
+  # `cd <root-name>` -> that context's root (basename match, e.g. replit, src).
+  if (( $# == 1 )) && [[ "$1" != */* ]]; then
+    for r in $_DEVSYNC_ROOTS; do
+      if [[ "$1" == "${r:t}" ]]; then
+        builtin cd "$r" && echo "$r"
+        return
+      fi
+    done
   fi
 
-  # Exact repo name (a dir under ~/replit with .git) wins over everything,
-  # so `cd repl-it-web` lands on the main clone regardless of cwd.
-  if (( $# == 1 )) && [[ "$1" != */* && -e "$HOME/replit/$1/.git" ]]; then
-    builtin cd "$HOME/replit/$1" && echo "$HOME/replit/$1"
-    return
+  # Exact repo name (a dir with .git under any context root) wins over
+  # everything, so `cd repl-it-web` lands on the main clone regardless of cwd.
+  if (( $# == 1 )) && [[ "$1" != */* ]]; then
+    for r in $_DEVSYNC_ROOTS; do
+      if [[ -e "$r/$1/.git" ]]; then
+        builtin cd "$r/$1" && echo "$r/$1"
+        return
+      fi
+    done
   fi
 
   builtin cd "$@" 2>/dev/null && return
@@ -256,20 +277,22 @@ cd() {
     return
   fi
 
-  local root="$HOME/replit/worktrees"
   local -aU matches
-  matches=(
-    "$root"/*/"$1"(N/)          # branch under any repo
-    "$root"/*/"${1//\//-}"(N/)  # branch with slashes flattened to dashes
-    "$root"/"$1"(N/)            # explicit repo/branch
-    "$root"/"${1//\//-}"(N/)
-  )
+  for r in $_DEVSYNC_ROOTS; do
+    local wt="$r/worktrees"
+    matches+=(
+      "$wt"/*/"$1"(N/)          # branch under any repo
+      "$wt"/*/"${1//\//-}"(N/)  # branch with slashes flattened to dashes
+      "$wt"/"$1"(N/)            # explicit repo/branch
+      "$wt"/"${1//\//-}"(N/)
+    )
+  done
 
   if (( ${#matches} == 1 )); then
     builtin cd "${matches[1]}" && echo "${matches[1]}"
   elif (( ${#matches} > 1 )); then
     print -u2 "cd: '$1' matches multiple worktrees:"
-    printf '  %s\n' "${matches[@]#$root/}" >&2
+    printf '  %s\n' "${matches[@]}" >&2
     print -u2 "disambiguate with: cd <repo>/<branch>"
     return 1
   else
