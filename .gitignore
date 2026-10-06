@@ -19,3 +19,6 @@ fish/.config/fish/fish_variables
 
 # tpm-managed plugin clones under the stowed ~/.tmux
 tmux/.tmux/plugins/
+
+# Python bytecode
+__pycache__/
