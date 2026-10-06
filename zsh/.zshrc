@@ -348,3 +348,15 @@ alias macsleep="sudo pmset -a disablesleep 0 && echo 'Lid sleep enabled. Mac wil
 if command -v direnv >/dev/null 2>&1; then
   eval "$(direnv hook zsh)"
 fi
+
+# Self-heal npm after brew (re)installs node: some Homebrew node bottles ship
+# npm-cli.js/npx-cli.js as 644, so `npm` fails with EACCES and Mason can't
+# install npm-based LSPs. Wrap brew to restore the exec bit whenever it runs
+# (cheap no-op unless the bit is actually missing). install.sh does the same on
+# first setup; this keeps it fixed across `brew upgrade node`.
+brew() {
+  command brew "$@"
+  local rc=$? f="${HOMEBREW_PREFIX:-/opt/homebrew}/lib/node_modules/npm/bin/npm-cli.js"
+  [[ -f $f && ! -x $f ]] && chmod +x "$f" "${f%npm-cli.js}npx-cli.js" 2>/dev/null
+  return $rc
+}
