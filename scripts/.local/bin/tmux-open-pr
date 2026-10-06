@@ -12,5 +12,10 @@ if [[ $name != *'#'* || ! $num =~ ^[0-9]+$ ]]; then
 	tmux display-message "not a PR session: $name"
 	exit 0
 fi
-gh pr view "$num" --repo "replit/$repo" --web >/dev/null 2>&1 ||
-	tmux display-message "couldn't open replit/$repo#$num"
+# Focus an already-open tab for this PR when there is one; otherwise open it.
+url=$(gh pr view "$num" --repo "replit/$repo" --json url -q .url 2>/dev/null) || {
+	tmux display-message "couldn't resolve replit/$repo#$num"
+	exit 0
+}
+"$HOME/.local/bin/chrome-focus-tab" "$url" >/dev/null 2>&1 ||
+	open "$url" # fallback if Chrome automation was denied
