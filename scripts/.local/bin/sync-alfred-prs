@@ -58,7 +58,10 @@ def main():
             "enabled": True,
             "keyword": f"pr {num}",
             "text": f"{repo}#{num} · {pr['title']}",
-            "url": pr["url"],
+            # prtab:// routes through ~/Applications/PRTab.app (built by
+            # build-prtab-handler), which focuses an existing Chrome tab for
+            # the PR instead of always opening a new one.
+            "url": "prtab://open/" + pr["url"].removeprefix("https://"),
         }
 
     manifest = {}

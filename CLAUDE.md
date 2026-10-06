@@ -36,6 +36,7 @@ docker run -it --rm dotfiles-test
 
 ```
 alfred/alfred-sync.sh     # Alfred prefs <-> ~/AlfredSync two-way sync (stowed to ~/alfred-sync.sh)
+apps/                     # sources for local app bundles (prtab:// handler), built by install.sh
 bash/.bashrc              # Bash config
 btop/.config/btop/        # btop config
 ccusage/.config/ccusage/  # ccusage CLI config

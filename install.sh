@@ -204,6 +204,15 @@ setup_launchd() {
     done
 }
 
+# Build local app bundles from apps/ (macOS only)
+setup_apps() {
+    [[ "${OS:-}" == "macos" ]] || return 0
+    if [[ -x "$HOME/.local/bin/build-prtab-handler" ]]; then
+        info "Building PRTab.app (prtab:// URL handler)..."
+        "$HOME/.local/bin/build-prtab-handler" || warn "PRTab.app build failed"
+    fi
+}
+
 # Setup Neovim plugins
 setup_neovim() {
     info "Setting up Neovim plugins..."
@@ -267,6 +276,7 @@ main() {
     clean_symlinks
     stow_packages
     setup_launchd
+    setup_apps
     setup_neovim
     setup_fzf
     print_summary

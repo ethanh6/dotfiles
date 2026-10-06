@@ -1,0 +1,30 @@
+#!/bin/bash
+# Compile apps/prtab-handler.applescript into ~/Applications/PRTab.app and
+# register it as the prtab:// URL scheme handler. Rerun after editing the
+# source. The first prtab:// open prompts once to allow PRTab to control
+# Chrome (System Settings > Privacy & Security > Automation).
+set -euo pipefail
+
+DOTFILES="$(cd "$(dirname "$(readlink -f "$0")")/../../.." && pwd)"
+SRC="$DOTFILES/apps/prtab-handler.applescript"
+APP="$HOME/Applications/PRTab.app"
+PB=/usr/libexec/PlistBuddy
+LSREGISTER=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister
+
+[ -f "$SRC" ] || { echo "source not found: $SRC" >&2; exit 1; }
+mkdir -p "$HOME/Applications"
+rm -rf "$APP"
+osacompile -o "$APP" "$SRC"
+
+"$PB" -c 'Delete :CFBundleIdentifier' "$APP/Contents/Info.plist" 2>/dev/null || true
+"$PB" -c 'Add :CFBundleIdentifier string com.ethanhuang.prtab' \
+	"$APP/Contents/Info.plist"
+"$PB" -c 'Add :CFBundleURLTypes array' \
+	-c 'Add :CFBundleURLTypes:0 dict' \
+	-c 'Add :CFBundleURLTypes:0:CFBundleURLName string PRTab' \
+	-c 'Add :CFBundleURLTypes:0:CFBundleURLSchemes array' \
+	-c 'Add :CFBundleURLTypes:0:CFBundleURLSchemes:0 string prtab' \
+	"$APP/Contents/Info.plist"
+
+"$LSREGISTER" -f "$APP"
+echo "built and registered $APP (prtab://)"
