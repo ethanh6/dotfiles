@@ -20,7 +20,6 @@ return {
   "gosum",
   "yaml",
   "json",
-  "jsonc",
   "bash",
   "python",
   -- Infra/PR-review filetypes common in the replit repos
