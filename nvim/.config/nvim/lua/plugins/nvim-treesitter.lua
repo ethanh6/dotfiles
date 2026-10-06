@@ -8,6 +8,7 @@ return {
   opts = {
     ensure_installed = {
       "vim",
+      "vimdoc",
       "lua",
       "html",
       "css",
@@ -20,13 +21,31 @@ return {
       "jsonnet",
       "starlark",
       "go",
+      "gomod",
+      "gosum",
       "yaml",
       "json",
+      "jsonc",
       "bash",
       "python",
+      -- Infra/PR-review filetypes common in the replit repos
+      "terraform",
+      "hcl",
+      "toml",
+      "sql",
+      "proto",
+      "dockerfile",
+      "diff",
+      "gitignore",
+      "gitcommit",
+      "git_config",
+      "git_rebase",
     },
-    -- Autoinstall languages that are not installed
-    auto_install = true,
+    -- Keep auto_install OFF: sync-tmux-sessions launches ~40 nvim instances at
+    -- once, and runtime auto-install makes them all race on the same parser
+    -- build dir ("mkdir: tree-sitter-<lang>-tmp: File exists"). Everything we
+    -- hit is pre-installed via ensure_installed instead; add new langs there.
+    auto_install = false,
     highlight = {
       enable = true,
       -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
