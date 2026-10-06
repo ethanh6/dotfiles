@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Alfred web searches for my open PRs: `gh <number>` -> the PR page.
+"""Generate Alfred web searches for my open PRs: `pr <number>` -> the PR page.
 
 Runs at the end of synx (and standalone). Follows ~/AlfredSync/HANDOFF.md:
 edits the AlfredSync mirror only (never Alfred's live bundle), backs the
@@ -56,7 +56,7 @@ def main():
         key = str(uuid.uuid5(NS, f"{repo}#{num}")).upper()
         desired[key] = {
             "enabled": True,
-            "keyword": f"gh {num}",
+            "keyword": f"pr {num}",
             "text": f"{repo}#{num} · {pr['title']}",
             "url": pr["url"],
         }
