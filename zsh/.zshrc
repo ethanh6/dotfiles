@@ -241,7 +241,9 @@ typeset -ga _DEVSYNC_ROOTS
 
 # `cd <root>` (e.g. `cd replit`) jumps to that context root. `cd <repo>` goes to
 # the main clone <root>/<repo> from anywhere — even when a relative dir of the
-# same name exists — searching every context root. `cd <branch>` jumps to the
+# same name exists — searching every context root; hyphens, underscores and
+# case are ignored when nothing matches exactly (`cd replitweb`, `cd aiinfra`).
+# `cd <branch>` jumps to the
 # matching PR worktree under <root>/worktrees/<repo>/<branch> when the normal cd
 # fails; slashes are also tried flattened to dashes (how synx names worktree
 # dirs). Ambiguous names list the candidates; disambiguate with `cd <repo>/<branch>`.
@@ -275,6 +277,31 @@ cd() {
   if (( $# != 1 )) || [[ "$1" == -* ]]; then
     builtin cd "$@"
     return
+  fi
+
+  # Repo name with hyphens/underscores and case ignored: `cd replitweb`,
+  # `cd aiinfra`. Tried only after the builtin failed, so a real relative dir
+  # of that name still wins. Several repos normalising to the same name list
+  # the candidates instead of guessing.
+  if [[ "$1" != */* ]]; then
+    local want="${1//[-_]/}" d n
+    want="${want:l}"
+    local -aU repos
+    for r in $_DEVSYNC_ROOTS; do
+      for d in "$r"/*(N/); do
+        [[ -e "$d/.git" ]] || continue
+        n="${d:t}"; n="${n//[-_]/}"
+        [[ "${n:l}" == "$want" ]] && repos+=("${d%/}")
+      done
+    done
+    if (( ${#repos} == 1 )); then
+      builtin cd "${repos[1]}" && echo "${repos[1]}"
+      return
+    elif (( ${#repos} > 1 )); then
+      print -u2 "cd: '$1' matches multiple repos:"
+      printf '  %s\n' "${repos[@]}" >&2
+      return 1
+    fi
   fi
 
   local -aU matches
