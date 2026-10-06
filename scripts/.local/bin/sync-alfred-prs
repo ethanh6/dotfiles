@@ -1,0 +1,103 @@
+#!/usr/bin/env python3
+"""Generate Alfred web searches for my open PRs: `gh <number>` -> the PR page.
+
+Runs at the end of synx (and standalone). Follows ~/AlfredSync/HANDOFF.md:
+edits the AlfredSync mirror only (never Alfred's live bundle), backs the
+plist up first, writes atomically via the .alfred-sync-tmp. prefix that
+alfred-sync skips, and keeps the file's 600 mode. Generated entries get
+deterministic uuid5 keys recorded in a sidecar manifest, so each run
+replaces/prunes only its own entries and never touches hand-made searches.
+alfred-sync.sh runs before the edit (pull Alfred's latest, avoid conflicts)
+and after (push within seconds instead of the 30s timer).
+"""
+import datetime
+import json
+import os
+import plistlib
+import shutil
+import subprocess
+import sys
+import uuid
+
+HOME = os.path.expanduser("~")
+MIRROR = os.path.join(
+    HOME, "AlfredSync/Alfred.alfredpreferences/preferences/features/websearch/prefs.plist"
+)
+MANIFEST = os.path.join(HOME, "AlfredSync/.generated-prs.json")
+BACKUPS = os.path.join(HOME, "AlfredSync/_backups")
+SYNC = os.path.join(HOME, "alfred-sync.sh")
+NS = uuid.uuid5(uuid.NAMESPACE_URL, "alfred-generated-prs")
+
+
+def open_prs():
+    res = subprocess.run(
+        ["gh", "search", "prs", "--author", "@me", "--state", "open",
+         "--owner", "replit", "--limit", "300",
+         "--json", "repository,number,title,url"],
+        capture_output=True, text=True, timeout=120,
+    )
+    if res.returncode != 0:
+        sys.exit(f"gh search prs failed: {res.stderr.strip()}")
+    return json.loads(res.stdout)
+
+
+def alfred_sync():
+    if os.access(SYNC, os.X_OK):
+        subprocess.run([SYNC, "sync"], capture_output=True, timeout=120)
+
+
+def main():
+    if not os.path.exists(MIRROR):
+        sys.exit(f"mirror plist not found: {MIRROR} (run alfred-sync.sh install)")
+
+    desired = {}
+    for pr in open_prs():
+        repo, num = pr["repository"]["name"], pr["number"]
+        key = str(uuid.uuid5(NS, f"{repo}#{num}")).upper()
+        desired[key] = {
+            "enabled": True,
+            "keyword": f"gh {num}",
+            "text": f"{repo}#{num} · {pr['title']}",
+            "url": pr["url"],
+        }
+
+    manifest = {}
+    if os.path.exists(MANIFEST):
+        with open(MANIFEST) as f:
+            manifest = json.load(f)
+
+    alfred_sync()  # pull Alfred's side first so we edit the freshest mirror
+
+    with open(MIRROR, "rb") as f:
+        plist = plistlib.load(f)
+    sites = plist.setdefault("customSites", {})
+
+    if manifest == desired and all(k in sites for k in desired):
+        print(f"alfred PRs: no change ({len(desired)} entries)")
+        return
+
+    for key in manifest:  # prune only entries this script created
+        sites.pop(key, None)
+    sites.update(desired)
+
+    os.makedirs(BACKUPS, exist_ok=True)
+    ts = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    shutil.copy2(MIRROR, os.path.join(BACKUPS, f"websearch-prefs-{ts}.plist"))
+
+    tmp = os.path.join(os.path.dirname(MIRROR), ".alfred-sync-tmp.prefs.plist")
+    with open(tmp, "wb") as f:
+        plistlib.dump(plist, f, sort_keys=True)
+    os.chmod(tmp, os.stat(MIRROR).st_mode & 0o777)
+    os.replace(tmp, MIRROR)
+
+    with open(MANIFEST, "w") as f:
+        json.dump(desired, f, indent=1, sort_keys=True)
+
+    alfred_sync()  # push to Alfred now
+    added = len(set(desired) - set(manifest))
+    removed = len(set(manifest) - set(desired))
+    print(f"alfred PRs: {len(desired)} entries (+{added} -{removed})")
+
+
+if __name__ == "__main__":
+    main()

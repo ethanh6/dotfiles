@@ -165,3 +165,7 @@ done
 # Mirror clones/worktrees into tmux sessions (script stowed from dotfiles)
 [ -x "$HOME/.local/bin/sync-tmux-sessions" ] &&
 	"$HOME/.local/bin/sync-tmux-sessions" || true
+
+# Regenerate Alfred "gh <number>" PR shortcuts from the open-PR set
+[ -x "$HOME/.local/bin/sync-alfred-prs" ] &&
+	"$HOME/.local/bin/sync-alfred-prs" || true
